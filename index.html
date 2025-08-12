@@ -108,10 +108,21 @@
             overflow: hidden;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
             transition: transform 0.3s ease;
+            cursor: pointer;
         }
 
         .gallery-item:hover {
             transform: scale(1.05);
+        }
+
+        @keyframes slideGallery {
+            from {
+                transform: translateX(0%);
+            }
+
+            to {
+                transform: translateX(-50%);
+            }
         }
 
         .section-divider {
@@ -162,74 +173,6 @@
             100% {
                 transform: translateY(0px);
             }
-        }
-
-        :root {
-            /* change speed here (seconds) */
-            --marquee-speed: 21s;
-        }
-
-        /* gallery-viewport hides overflow (already tailwind) */
-        .gallery-viewport {
-            position: relative;
-        }
-
-        /* gallery-track will be duplicated by JS and animated */
-        .gallery-track {
-            display: inline-flex;
-            gap: 0;
-            /* spacing handled by item padding */
-            align-items: stretch;
-            /* animate translation: will move left by 50% (since JS duplicates content) */
-            animation: marquee var(--marquee-speed) linear infinite;
-            /* improve performance */
-            transform: translateZ(0);
-        }
-
-        /* each item width controlled via tailwind w-80 (20rem). adjust as needed. */
-        .gallery-item {
-            box-sizing: border-box;
-        }
-
-        /* pause on hover */
-        .gallery-viewport:hover .gallery-track,
-        .gallery-track:focus-within {
-            animation-play-state: paused;
-        }
-
-        /* continuous scroll: move 0 -> -50% */
-        @keyframes marquee {
-            0% {
-                transform: translateX(0);
-            }
-
-            100% {
-                transform: translateX(-50%);
-            }
-        }
-
-        /* accessibility: if user prefers reduced motion, stop animation */
-        @media (prefers-reduced-motion: reduce) {
-            .gallery-track {
-                animation: none;
-            }
-        }
-
-        /* small screens: reduce item width so more fit */
-        @media (max-width: 768px) {
-            .gallery-item {
-                width: 16rem;
-            }
-
-            /* tailwind w-64 equivalent */
-        }
-
-        @media (max-width: 420px) {
-            .gallery-item {
-                width: 14rem;
-            }
-
-            /* slightly narrower on very small screens */
         }
 
         /* caret blink */
@@ -886,7 +829,7 @@
                 <!-- === gallery items start === -->
 
                 <!-- 1 -->
-                <div class="gallery-item flex-shrink-0 w-80 max-h-[500px] p-2">
+                <div class="gallery-item flex-shrink-0 w-80 max-h-[500px] p-2" data-image="/img/shrilanka pm.JPG">
                     <div class="w-full h-full rounded-lg overflow-hidden relative bg-gray-100">
                         <img src="/img/shrilanka pm.JPG" alt="Shrilanka PM Visit" loading="lazy"
                             class="w-full h-full object-contain" />
@@ -897,7 +840,7 @@
                 </div>
 
                 <!-- 2 -->
-                <div class="gallery-item flex-shrink-0 w-80 max-h-[500px] p-2">
+                <div class="gallery-item flex-shrink-0 w-80 max-h-[500px] p-2" data-image="/img/trump.jpg">
                     <div class="w-full h-full rounded-lg overflow-hidden relative bg-gray-100">
                         <img src="/img/trump.jpg" alt="Trump Visit" loading="lazy"
                             class="w-full h-full object-contain" />
@@ -908,7 +851,7 @@
                 </div>
 
                 <!-- 3 -->
-                <div class="gallery-item flex-shrink-0 w-80 max-h-[500px] p-2">
+                <div class="gallery-item flex-shrink-0 w-80 max-h-[500px] p-2" data-image="/img/denmark.jpg">
                     <div class="w-full h-full rounded-lg overflow-hidden relative bg-gray-100">
                         <img src="/img/denmark.jpg" alt="Denmark PM Visit" loading="lazy"
                             class="w-full h-full object-contain" />
@@ -919,7 +862,7 @@
                 </div>
 
                 <!-- 4 -->
-                <div class="gallery-item flex-shrink-0 w-80 max-h-[500px] p-2">
+                <div class="gallery-item flex-shrink-0 w-80 max-h-[500px] p-2" data-image="/img/bihar%20assembly.JPG">
                     <div class="w-full h-full rounded-lg overflow-hidden relative bg-gray-100">
                         <img src="/img/bihar%20assembly.JPG" alt="Bihar Assembly Session" loading="lazy"
                             class="w-full h-full object-contain" />
@@ -930,7 +873,7 @@
                 </div>
 
                 <!-- 5 -->
-                <div class="gallery-item flex-shrink-0 w-80 max-h-[500px] p-2">
+                <div class="gallery-item flex-shrink-0 w-80 max-h-[500px] p-2" data-image="/img/g20%202.jpg">
                     <div class="w-full h-full rounded-lg overflow-hidden relative bg-gray-100">
                         <img src="/img/g20%202.jpg" alt="PM Modi Event Coverage" loading="lazy"
                             class="w-full h-full object-contain" />
@@ -941,7 +884,7 @@
                 </div>
 
                 <!-- 6 -->
-                <div class="gallery-item flex-shrink-0 w-80 max-h-[500px] p-2">
+                <div class="gallery-item flex-shrink-0 w-80 max-h-[500px] p-2" data-image="/img/g20%203.jpg">
                     <div class="w-full h-full rounded-lg overflow-hidden relative bg-gray-100">
                         <img src="/img/g20%203.jpg" alt="Trump Visit Production" loading="lazy"
                             class="w-full h-full object-contain" />
@@ -952,7 +895,7 @@
                 </div>
 
                 <!-- 7 -->
-                <div class="gallery-item flex-shrink-0 w-80 max-h-[500px] p-2">
+                <div class="gallery-item flex-shrink-0 w-80 max-h-[500px] p-2" data-image="/img/g20.JPG">
                     <div class="w-full h-full rounded-lg overflow-hidden relative bg-gray-100">
                         <img src="/img/g20.JPG" alt="SCO India Event" loading="lazy"
                             class="w-full h-full object-contain" />
@@ -963,7 +906,7 @@
                 </div>
 
                 <!-- 8 -->
-                <div class="gallery-item flex-shrink-0 w-80 max-h-[500px] p-2">
+                <div class="gallery-item flex-shrink-0 w-80 max-h-[500px] p-2" data-image="/img/high%20court%20UK.jpg">
                     <div class="w-full h-full rounded-lg overflow-hidden relative bg-gray-100">
                         <img src="/img/high%20court%20UK.jpg" alt="High Court Setup" loading="lazy"
                             class="w-full h-full object-contain" />
@@ -974,7 +917,7 @@
                 </div>
 
                 <!-- 9 -->
-                <div class="gallery-item flex-shrink-0 w-80 max-h-[500px] p-2">
+                <div class="gallery-item flex-shrink-0 w-80 max-h-[500px] p-2" data-image="/img/operating.jpg">
                     <div class="w-full h-full rounded-lg overflow-hidden relative bg-gray-100">
                         <img src="/img/operating.jpg" alt="Operating Setup" loading="lazy"
                             class="w-full h-full object-contain" />
@@ -985,7 +928,7 @@
                 </div>
 
                 <!-- 10 -->
-                <div class="gallery-item flex-shrink-0 w-80 max-h-[500px] p-2">
+                <div class="gallery-item flex-shrink-0 w-80 max-h-[500px] p-2" data-image="/img/profile.JPG">
                     <div class="w-full h-full rounded-lg overflow-hidden relative bg-gray-100">
                         <img src="/img/profile.JPG" alt="Profile" loading="lazy" class="w-full h-full object-contain" />
                         <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent flex items-end p-3">
@@ -993,11 +936,20 @@
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </section>
-
-
+    <!-- Fullscreen Image Viewer -->
+    <div id="image-viewer"
+        class="fixed inset-0 bg-black/80 flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300 z-50">
+        <div id="close-viewer" class="relative max-w-5xl w-full px-4">
+            <button id="close-viewer" style="z-index: 1000;margin-top: 30px;font-size: 40px;"
+            class="absolute top-4 right-4 text-red-800 text-3xl font-bold hover:text-red-500">&times;</button>
+            <img id="viewer-img" src="" alt="Full View"
+                class="w-full max-h-[90vh] object-contain transform translate-x-full transition-transform duration-500 ease-out" />
+        </div>
+    </div>
 
     <!-- Contact Section -->
     <section id="contact" class="py-16 bg-gradient-to-br from-primary to-secondary text-white">
@@ -1108,6 +1060,52 @@
 
     <script>
 
+        const galleryItems = document.querySelectorAll('.gallery-item');
+    const imageViewer = document.getElementById('image-viewer');
+    const viewerImg = document.getElementById('viewer-img');
+    const closeViewer = document.getElementById('close-viewer');
+
+    // Function to open viewer
+    function openImageViewer(src) {
+        viewerImg.src = src;
+        imageViewer.classList.remove('pointer-events-none');
+        imageViewer.classList.add('opacity-100');
+        setTimeout(() => {
+            viewerImg.classList.remove('translate-x-full');
+            viewerImg.classList.add('translate-x-0');
+        }, 50);
+    }
+
+    // Function to close viewer
+    function closeImageViewer() {
+        viewerImg.classList.remove('translate-x-0');
+        viewerImg.classList.add('translate-x-full');
+        setTimeout(() => {
+            imageViewer.classList.add('pointer-events-none');
+            imageViewer.classList.remove('opacity-100');
+        }, 300);
+    }
+
+    // Open on click
+    galleryItems.forEach(item => {
+        item.addEventListener('click', () => {
+            const imgSrc = item.getAttribute('data-image');
+            openImageViewer(imgSrc);
+        });
+    });
+
+    // Close when clicking close icon
+    closeViewer.addEventListener('click', closeImageViewer);
+
+    // Close when clicking outside image
+    imageViewer.addEventListener('click', (e) => {
+        if (e.target === imageViewer) {
+            closeImageViewer();
+        }
+    });
+
+
+
         document.getElementById('contactForm').addEventListener('submit', function (event) {
             event.preventDefault();
 
@@ -1201,33 +1199,6 @@
                 }
             })();
         })();
-
-
-
-        document.addEventListener('DOMContentLoaded', function () {
-            const track = document.querySelector('.gallery-track');
-            if (!track) return;
-
-            // don't duplicate more than once
-            if (track.dataset.duplicated === 'true') return;
-
-            // duplicate children to make a seamless marquee
-            track.innerHTML = track.innerHTML + track.innerHTML;
-            track.dataset.duplicated = 'true';
-
-            // optional: adjust animation duration based on content width (smoothness)
-            // compute total width and set duration proportionally (nice-to-have)
-            try {
-                const viewport = document.querySelector('.gallery-viewport');
-                const totalWidth = track.scrollWidth / 2; // width of single set
-                // base pixels-per-second value (tweakable)
-                const pxPerSecond = 200; // lower => slower
-                const computedSeconds = Math.max(12, Math.round(totalWidth / pxPerSecond));
-                track.style.setProperty('--marquee-speed', computedSeconds + 's');
-            } catch (e) {
-                // fail silently, CSS var fallback used
-            }
-        });
 
         // Animate skill bars on scroll
         document.addEventListener('DOMContentLoaded', function () {
