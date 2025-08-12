@@ -10,6 +10,13 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Raleway:wght@400;500;600;700&display=swap"
         rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script>
+        (function () {
+            emailjs.init("cR1fCJej05d6XecV_"); // Replace with your EmailJS public key
+        })();
+    </script>
+
     <script>
         tailwind.config = {
             theme: {
@@ -373,7 +380,7 @@
                     <span id="marathi-caret" aria-hidden="true" class="ml-1">|</span>
                 </p>
                 <h1 class="text-3xl md:text-4xl font-bold  text-primary mb-4 font-heading">
-                    प्रमोद दाभोळे.
+                    Pramod Dabhole.
                 </h1>
                 <div class="text-xl text-primary font-medium mb-6">
                     <span class="inline-block mr-4">Media Professional</span>
@@ -478,12 +485,15 @@
                         </div>
                         <div class="flip-card-back">
                             <h3 class="text-xl font-bold mb-2 text-center font-heading">Online Presence</h3>
-                            <p class="text-center mb-4">Contact me by filling out the form below and I'll get back to you as soon as possible.</p>
+                            <p class="text-center mb-4">Contact me by filling out the form below and I'll get back to
+                                you as soon as possible.</p>
                             <div class="flex space-x-4">
-                                <a href="#" class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
+                                <a href="https://www.linkedin.com/in/pramod-dabhole-7964a225a?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app"
+                                    class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
                                     <i class="fab fa-linkedin-in"></i>
                                 </a>
-                                <a href="#" class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
+                                <a href="https://youtube.com/@pramod_dabhole_editz?si=MgWOksKhSp51j6L2"
+                                    class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
                                     <i class="fab fa-youtube"></i>
                                 </a>
                             </div>
@@ -1025,19 +1035,15 @@
                         <div class="mt-8">
                             <h3 class="text-xl font-bold mb-4 font-heading">Follow Me</h3>
                             <div class="flex space-x-4">
-                                <a href="#"
+                                <a href="https://www.linkedin.com/in/pramod-dabhole-7964a225a?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app"
                                     class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center hover:bg-white/30 transition">
                                     <i class="fab fa-linkedin-in"></i>
                                 </a>
-                                <a href="#"
-                                    class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center hover:bg-white/30 transition">
-                                    <i class="fab fa-twitter"></i>
-                                </a>
-                                <a href="#"
+                                <a href="https://www.instagram.com/pramod_dabhole_editz?igsh=MWduajJ4ZDR2bTV1bQ=="
                                     class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center hover:bg-white/30 transition">
                                     <i class="fab fa-instagram"></i>
                                 </a>
-                                <a href="#"
+                                <a href="https://youtube.com/@pramod_dabhole_editz?si=MgWOksKhSp51j6L2"
                                     class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center hover:bg-white/30 transition">
                                     <i class="fab fa-youtube"></i>
                                 </a>
@@ -1047,28 +1053,32 @@
 
                     <div>
                         <h3 class="text-xl font-bold mb-4 font-heading">Send a Message</h3>
-                        <form class="space-y-4">
+                        <form id="contactForm" class="space-y-4">
                             <div>
-                                <input type="text" placeholder="Your Name"
+                                <input type="text" name="user_name" placeholder="Your Name"
+                                    class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent placeholder-white/60"
+                                    required>
+                            </div>
+                            <div>
+                                <input type="email" name="user_email" placeholder="Your Email"
+                                    class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent placeholder-white/60"
+                                    required>
+                            </div>
+                            <div>
+                                <input type="text" name="subject" placeholder="Subject"
                                     class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent placeholder-white/60">
                             </div>
                             <div>
-                                <input type="email" placeholder="Your Email"
-                                    class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent placeholder-white/60">
-                            </div>
-                            <div>
-                                <input type="text" placeholder="Subject"
-                                    class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent placeholder-white/60">
-                            </div>
-                            <div>
-                                <textarea placeholder="Your Message" rows="4"
-                                    class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent placeholder-white/60"></textarea>
+                                <textarea name="message" placeholder="Your Message" rows="4"
+                                    class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent placeholder-white/60"
+                                    required></textarea>
                             </div>
                             <button type="submit"
                                 class="bg-accent hover:bg-cyan-700 text-white px-6 py-3 rounded-lg font-medium transition w-full">
                                 Send Message
                             </button>
                         </form>
+
                     </div>
                 </div>
             </div>
@@ -1097,6 +1107,19 @@
     </footer>
 
     <script>
+
+        document.getElementById('contactForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            emailjs.sendForm('service_v2yklup', 'template_u7mfwxq', this)
+                .then(function () {
+                    alert('✅ Message sent successfully!');
+                }, function (error) {
+                    alert('❌ Failed to send message: ' + JSON.stringify(error));
+                });
+        });
+
+
         function openModal(imageSrc) {
             document.getElementById('modalImage').src = imageSrc;
             document.getElementById('imageModal').classList.remove('hidden');
