@@ -367,12 +367,13 @@
         <div class="container mx-auto px-4 flex flex-col md:flex-row items-center">
             <div class="md:w-1/2 mb-10 md:mb-0">
                 <!-- Marathi typing line -->
-                <p class="text-4xl md:text-5xl text-primary font-medium mb-6 flex items-center gap-3" aria-live="polite">
+                <p class="text-4xl md:text-5xl text-primary font-medium mb-6 flex items-center gap-3"
+                    aria-live="polite">
                     <span id="marathi-typing" class="whitespace-pre-wrap"></span>
                     <span id="marathi-caret" aria-hidden="true" class="ml-1">|</span>
                 </p>
-                <h1 class="text-2xl md:text-3xl font-bold text-dark mb-4 font-heading">
-                    Pramod Uday Dabhole
+                <h1 class="text-3xl md:text-4xl font-bold  text-primary mb-4 font-heading">
+                    प्रमोद दाभोळे.
                 </h1>
                 <div class="text-xl text-primary font-medium mb-6">
                     <span class="inline-block mr-4">Media Professional</span>
@@ -413,14 +414,10 @@
                         <!-- Profile image placeholder -->
                         <div
                             class="w-full h-full bg-gradient-to-br from-cyan-100 to-blue-100 border-2 border-dashed border-primary/30 rounded-full flex items-center justify-center text-primary">
-                            <i class="fas fa-user text-7xl"></i>
+                            <img src="/img/profile.JPG" alt="">
                         </div>
                     </div>
-                    <div class="absolute -bottom-4 -right-4 bg-white rounded-full p-4 shadow-lg">
-                        <div class="bg-accent text-white w-16 h-16 rounded-full flex items-center justify-center">
-                            <i class="fas fa-play text-2xl"></i>
-                        </div>
-                    </div>
+
                 </div>
             </div>
         </div>
@@ -811,6 +808,70 @@
         </div>
     </section>
 
+    <section class="py-12 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-center mb-8">Latest Articles</h2>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+
+                <!-- Article 1 -->
+                <div class="relative group overflow-hidden rounded-xl shadow-lg h-56 cursor-pointer"
+                    onclick="openModal('/img/article.JPG')">
+                    <img src="/img/article.JPG" alt="Article 1"
+                        class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500">
+                    <div
+                        class="absolute inset-0 bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 transition duration-500 flex items-center justify-center">
+                        <span class="text-white text-lg font-semibold">Article Title 1</span>
+                    </div>
+                </div>
+
+                <!-- Article 2 -->
+                <div class="relative group overflow-hidden rounded-xl shadow-lg h-56 cursor-pointer"
+                    onclick="openModal('/img/article 2.jpg')">
+                    <img src="/img/article 2.jpg" alt="Article 2"
+                        class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500">
+                    <div
+                        class="absolute inset-0 bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 transition duration-500 flex items-center justify-center">
+                        <span class="text-white text-lg font-semibold">Article Title 2</span>
+                    </div>
+                </div>
+
+                <!-- Article 3 -->
+                <div class="relative group overflow-hidden rounded-xl shadow-lg h-56 cursor-pointer"
+                    onclick="openModal('/img/article 3.PNG')">
+                    <img src="/img/article 3.PNG" alt="Article 3"
+                        class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500">
+                    <div
+                        class="absolute inset-0 bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 transition duration-500 flex items-center justify-center">
+                        <span class="text-white text-lg font-semibold">Article Title 3</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal -->
+    <div id="imageModal" class="fixed mt-8 inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 hidden">
+        <button onclick="closeModal()" style="z-index: 1000;margin-top: 30px;margin-right: 540px;font-size: 40px;"
+            class="absolute top-4 right-4 text-red-800 text-3xl font-bold hover:text-red-500">&times;</button>
+        <img id="modalImage" src="" alt="Full Size" onclick="closeModal()"
+            class="max-w-[90%] max-h-[90%] object-contain rounded-lg shadow-lg">
+    </div>
+
+    <script>
+        function openModal(imageSrc) {
+            document.getElementById('modalImage').src = imageSrc;
+            document.getElementById('imageModal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('imageModal').classList.add('hidden');
+        }
+    </script>
+
+
+
     <!-- Event Gallery (auto sliding right-to-left) -->
     <section id="gallery" class="py-16 bg-white overflow-hidden">
         <div class="container mx-auto px-4">
@@ -822,71 +883,123 @@
         </div>
 
         <!-- Marquee / viewport -->
-        <div class="relative gallery-viewport h-64 overflow-hidden">
+        <div class="relative gallery-viewport h-auto overflow-hidden">
             <!-- animated track -->
             <div class="gallery-track inline-flex items-stretch will-change-transform">
                 <!-- === gallery items start === -->
-                <div class="gallery-item flex-shrink-0 w-80 h-full p-2">
-                    <div
-                        class="w-full h-full bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center rounded-lg">
-                        <span class="text-white font-bold text-center px-4">G20 Summit Coverage</span>
+
+                <!-- 1 -->
+                <div class="gallery-item flex-shrink-0 w-80 max-h-[500px] p-2">
+                    <div class="w-full h-full rounded-lg overflow-hidden relative bg-gray-100">
+                        <img src="/img/shrilanka pm.JPG" alt="Shrilanka PM Visit" loading="lazy"
+                            class="w-full h-full object-contain" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent flex items-end p-3">
+                            <span class="text-white font-bold text-sm">Shrilanka PM Visit</span>
+                        </div>
                     </div>
                 </div>
 
-                <div class="gallery-item flex-shrink-0 w-80 h-full p-2">
-                    <div
-                        class="w-full h-full bg-gradient-to-br from-cyan-500 to-cyan-700 flex items-center justify-center rounded-lg">
-                        <span class="text-white font-bold text-center px-4">Court Proceedings Live</span>
+                <!-- 2 -->
+                <div class="gallery-item flex-shrink-0 w-80 max-h-[500px] p-2">
+                    <div class="w-full h-full rounded-lg overflow-hidden relative bg-gray-100">
+                        <img src="/img/trump.jpg" alt="Trump Visit" loading="lazy"
+                            class="w-full h-full object-contain" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent flex items-end p-3">
+                            <span class="text-white font-bold text-sm">Trump Visit</span>
+                        </div>
                     </div>
                 </div>
 
-                <div class="gallery-item flex-shrink-0 w-80 h-full p-2">
-                    <div
-                        class="w-full h-full bg-gradient-to-br from-green-500 to-green-700 flex items-center justify-center rounded-lg">
-                        <span class="text-white font-bold text-center px-4">MEA Diplomatic Event</span>
+                <!-- 3 -->
+                <div class="gallery-item flex-shrink-0 w-80 max-h-[500px] p-2">
+                    <div class="w-full h-full rounded-lg overflow-hidden relative bg-gray-100">
+                        <img src="/img/denmark.jpg" alt="Denmark PM Visit" loading="lazy"
+                            class="w-full h-full object-contain" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent flex items-end p-3">
+                            <span class="text-white font-bold text-sm">Denmark PM Visit</span>
+                        </div>
                     </div>
                 </div>
 
-                <div class="gallery-item flex-shrink-0 w-80 h-full p-2">
-                    <div
-                        class="w-full h-full bg-gradient-to-br from-amber-500 to-amber-700 flex items-center justify-center rounded-lg">
-                        <span class="text-white font-bold text-center px-4">Bihar Assembly Session</span>
+                <!-- 4 -->
+                <div class="gallery-item flex-shrink-0 w-80 max-h-[500px] p-2">
+                    <div class="w-full h-full rounded-lg overflow-hidden relative bg-gray-100">
+                        <img src="/img/bihar%20assembly.JPG" alt="Bihar Assembly Session" loading="lazy"
+                            class="w-full h-full object-contain" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent flex items-end p-3">
+                            <span class="text-white font-bold text-sm">Bihar Assembly Session</span>
+                        </div>
                     </div>
                 </div>
 
-                <div class="gallery-item flex-shrink-0 w-80 h-full p-2">
-                    <div
-                        class="w-full h-full bg-gradient-to-br from-red-500 to-red-700 flex items-center justify-center rounded-lg">
-                        <span class="text-white font-bold text-center px-4">PM Modi Event Coverage</span>
+                <!-- 5 -->
+                <div class="gallery-item flex-shrink-0 w-80 max-h-[500px] p-2">
+                    <div class="w-full h-full rounded-lg overflow-hidden relative bg-gray-100">
+                        <img src="/img/g20%202.jpg" alt="PM Modi Event Coverage" loading="lazy"
+                            class="w-full h-full object-contain" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent flex items-end p-3">
+                            <span class="text-white font-bold text-sm">PM Modi Event Coverage</span>
+                        </div>
                     </div>
                 </div>
 
-                <div class="gallery-item flex-shrink-0 w-80 h-full p-2">
-                    <div
-                        class="w-full h-full bg-gradient-to-br from-indigo-500 to-indigo-700 flex items-center justify-center rounded-lg">
-                        <span class="text-white font-bold text-center px-4">Trump Visit Production</span>
+                <!-- 6 -->
+                <div class="gallery-item flex-shrink-0 w-80 max-h-[500px] p-2">
+                    <div class="w-full h-full rounded-lg overflow-hidden relative bg-gray-100">
+                        <img src="/img/g20%203.jpg" alt="Trump Visit Production" loading="lazy"
+                            class="w-full h-full object-contain" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent flex items-end p-3">
+                            <span class="text-white font-bold text-sm">Trump Visit Production</span>
+                        </div>
                     </div>
                 </div>
 
-                <div class="gallery-item flex-shrink-0 w-80 h-full p-2">
-                    <div
-                        class="w-full h-full bg-gradient-to-br from-purple-500 to-purple-700 flex items-center justify-center rounded-lg">
-                        <span class="text-white font-bold text-center px-4">SCO India Event</span>
+                <!-- 7 -->
+                <div class="gallery-item flex-shrink-0 w-80 max-h-[500px] p-2">
+                    <div class="w-full h-full rounded-lg overflow-hidden relative bg-gray-100">
+                        <img src="/img/g20.JPG" alt="SCO India Event" loading="lazy"
+                            class="w-full h-full object-contain" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent flex items-end p-3">
+                            <span class="text-white font-bold text-sm">SCO India Event</span>
+                        </div>
                     </div>
                 </div>
 
-                <div class="gallery-item flex-shrink-0 w-80 h-full p-2">
-                    <div
-                        class="w-full h-full bg-gradient-to-br from-teal-500 to-teal-700 flex items-center justify-center rounded-lg">
-                        <span class="text-white font-bold text-center px-4">High Court Setup</span>
+                <!-- 8 -->
+                <div class="gallery-item flex-shrink-0 w-80 max-h-[500px] p-2">
+                    <div class="w-full h-full rounded-lg overflow-hidden relative bg-gray-100">
+                        <img src="/img/high%20court%20UK.jpg" alt="High Court Setup" loading="lazy"
+                            class="w-full h-full object-contain" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent flex items-end p-3">
+                            <span class="text-white font-bold text-sm">High Court Setup</span>
+                        </div>
                     </div>
                 </div>
-                <!-- === gallery items end === -->
 
-                <!-- Note: JS will duplicate the block above automatically to create a seamless loop -->
+                <!-- 9 -->
+                <div class="gallery-item flex-shrink-0 w-80 max-h-[500px] p-2">
+                    <div class="w-full h-full rounded-lg overflow-hidden relative bg-gray-100">
+                        <img src="/img/operating.jpg" alt="Operating Setup" loading="lazy"
+                            class="w-full h-full object-contain" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent flex items-end p-3">
+                            <span class="text-white font-bold text-sm">Operating Setup</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 10 -->
+                <div class="gallery-item flex-shrink-0 w-80 max-h-[500px] p-2">
+                    <div class="w-full h-full rounded-lg overflow-hidden relative bg-gray-100">
+                        <img src="/img/profile.JPG" alt="Profile" loading="lazy" class="w-full h-full object-contain" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent flex items-end p-3">
+                            <span class="text-white font-bold text-sm">Profile</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
+
 
 
     <!-- Contact Section -->
@@ -998,78 +1111,78 @@
 
     <script>
 
-            (function () {
-                // guard: don't initialize twice
-                if (document.getElementById('marathi-typing').dataset.typed === 'true') return;
-                document.getElementById('marathi-typing').dataset.typed = 'true';
+        (function () {
+            // guard: don't initialize twice
+            if (document.getElementById('marathi-typing').dataset.typed === 'true') return;
+            document.getElementById('marathi-typing').dataset.typed = 'true';
 
-                const el = document.getElementById('marathi-typing');
-                const caret = document.getElementById('marathi-caret');
+            const el = document.getElementById('marathi-typing');
+            const caret = document.getElementById('marathi-caret');
 
-                // The Marathi sentence you requested (adjust if you want different wording)
-                const phrases = [
-                    'नमस्ते, मी प्रमोद दाभोळे.'
-                ];
+            // The Marathi sentence you requested (adjust if you want different wording)
+            const phrases = [
+                'नमस्कार मी...'
+            ];
 
-                // Typing settings (ms)
-                const TYPING_SPEED = 90;      // per grapheme
-                const DELETING_SPEED = 45;    // per grapheme when deleting
-                const PAUSE_AFTER = 1400;     // pause after full phrase typed
-                const PAUSE_BEFORE = 300;     // pause before typing after delete
+            // Typing settings (ms)
+            const TYPING_SPEED = 90;      // per grapheme
+            const DELETING_SPEED = 45;    // per grapheme when deleting
+            const PAUSE_AFTER = 1400;     // pause after full phrase typed
+            const PAUSE_BEFORE = 300;     // pause before typing after delete
 
-                // grapheme splitter using Intl.Segmenter (if available) for correct Devanagari clusters
-                function splitGraphemes(str) {
-                    if (typeof Intl !== 'undefined' && typeof Intl.Segmenter === 'function') {
-                        try {
-                            const seg = new Intl.Segmenter(undefined, { granularity: 'grapheme' });
-                            return Array.from(seg.segment(str), s => s.segment);
-                        } catch (e) {
-                            // fallback below
-                        }
+            // grapheme splitter using Intl.Segmenter (if available) for correct Devanagari clusters
+            function splitGraphemes(str) {
+                if (typeof Intl !== 'undefined' && typeof Intl.Segmenter === 'function') {
+                    try {
+                        const seg = new Intl.Segmenter(undefined, { granularity: 'grapheme' });
+                        return Array.from(seg.segment(str), s => s.segment);
+                    } catch (e) {
+                        // fallback below
                     }
-                    // fallback: use Array.from (works well for most cases)
-                    return Array.from(str);
                 }
+                // fallback: use Array.from (works well for most cases)
+                return Array.from(str);
+            }
 
-                // helper: sleep
-                function wait(ms) { return new Promise(res => setTimeout(res, ms)); }
+            // helper: sleep
+            function wait(ms) { return new Promise(res => setTimeout(res, ms)); }
 
-                // reduced-motion: show text statically
-                if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-                    el.textContent = phrases.join(' ');
-                    caret.style.display = 'none';
-                    return;
-                }
+            // reduced-motion: show text statically
+            if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                el.textContent = phrases.join(' ');
+                caret.style.display = 'none';
+                return;
+            }
 
-                // main loop
-                (async function loop() {
-                    while (true) {
-                        for (const phrase of phrases) {
-                            const chars = splitGraphemes(phrase);
+            // main loop
+            (async function loop() {
+                while (true) {
+                    for (const phrase of phrases) {
+                        const chars = splitGraphemes(phrase);
 
-                            // type
-                            for (let i = 0; i < chars.length; i++) {
-                                el.textContent += chars[i];
-                                await wait(TYPING_SPEED);
-                            }
-
-                            await wait(PAUSE_AFTER);
-
-                            // delete
-                            for (let i = chars.length - 1; i >= 0; i--) {
-                                // remove last grapheme (works because we used grapheme-aware typing)
-                                // we reconstruct the string from graphemes for reliability
-                                const current = splitGraphemes(el.textContent);
-                                current.pop();
-                                el.textContent = current.join('');
-                                await wait(DELETING_SPEED);
-                            }
-
-                            await wait(PAUSE_BEFORE);
+                        // type
+                        for (let i = 0; i < chars.length; i++) {
+                            el.textContent += chars[i];
+                            await wait(TYPING_SPEED);
                         }
+
+                        await wait(PAUSE_AFTER);
+
+                        // delete
+                        for (let i = chars.length - 1; i >= 0; i--) {
+                            // remove last grapheme (works because we used grapheme-aware typing)
+                            // we reconstruct the string from graphemes for reliability
+                            const current = splitGraphemes(el.textContent);
+                            current.pop();
+                            el.textContent = current.join('');
+                            await wait(DELETING_SPEED);
+                        }
+
+                        await wait(PAUSE_BEFORE);
                     }
-                })();
+                }
             })();
+        })();
 
 
 
