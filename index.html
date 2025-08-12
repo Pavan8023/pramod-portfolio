@@ -859,19 +859,6 @@
             class="max-w-[90%] max-h-[90%] object-contain rounded-lg shadow-lg">
     </div>
 
-    <script>
-        function openModal(imageSrc) {
-            document.getElementById('modalImage').src = imageSrc;
-            document.getElementById('imageModal').classList.remove('hidden');
-        }
-
-        function closeModal() {
-            document.getElementById('imageModal').classList.add('hidden');
-        }
-    </script>
-
-
-
     <!-- Event Gallery (auto sliding right-to-left) -->
     <section id="gallery" class="py-16 bg-white overflow-hidden">
         <div class="container mx-auto px-4">
@@ -1110,6 +1097,14 @@
     </footer>
 
     <script>
+        function openModal(imageSrc) {
+            document.getElementById('modalImage').src = imageSrc;
+            document.getElementById('imageModal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('imageModal').classList.add('hidden');
+        }
 
         (function () {
             // guard: don't initialize twice
