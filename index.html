@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pramod Dabhole - Media Professional</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Raleway:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1e3a8a',
+                        secondary: '#0c4a6e',
+                        accent: '#0891b2',
+                        light: '#f0f9ff',
+                        dark: '#0f172a'
+                    },
+                    animation: {
+                        'slide-gallery': 'slideGallery 25s linear infinite',
+                        'fade-in': 'fadeIn 1s ease-out forwards'
+                    },
+                    keyframes: {
+                        slideGallery: {
+                            '0%': { transform: 'translateX(0)' },
+                            '100%': { transform: 'translateX(-50%)' }
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' }
+                        }
+                    },
+                    fontFamily: {
+                        heading: ['Raleway', 'sans-serif'],
+                        body: ['Montserrat', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            color: #0f172a;
+            overflow-x: hidden;
+        }
+
+        .flip-card {
+            perspective: 1000px;
+        }
+
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+        }
+
+        .flip-card:hover .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flip-card-front,
+        .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .flip-card-back {
+            transform: rotateY(180deg);
+            background: linear-gradient(135deg, #1e3a8a 0%, #0c4a6e 100%);
+            color: white;
+        }
+
+        .gallery-track {
+            display: flex;
+            animation: slideGallery 25s linear infinite;
+        }
+
+        .gallery-item {
+            min-width: 300px;
+            height: 200px;
+            margin: 0 15px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.05);
+        }
+
+        .section-divider {
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #0891b2, transparent);
+            width: 80px;
+            margin: 15px auto;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            height: 100%;
+            width: 4px;
+            background: linear-gradient(to bottom, #1e3a8a, #0c4a6e);
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .timeline-dot {
+            position: absolute;
+            top: 25px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1e3a8a 0%, #0c4a6e 100%);
+            border: 3px solid white;
+            box-shadow: 0 0 0 4px #0891b2;
+        }
+
+        .skill-bar {
+            transition: width 1.5s ease-in-out;
+        }
+
+        .nav-link {
+            position: relative;
+            padding-bottom: 5px;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #0891b2;
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        :root {
+            /* change speed here (seconds) */
+            --marquee-speed: 21s;
+        }
+
+        /* gallery-viewport hides overflow (already tailwind) */
+        .gallery-viewport {
+            position: relative;
+        }
+
+        /* gallery-track will be duplicated by JS and animated */
+        .gallery-track {
+            display: inline-flex;
+            gap: 0;
+            /* spacing handled by item padding */
+            align-items: stretch;
+            /* animate translation: will move left by 50% (since JS duplicates content) */
+            animation: marquee var(--marquee-speed) linear infinite;
+            /* improve performance */
+            transform: translateZ(0);
+        }
+
+        /* each item width controlled via tailwind w-80 (20rem). adjust as needed. */
+        .gallery-item {
+            box-sizing: border-box;
+        }
+
+        /* pause on hover */
+        .gallery-viewport:hover .gallery-track,
+        .gallery-track:focus-within {
+            animation-play-state: paused;
+        }
+
+        /* continuous scroll: move 0 -> -50% */
+        @keyframes marquee {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        /* accessibility: if user prefers reduced motion, stop animation */
+        @media (prefers-reduced-motion: reduce) {
+            .gallery-track {
+                animation: none;
+            }
+        }
+
+        /* small screens: reduce item width so more fit */
+        @media (max-width: 768px) {
+            .gallery-item {
+                width: 16rem;
+            }
+
+            /* tailwind w-64 equivalent */
+        }
+
+        @media (max-width: 420px) {
+            .gallery-item {
+                width: 14rem;
+            }
+
+            /* slightly narrower on very small screens */
+        }
+    </style>
+</head>
+
+<body class="font-body">
+    <!-- Header -->
+    <header class="fixed w-full z-50 bg-white/90 backdrop-blur-sm shadow-sm">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center">
+                <div
+                    class="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center floating">
+                    <span class="text-white font-bold text-xl">PD</span>
+                </div>
+                <span class="ml-3 font-bold text-xl text-dark font-heading">Pramod Dabhole</span>
+            </div>
+            <nav class="hidden md:flex space-x-8">
+                <a href="#about" class="font-medium text-dark nav-link">About</a>
+                <a href="#experience" class="font-medium text-dark nav-link">Experience</a>
+                <a href="#projects" class="font-medium text-dark nav-link">Projects</a>
+                <a href="#skills" class="font-medium text-dark nav-link">Skills</a>
+                <a href="#gallery" class="font-medium text-dark nav-link">Gallery</a>
+                <a href="#contact" class="font-medium text-dark nav-link">Contact</a>
+            </nav>
+            <button class="md:hidden text-2xl">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="about" class="pt-32 pb-20">
+        <div class="container mx-auto px-4 flex flex-col md:flex-row items-center">
+            <div class="md:w-1/2 mb-10 md:mb-0">
+                <h1 class="text-4xl md:text-5xl font-bold text-dark mb-4 font-heading">
+                    Pramod Uday Dabhole
+                </h1>
+                <div class="text-xl text-primary font-medium mb-6">
+                    <span class="inline-block mr-4">Media Professional</span>
+                    <span class="inline-block mr-4">Video Editor</span>
+                    <span class="inline-block">Live Streaming Specialist</span>
+                </div>
+                <p class="text-gray-700 mb-8 max-w-lg">
+                    Experienced media professional with over 5 years of expertise in video editing, live streaming, and
+                    graphic design. Successfully managed 200+ high-level government and international events for clients
+                    such as the Ministry of External Affairs (MEA), Bihar Vidhan Sabha, and G20 India.
+                </p>
+                <div class="flex flex-wrap gap-3 mb-8">
+                    <span class="bg-blue-100 text-primary px-4 py-1 rounded-full font-medium border border-primary/20">
+                        G20 India
+                    </span>
+                    <span class="bg-blue-100 text-primary px-4 py-1 rounded-full font-medium border border-primary/20">
+                        High Court of Uttarakhand
+                    </span>
+                    <span class="bg-blue-100 text-primary px-4 py-1 rounded-full font-medium border border-primary/20">
+                        MEA Events
+                    </span>
+                </div>
+                <div class="flex flex-wrap gap-4">
+                    <a href="#contact"
+                        class="bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-white px-6 py-3 rounded-full font-medium transition shadow-lg hover:shadow-xl">
+                        Contact Me
+                    </a>
+                    <a href="#"
+                        class="border-2 border-primary text-primary hover:bg-primary/10 px-6 py-3 rounded-full font-medium transition">
+                        Download CV
+                    </a>
+                </div>
+            </div>
+            <div class="md:w-1/2 flex justify-center">
+                <div class="relative">
+                    <div
+                        class="w-64 h-64 md:w-80 md:h-80 bg-gradient-to-br from-primary to-secondary rounded-full overflow-hidden border-4 border-white shadow-xl floating">
+                        <!-- Profile image placeholder -->
+                        <div
+                            class="w-full h-full bg-gradient-to-br from-cyan-100 to-blue-100 border-2 border-dashed border-primary/30 rounded-full flex items-center justify-center text-primary">
+                            <i class="fas fa-user text-7xl"></i>
+                        </div>
+                    </div>
+                    <div class="absolute -bottom-4 -right-4 bg-white rounded-full p-4 shadow-lg">
+                        <div class="bg-accent text-white w-16 h-16 rounded-full flex items-center justify-center">
+                            <i class="fas fa-play text-2xl"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Info Section -->
+    <section class="py-12 bg-white/50">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="flip-card h-56">
+                    <div class="flip-card-inner">
+                        <div
+                            class="flip-card-front bg-gradient-to-br from-cyan-50 to-blue-50 rounded-xl p-6 flex flex-col justify-center items-center">
+                            <div
+                                class="w-16 h-16 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center mb-4">
+                                <i class="fas fa-map-marker-alt text-white text-2xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-dark font-heading mb-2">Location</h3>
+                            <p class="text-gray-700 text-center">Kolhapur, Maharashtra</p>
+                        </div>
+                        <div class="flip-card-back">
+                            <h3 class="text-xl font-bold mb-2 text-center font-heading">Current Location</h3>
+                            <p class="text-center mb-2">Kolhapur, Maharashtra 416235</p>
+                            <p class="text-center text-accent font-semibold">Willing to relocate anywhere</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flip-card h-56">
+                    <div class="flip-card-inner">
+                        <div
+                            class="flip-card-front bg-gradient-to-br from-cyan-50 to-blue-50 rounded-xl p-6 flex flex-col justify-center items-center">
+                            <div
+                                class="w-16 h-16 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center mb-4">
+                                <i class="fas fa-envelope text-white text-2xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-dark font-heading mb-2">Email</h3>
+                            <p class="text-gray-700">editorpramod001@gmail.com</p>
+                        </div>
+                        <div class="flip-card-back">
+                            <h3 class="text-xl font-bold mb-2 text-center font-heading">Contact Info</h3>
+                            <p class="text-center mb-2">Email: editorpramod001@gmail.com</p>
+                            <p class="text-center">Phone: +91 8999576745</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flip-card h-56">
+                    <div class="flip-card-inner">
+                        <div
+                            class="flip-card-front bg-gradient-to-br from-cyan-50 to-blue-50 rounded-xl p-6 flex flex-col justify-center items-center">
+                            <div
+                                class="w-16 h-16 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center mb-4">
+                                <i class="fas fa-globe text-white text-2xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-dark font-heading mb-2">Portfolio</h3>
+                            <p class="text-gray-700">Available upon request</p>
+                        </div>
+                        <div class="flip-card-back">
+                            <h3 class="text-xl font-bold mb-2 text-center font-heading">Online Presence</h3>
+                            <p class="text-center mb-4">Portfolio samples available</p>
+                            <div class="flex space-x-4">
+                                <a href="#" class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
+                                    <i class="fab fa-linkedin-in"></i>
+                                </a>
+                                <a href="#" class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
+                                    <i class="fab fa-youtube"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="py-16 bg-gradient-to-br from-cyan-50 to-blue-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-dark mb-4 font-heading">Professional Experience</h2>
+                <div class="section-divider"></div>
+                <p class="text-gray-700 max-w-2xl mx-auto">With over 5 years of experience in media production and event
+                    coverage, I've worked on some of India's most prestigious events</p>
+            </div>
+
+            <div class="relative timeline">
+                <div class="space-y-12">
+                    <div class="timeline-item relative">
+                        <div class="timeline-dot"></div>
+                        <div class="bg-white p-6 rounded-xl shadow-md">
+                            <h3 class="text-xl font-bold text-primary font-heading">Project Manager</h3>
+                            <p class="text-secondary font-medium">Shruti Visual Information Pvt. Ltd. – High Court of
+                                Uttarakhand, Nainital</p>
+                            <p class="text-gray-500 mb-4">Mar 2024 – Present</p>
+                            <ul class="space-y-2">
+                                <li class="flex items-start">
+                                    <i class="fas fa-check-circle text-accent mt-1 mr-2"></i>
+                                    <span>Handle daily live streaming of court proceedings using iCast devices & NDI
+                                        camera setup</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check-circle text-accent mt-1 mr-2"></i>
+                                    <span>Coordinate with the Hon’ble Judges' bench, staff, and technical team</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check-circle text-accent mt-1 mr-2"></i>
+                                    <span>Oversee visual quality, network configuration, and smooth broadcasting</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item relative">
+                        <div class="timeline-dot"></div>
+                        <div class="bg-white p-6 rounded-xl shadow-md">
+                            <h3 class="text-xl font-bold text-primary font-heading">Video Editor & Streaming Lead</h3>
+                            <p class="text-secondary font-medium">G20 India & MEA Events</p>
+                            <p class="text-gray-500 mb-4">2020 – 2023</p>
+                            <ul class="space-y-2">
+                                <li class="flex items-start">
+                                    <i class="fas fa-check-circle text-accent mt-1 mr-2"></i>
+                                    <span>Managed high-profile event coverage and live streaming for MEA and G20
+                                        India</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check-circle text-accent mt-1 mr-2"></i>
+                                    <span>Designed media graphics and social reels for global outreach</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check-circle text-accent mt-1 mr-2"></i>
+                                    <span>Provided post-production editing and content delivery on official
+                                        channels</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item relative">
+                        <div class="timeline-dot"></div>
+                        <div class="bg-white p-6 rounded-xl shadow-md">
+                            <h3 class="text-xl font-bold text-primary font-heading">Media Consultant & Editor</h3>
+                            <p class="text-secondary font-medium">Bihar Vidhan Sabha – Patna</p>
+                            <p class="text-gray-500 mb-4">2023</p>
+                            <ul class="space-y-2">
+                                <li class="flex items-start">
+                                    <i class="fas fa-check-circle text-accent mt-1 mr-2"></i>
+                                    <span>Handled multi-camera live setups and visual editing for legislative
+                                        sessions</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-dark mb-4 font-heading">Key Projects</h2>
+                <div class="section-divider"></div>
+                <p class="text-gray-700 max-w-2xl mx-auto">High-impact projects that demonstrate expertise in
+                    large-scale event production and media management</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="flip-card h-64">
+                    <div class="flip-card-inner">
+                        <div
+                            class="flip-card-front bg-gradient-to-br from-cyan-50 to-blue-50 rounded-xl p-6 flex flex-col justify-center items-center">
+                            <div class="text-4xl mb-4 text-primary">
+                                <i class="fas fa-globe-asia"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-dark mb-2 text-center font-heading">G20 India Summit</h3>
+                        </div>
+                        <div class="flip-card-back">
+                            <h3 class="text-xl font-bold mb-2 text-center font-heading">G20 India Summit</h3>
+                            <p class="text-center text-sm mb-4">Edited and streamed high-level sessions for one of the
+                                world's most important diplomatic events</p>
+                            <div class="flex flex-wrap justify-center gap-2">
+                                <span class="bg-white/20 px-3 py-1 rounded-full text-sm">Live Streaming</span>
+                                <span class="bg-white/20 px-3 py-1 rounded-full text-sm">Video Editing</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flip-card h-64">
+                    <div class="flip-card-inner">
+                        <div
+                            class="flip-card-front bg-gradient-to-br from-cyan-50 to-blue-50 rounded-xl p-6 flex flex-col justify-center items-center">
+                            <div class="text-4xl mb-4 text-primary">
+                                <i class="fas fa-landmark"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-dark mb-2 text-center font-heading">Bihar Vidhan Sabha
+                            </h3>
+                        </div>
+                        <div class="flip-card-back">
+                            <h3 class="text-xl font-bold mb-2 text-center font-heading">Bihar Vidhan Sabha</h3>
+                            <p class="text-center text-sm mb-4">Managed full-scale multi-camera live broadcasts for
+                                legislative sessions</p>
+                            <div class="flex flex-wrap justify-center gap-2">
+                                <span class="bg-white/20 px-3 py-1 rounded-full text-sm">Multi-Camera</span>
+                                <span class="bg-white/20 px-3 py-1 rounded-full text-sm">Broadcast</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flip-card h-64">
+                    <div class="flip-card-inner">
+                        <div
+                            class="flip-card-front bg-gradient-to-br from-cyan-50 to-blue-50 rounded-xl p-6 flex flex-col justify-center items-center">
+                            <div class="text-4xl mb-4 text-primary">
+                                <i class="fas fa-handshake"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-dark mb-2 text-center font-heading">MEA Events</h3>
+                        </div>
+                        <div class="flip-card-back">
+                            <h3 class="text-xl font-bold mb-2 text-center font-heading">MEA Events</h3>
+                            <p class="text-center text-sm mb-4">Coordinated with foreign delegations for real-time
+                                coverage of diplomatic events</p>
+                            <div class="flex flex-wrap justify-center gap-2">
+                                <span class="bg-white/20 px-3 py-1 rounded-full text-sm">Diplomatic Events</span>
+                                <span class="bg-white/20 px-3 py-1 rounded-full text-sm">Real-time Coverage</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flip-card h-64">
+                    <div class="flip-card-inner">
+                        <div
+                            class="flip-card-front bg-gradient-to-br from-cyan-50 to-blue-50 rounded-xl p-6 flex flex-col justify-center items-center">
+                            <div class="text-4xl mb-4 text-primary">
+                                <i class="fas fa-user-tie"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-dark mb-2 text-center font-heading">PM Modi & President
+                                Trump</h3>
+                        </div>
+                        <div class="flip-card-back">
+                            <h3 class="text-xl font-bold mb-2 text-center font-heading">PM Modi & President Trump</h3>
+                            <p class="text-center text-sm mb-4">Video production and coverage during visits of
+                                international dignitaries</p>
+                            <div class="flex flex-wrap justify-center gap-2">
+                                <span class="bg-white/20 px-3 py-1 rounded-full text-sm">VIP Coverage</span>
+                                <span class="bg-white/20 px-3 py-1 rounded-full text-sm">Event Production</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="py-16 bg-gradient-to-br from-cyan-50 to-blue-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-dark mb-4 font-heading">Professional Skills</h2>
+                <div class="section-divider"></div>
+                <p class="text-gray-700 max-w-2xl mx-auto">Technical expertise and soft skills developed through years
+                    of high-pressure event production</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div>
+                    <h3 class="text-xl font-bold text-dark mb-6 font-heading">Technical Expertise</h3>
+                    <div class="space-y-6">
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span class="font-medium">Video Editing (Adobe Premiere Pro)</span>
+                                <span>95%</span>
+                            </div>
+                            <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
+                                <div class="h-full bg-gradient-to-r from-primary to-secondary rounded-full skill-bar"
+                                    style="width: 0%" data-width="95%"></div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span class="font-medium">Live Streaming (OBS, vMix, iCast)</span>
+                                <span>98%</span>
+                            </div>
+                            <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
+                                <div class="h-full bg-gradient-to-r from-primary to-secondary rounded-full skill-bar"
+                                    style="width: 0%" data-width="98%"></div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span class="font-medium">Graphic Design (Photoshop, Canva)</span>
+                                <span>90%</span>
+                            </div>
+                            <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
+                                <div class="h-full bg-gradient-to-r from-primary to-secondary rounded-full skill-bar"
+                                    style="width: 0%" data-width="90%"></div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span class="font-medium">NDI Camera Systems</span>
+                                <span>92%</span>
+                            </div>
+                            <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
+                                <div class="h-full bg-gradient-to-r from-primary to-secondary rounded-full skill-bar"
+                                    style="width: 0%" data-width="92%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-xl font-bold text-dark mb-6 font-heading">Professional Strengths</h3>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="flip-card h-40">
+                            <div class="flip-card-inner">
+                                <div
+                                    class="flip-card-front bg-gradient-to-br from-cyan-50 to-blue-50 rounded-xl p-4 flex flex-col justify-center items-center">
+                                    <div class="text-3xl text-primary mb-3">
+                                        <i class="fas fa-users"></i>
+                                    </div>
+                                    <h4 class="font-bold mb-1 font-heading">Leadership</h4>
+                                </div>
+                                <div class="flip-card-back">
+                                    <h4 class="font-bold mb-1 text-center font-heading">Leadership</h4>
+                                    <p class="text-sm text-center">Coordinating teams for high-profile events</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flip-card h-40">
+                            <div class="flip-card-inner">
+                                <div
+                                    class="flip-card-front bg-gradient-to-br from-cyan-50 to-blue-50 rounded-xl p-4 flex flex-col justify-center items-center">
+                                    <div class="text-3xl text-primary mb-3">
+                                        <i class="fas fa-comments"></i>
+                                    </div>
+                                    <h4 class="font-bold mb-1 font-heading">Communication</h4>
+                                </div>
+                                <div class="flip-card-back">
+                                    <h4 class="font-bold mb-1 text-center font-heading">Communication</h4>
+                                    <p class="text-sm text-center">Persuading and coordinating stakeholders</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flip-card h-40">
+                            <div class="flip-card-inner">
+                                <div
+                                    class="flip-card-front bg-gradient-to-br from-cyan-50 to-blue-50 rounded-xl p-4 flex flex-col justify-center items-center">
+                                    <div class="text-3xl text-primary mb-3">
+                                        <i class="fas fa-bolt"></i>
+                                    </div>
+                                    <h4 class="font-bold mb-1 font-heading">Efficiency</h4>
+                                </div>
+                                <div class="flip-card-back">
+                                    <h4 class="font-bold mb-1 text-center font-heading">Efficiency</h4>
+                                    <p class="text-sm text-center">Handling technical setups under pressure</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flip-card h-40">
+                            <div class="flip-card-inner">
+                                <div
+                                    class="flip-card-front bg-gradient-to-br from-cyan-50 to-blue-50 rounded-xl p-4 flex flex-col justify-center items-center">
+                                    <div class="text-3xl text-primary mb-3">
+                                        <i class="fas fa-lightbulb"></i>
+                                    </div>
+                                    <h4 class="font-bold mb-1 font-heading">Problem Solving</h4>
+                                </div>
+                                <div class="flip-card-back">
+                                    <h4 class="font-bold mb-1 text-center font-heading">Problem Solving</h4>
+                                    <p class="text-sm text-center">Troubleshooting during live broadcasts</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Event Gallery (auto sliding right-to-left) -->
+    <section id="gallery" class="py-16 bg-white overflow-hidden">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-dark mb-4 font-heading">Event Gallery</h2>
+                <div class="section-divider"></div>
+                <p class="text-gray-700 max-w-2xl mx-auto">A visual showcase of high-profile events and productions</p>
+            </div>
+        </div>
+
+        <!-- Marquee / viewport -->
+        <div class="relative gallery-viewport h-64 overflow-hidden">
+            <!-- animated track -->
+            <div class="gallery-track inline-flex items-stretch will-change-transform">
+                <!-- === gallery items start === -->
+                <div class="gallery-item flex-shrink-0 w-80 h-full p-2">
+                    <div
+                        class="w-full h-full bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center rounded-lg">
+                        <span class="text-white font-bold text-center px-4">G20 Summit Coverage</span>
+                    </div>
+                </div>
+
+                <div class="gallery-item flex-shrink-0 w-80 h-full p-2">
+                    <div
+                        class="w-full h-full bg-gradient-to-br from-cyan-500 to-cyan-700 flex items-center justify-center rounded-lg">
+                        <span class="text-white font-bold text-center px-4">Court Proceedings Live</span>
+                    </div>
+                </div>
+
+                <div class="gallery-item flex-shrink-0 w-80 h-full p-2">
+                    <div
+                        class="w-full h-full bg-gradient-to-br from-green-500 to-green-700 flex items-center justify-center rounded-lg">
+                        <span class="text-white font-bold text-center px-4">MEA Diplomatic Event</span>
+                    </div>
+                </div>
+
+                <div class="gallery-item flex-shrink-0 w-80 h-full p-2">
+                    <div
+                        class="w-full h-full bg-gradient-to-br from-amber-500 to-amber-700 flex items-center justify-center rounded-lg">
+                        <span class="text-white font-bold text-center px-4">Bihar Assembly Session</span>
+                    </div>
+                </div>
+
+                <div class="gallery-item flex-shrink-0 w-80 h-full p-2">
+                    <div
+                        class="w-full h-full bg-gradient-to-br from-red-500 to-red-700 flex items-center justify-center rounded-lg">
+                        <span class="text-white font-bold text-center px-4">PM Modi Event Coverage</span>
+                    </div>
+                </div>
+
+                <div class="gallery-item flex-shrink-0 w-80 h-full p-2">
+                    <div
+                        class="w-full h-full bg-gradient-to-br from-indigo-500 to-indigo-700 flex items-center justify-center rounded-lg">
+                        <span class="text-white font-bold text-center px-4">Trump Visit Production</span>
+                    </div>
+                </div>
+
+                <div class="gallery-item flex-shrink-0 w-80 h-full p-2">
+                    <div
+                        class="w-full h-full bg-gradient-to-br from-purple-500 to-purple-700 flex items-center justify-center rounded-lg">
+                        <span class="text-white font-bold text-center px-4">SCO India Event</span>
+                    </div>
+                </div>
+
+                <div class="gallery-item flex-shrink-0 w-80 h-full p-2">
+                    <div
+                        class="w-full h-full bg-gradient-to-br from-teal-500 to-teal-700 flex items-center justify-center rounded-lg">
+                        <span class="text-white font-bold text-center px-4">High Court Setup</span>
+                    </div>
+                </div>
+                <!-- === gallery items end === -->
+
+                <!-- Note: JS will duplicate the block above automatically to create a seamless loop -->
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-16 bg-gradient-to-br from-primary to-secondary text-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold mb-4 font-heading">Get In Touch</h2>
+                <div class="section-divider bg-white mx-auto"></div>
+                <p class="max-w-2xl mx-auto opacity-90">Available for freelance projects and full-time positions
+                    worldwide</p>
+            </div>
+
+            <div class="max-w-4xl mx-auto bg-white/10 backdrop-blur-sm rounded-xl p-8 shadow-xl">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-xl font-bold mb-4 font-heading">Contact Information</h3>
+                        <ul class="space-y-4">
+                            <li class="flex items-start">
+                                <i class="fas fa-map-marker-alt mt-1 mr-4 text-accent"></i>
+                                <span>Kurukali, Kagai, Kolhapur, Maharashtra 416235</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-envelope mt-1 mr-4 text-accent"></i>
+                                <span>editorpramod001@gmail.com</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-phone-alt mt-1 mr-4 text-accent"></i>
+                                <span>+91 8999576745</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-globe mt-1 mr-4 text-accent"></i>
+                                <span>Willing to relocate anywhere</span>
+                            </li>
+                        </ul>
+
+                        <div class="mt-8">
+                            <h3 class="text-xl font-bold mb-4 font-heading">Follow Me</h3>
+                            <div class="flex space-x-4">
+                                <a href="#"
+                                    class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center hover:bg-white/30 transition">
+                                    <i class="fab fa-linkedin-in"></i>
+                                </a>
+                                <a href="#"
+                                    class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center hover:bg-white/30 transition">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                                <a href="#"
+                                    class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center hover:bg-white/30 transition">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                                <a href="#"
+                                    class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center hover:bg-white/30 transition">
+                                    <i class="fab fa-youtube"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="text-xl font-bold mb-4 font-heading">Send a Message</h3>
+                        <form class="space-y-4">
+                            <div>
+                                <input type="text" placeholder="Your Name"
+                                    class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent placeholder-white/60">
+                            </div>
+                            <div>
+                                <input type="email" placeholder="Your Email"
+                                    class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent placeholder-white/60">
+                            </div>
+                            <div>
+                                <input type="text" placeholder="Subject"
+                                    class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent placeholder-white/60">
+                            </div>
+                            <div>
+                                <textarea placeholder="Your Message" rows="4"
+                                    class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent placeholder-white/60"></textarea>
+                            </div>
+                            <button type="submit"
+                                class="bg-accent hover:bg-cyan-700 text-white px-6 py-3 rounded-lg font-medium transition w-full">
+                                Send Message
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-8 bg-dark text-white">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <div class="flex items-center">
+                        <div
+                            class="w-8 h-8 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center">
+                            <span class="text-white font-bold">PD</span>
+                        </div>
+                        <span class="ml-3 font-bold text-xl font-heading">Pramod Dabhole</span>
+                    </div>
+                    <p class="mt-2 text-gray-400">Media Professional | Video Editor | Live Streaming Specialist</p>
+                </div>
+                <div>
+                    <p class="text-gray-400">© 2023 Pramod Dabhole. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const track = document.querySelector('.gallery-track');
+            if (!track) return;
+
+            // don't duplicate more than once
+            if (track.dataset.duplicated === 'true') return;
+
+            // duplicate children to make a seamless marquee
+            track.innerHTML = track.innerHTML + track.innerHTML;
+            track.dataset.duplicated = 'true';
+
+            // optional: adjust animation duration based on content width (smoothness)
+            // compute total width and set duration proportionally (nice-to-have)
+            try {
+                const viewport = document.querySelector('.gallery-viewport');
+                const totalWidth = track.scrollWidth / 2; // width of single set
+                // base pixels-per-second value (tweakable)
+                const pxPerSecond = 200; // lower => slower
+                const computedSeconds = Math.max(12, Math.round(totalWidth / pxPerSecond));
+                track.style.setProperty('--marquee-speed', computedSeconds + 's');
+            } catch (e) {
+                // fail silently, CSS var fallback used
+            }
+        });
+
+        // Animate skill bars on scroll
+        document.addEventListener('DOMContentLoaded', function () {
+            // Animate skill bars
+            const skillBars = document.querySelectorAll('.skill-bar');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const width = entry.target.getAttribute('data-width');
+                        entry.target.style.width = width;
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            skillBars.forEach(bar => {
+                observer.observe(bar);
+            });
+
+            // Smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        window.scrollTo({
+                            top: target.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+
+            // Mobile menu toggle
+            const mobileMenuBtn = document.querySelector('button.md\\:hidden');
+            mobileMenuBtn.addEventListener('click', () => {
+                const nav = document.querySelector('nav.hidden');
+                nav.classList.toggle('hidden');
+                nav.classList.toggle('absolute');
+                nav.classList.toggle('top-full');
+                nav.classList.toggle('left-0');
+                nav.classList.toggle('w-full');
+                nav.classList.toggle('bg-white');
+                nav.classList.toggle('p-4');
+                nav.classList.toggle('flex-col');
+                nav.classList.toggle('space-y-4');
+            });
+        });
+    </script>
+</body>
+
+</html>
