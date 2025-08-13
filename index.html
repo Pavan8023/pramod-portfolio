@@ -375,6 +375,296 @@
                 margin-left: 0;
             }
         }
+
+        /* caret blink */
+        #marathi-caret {
+            display: inline-block;
+            line-height: 1;
+            opacity: 1;
+            transition: opacity .15s linear;
+            font-weight: 700;
+        }
+
+        @keyframes caret-blink {
+            0% {
+                opacity: 1;
+            }
+
+            49% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 0;
+            }
+        }
+
+        /* apply blink unless user prefers reduced motion */
+        @media (prefers-reduced-motion: no-preference) {
+            #marathi-caret {
+                animation: caret-blink 1s steps(1) infinite;
+            }
+        }
+
+        /* if user prefers reduced motion, show full text and hide caret */
+        @media (prefers-reduced-motion: reduce) {
+            #marathi-caret {
+                display: none;
+            }
+        }
+
+        .hero-section {
+            position: relative;
+            /* background image path: change this if your image lives elsewhere */
+            background-image:
+                linear-gradient(90deg,
+                    rgba(255, 255, 255, 1) 0%,
+                    rgba(255, 255, 255, 0.96) 28%,
+                    rgba(255, 255, 255, 0.75) 44%,
+                    rgba(255, 255, 255, 0.45) 56%,
+                    rgba(255, 255, 255, 0.15) 68%,
+                    rgba(255, 255, 255, 0.00) 80%),
+                url('/img/SCO Council/_DSC5824.jpg');
+            background-position: right center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            /* ensure content stands above overlay */
+            overflow: hidden;
+        }
+
+        /* Subtle right-side dark overlay to keep contrast for profile/decoration */
+        .hero-section::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background: linear-gradient(90deg, rgba(0, 0, 0, 0.00) 40%, rgba(0, 0, 0, 0.06) 60%, rgba(0, 0, 0, 0.10) 100%);
+            mix-blend-mode: multiply;
+        }
+
+        /* Floating animation for the profile card */
+        .floating {
+            display: inline-block;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        /* Profile ring styling - slightly transparent border to blend with gradient */
+        .profile-ring {
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.00));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* make sure text remains readable on small screens:
+       on very small devices, show the background image higher and make gradient stronger */
+        @media (max-width: 768px) {
+            .hero-section {
+                background-position: center top;
+                background-image:
+                    linear-gradient(180deg,
+                        rgba(255, 255, 255, 1) 0%,
+                        rgba(255, 255, 255, 0.96) 30%,
+                        rgba(255, 255, 255, 0.85) 50%,
+                        rgba(255, 255, 255, 0.60) 70%,
+                        rgba(255, 255, 255, 0.15) 85%),
+                    url('/img/SCO Council/_DSC5824.jpg');
+            }
+
+            /* scale down profile on small screens */
+            .profile-ring {
+                width: 56vw;
+                height: 56vw;
+                border-width: 3px;
+                border-radius: 9999px;
+            }
+
+            .floating {
+                animation-duration: 5s;
+            }
+        }
+
+        /* small visual polish */
+        .hero-section .event-badge {
+            box-shadow: 0 6px 18px rgba(2, 6, 23, 0.04);
+        }
+
+        .hero-section .profile-ring img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 9999px;
+        }
+
+        /* NEW GALLERY STYLES */
+        .category-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .category-item {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            background: white;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .category-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+        
+        .category-image {
+            height: 220px;
+            width: 100%;
+            object-fit: cover;
+        }
+        
+        .category-label {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 15px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .category-item:hover .category-label {
+            background: rgba(30, 58, 138, 0.9);
+        }
+        
+        .images-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .images-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            max-width: 90%;
+            max-height: 90vh;
+            overflow: auto;
+            width: 1000px;
+            padding: 30px;
+            position: relative;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        
+        .modal-title {
+            font-size: 1.8rem;
+            color: #1e3a8a;
+            font-weight: 700;
+        }
+        
+        .close-modal {
+            background: #e53e3e;
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .close-modal:hover {
+            background: #c53030;
+            transform: rotate(90deg);
+        }
+        
+        .images-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+        }
+        
+        .image-item {
+            border-radius: 8px;
+            overflow: hidden;
+            height: 180px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .image-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .image-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .image-label {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 8px;
+            font-size: 0.8rem;
+            text-align: center;
+        }
     </style>
 </head>
 
@@ -404,22 +694,31 @@
     </header>
 
     <!-- Hero Section -->
-    <section id="about" class="pt-32 pb-20">
-        <div class="container mx-auto px-4 flex flex-col md:flex-row items-center">
+    <section id="about" class="pt-32 pb-20 hero-section">
+        <div class="container mx-auto px-4 flex flex-col md:flex-row items-center relative z-10">
             <div class="md:w-1/2 mb-10 md:mb-0">
+                <!-- Marathi typing line -->
+                <p class="text-4xl md:text-5xl text-primary font-medium mb-6 flex items-center gap-3"
+                    aria-live="polite">
+                    <span id="marathi-typing" class="whitespace-pre-wrap"></span>
+                    <span id="marathi-caret" aria-hidden="true" class="ml-1">|</span>
+                </p>
                 <h1 class="text-4xl md:text-5xl font-bold text-secondary mb-4 font-heading">
-                    Pramod Uday Dabhole
+                    Pramod Dabhole
                 </h1>
+
                 <div class="text-xl text-primary font-medium mb-6">
                     <span class="inline-block mr-4">Media Professional</span>
                     <span class="inline-block mr-4">Video Editor</span>
                     <span class="inline-block">Live Streaming Specialist</span>
                 </div>
+
                 <p class="text-gray-700 mb-8 max-w-lg">
                     Experienced media professional with over 5 years of expertise in video editing, live streaming, and
                     graphic design. Successfully managed 200+ high-level government and international events for clients
                     such as the Ministry of External Affairs (MEA), Bihar Vidhan Sabha, and G20 India.
                 </p>
+
                 <div class="flex flex-wrap gap-3 mb-8">
                     <span
                         class="event-badge bg-blue-100 text-primary px-4 py-1 rounded-full font-medium border border-primary/20">
@@ -434,6 +733,7 @@
                         MEA Events
                     </span>
                 </div>
+
                 <div class="flex flex-wrap gap-4">
                     <a href="#contact"
                         class="bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-white px-6 py-3 rounded-full font-medium transition shadow-lg hover:shadow-xl">
@@ -445,25 +745,23 @@
                     </a>
                 </div>
             </div>
+
             <div class="md:w-1/2 flex justify-center">
                 <div class="relative floating">
-                    <div
-                        class="w-64 h-64 md:w-80 md:h-80 bg-gradient-to-br from-primary to-secondary rounded-full overflow-hidden border-4 border-white shadow-xl">
-                        <!-- Profile image placeholder -->
-                        <div
-                            class="w-full h-full bg-gradient-to-br from-cyan-100 to-blue-100 border-2 border-dashed border-primary/30 rounded-full flex items-center justify-center text-primary">
-                            <i class="fas fa-user text-7xl"></i>
-                        </div>
-                    </div>
-                    <div class="absolute -bottom-4 -right-4 bg-white rounded-full p-4 shadow-lg">
-                        <div class="bg-accent text-white w-16 h-16 rounded-full flex items-center justify-center">
-                            <i class="fas fa-play text-2xl"></i>
-                        </div>
+                    <div style="margin-right: 700px;margin-bottom: 300px; width: 200px; height: 200px;"
+                        class="md:w-80 md:h-80 rounded-full overflow-hidden border-4 border-white shadow-xl profile-ring">
+                        <!-- Profile image -->
+                        <img src="/img/profile.JPG" alt="Pramod Uday Dabhole" loading="lazy"
+                            class="w-full h-full object-cover block" />
                     </div>
                 </div>
             </div>
         </div>
+
+        <!-- decorative overlay to ensure gradient left + image right look -->
+        <div aria-hidden="true" class="hero-overlay"></div>
     </section>
+
 
     <!-- Info Section -->
     <section class="py-12 bg-white/50">
@@ -536,192 +834,76 @@
         </div>
     </section>
 
-    <!-- Updated Experience Section (drop-in replacement) -->
+    <!-- Experience Section -->
     <section id="experience" class="py-16 bg-gradient-to-br from-cyan-50 to-blue-50">
         <div class="container mx-auto px-4">
-            <div class="mb-10 text-center">
-                <h2
-                    class="text-3xl sm:text-4xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-sky-700 to-indigo-600 animate-reveal">
-                    Professional Experience
-                </h2>
-                <p class="mt-3 text-gray-600 max-w-2xl mx-auto js-animate-text">
-                    With over <strong>5 years</strong> of hands-on experience in media production and event coverage,
-                    I've led live broadcasts, managed multi-camera workflows and delivered polished content for
-                    high-profile national and international events.
-                </p>
+            <div class="section-header">
+                <h2 class="text-3xl font-bold text-dark font-heading">Professional Experience</h2>
+                <p class="text-gray-700">With over 5 years of experience in media production and event coverage, I've worked on some of India's most prestigious events</p>
             </div>
-
-            <!-- timeline -->
-            <div class="relative">
-                <!-- vertical line -->
-                <div
-                    class="hidden sm:block absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-gradient-to-b from-indigo-200 to-sky-200 rounded-full">
-                </div>
-
-                <div class="space-y-10">
-                    <!-- item 1 -->
-                    <article
-                        class="timeline-item flex flex-col sm:flex-row items-start sm:items-center gap-6 js-timeline-item">
-                        <div class="sm:w-1/2 sm:pr-8 sm:text-right">
-                            <div class="inline-block">
-                                <div
-                                    class="timeline-badge mx-auto sm:mx-0 bg-gradient-to-tr from-indigo-600 to-sky-500 p-1 rounded-full shadow-lg transform scale-95">
-                                    <div class="w-4 h-4 bg-white rounded-full"></div>
-                                </div>
-                            </div>
-                            <div class="mt-4 sm:mt-6">
-                                <div
-                                    class="bg-white p-6 rounded-2xl shadow-lg hover:shadow-2xl transform transition-transform duration-300">
-                                    <h3 class="text-xl font-semibold tracking-tight js-title-letter">Project Manager
-                                    </h3>
-                                    <p class="text-sm text-indigo-600 font-medium mt-1">Shruti Visual Information Pvt.
-                                        Ltd. – High Court of Uttarakhand, Nainital</p>
-                                    <p class="text-gray-500 mt-2">Mar 2024 – Present</p>
-
-                                    <ul class="mt-4 space-y-2 js-bullets">
-                                        <li class="flex items-start opacity-0 translate-y-2"><svg
-                                                class="w-5 h-5 text-sky-500 mr-2" viewBox="0 0 20 20"
-                                                fill="currentColor">
-                                                <path fill-rule="evenodd"
-                                                    d="M16.707 5.293a1 1 0 010 1.414L8.414 15l-4.121-4.121a1 1 0 011.414-1.414L8.414 12.172l7.293-7.293a1 1 0 011.414 0z"
-                                                    clip-rule="evenodd" />
-                                            </svg><span>Lead daily live streaming of court proceedings using iCast & NDI
-                                                camera workflows.</span></li>
-
-                                        <li class="flex items-start opacity-0 translate-y-2"><svg
-                                                class="w-5 h-5 text-sky-500 mr-2" viewBox="0 0 20 20"
-                                                fill="currentColor">
-                                                <path fill-rule="evenodd"
-                                                    d="M16.707 5.293a1 1 0 010 1.414L8.414 15l-4.121-4.121a1 1 0 011.414-1.414L8.414 12.172l7.293-7.293a1 1 0 011.414 0z"
-                                                    clip-rule="evenodd" />
-                                            </svg><span>Coordinate with judges, court staff, and the technical crew for
-                                                flawless broadcasts.</span></li>
-
-                                        <li class="flex items-start opacity-0 translate-y-2"><svg
-                                                class="w-5 h-5 text-sky-500 mr-2" viewBox="0 0 20 20"
-                                                fill="currentColor">
-                                                <path fill-rule="evenodd"
-                                                    d="M16.707 5.293a1 1 0 010 1.414L8.414 15l-4.121-4.121a1 1 0 011.414-1.414L8.414 12.172l7.293-7.293a1 1 0 011.414 0z"
-                                                    clip-rule="evenodd" />
-                                            </svg><span>Oversee visual quality, network configuration and end-to-end
-                                                broadcast stability.</span></li>
-                                    </ul>
-                                </div>
-                            </div>
+            
+            <div class="relative timeline">
+                <div class="space-y-12">
+                    <div class="timeline-item relative">
+                        <div class="timeline-dot"></div>
+                        <div class="bg-white p-6 rounded-xl shadow-md transition-all duration-300 hover:shadow-xl">
+                            <h3 class="text-xl font-bold text-primary font-heading">Project Manager</h3>
+                            <p class="text-secondary font-medium">Shruti Visual Information Pvt. Ltd. – High Court of Uttarakhand, Nainital</p>
+                            <p class="text-gray-500 mb-4">Mar 2024 – Present</p>
+                            <ul class="space-y-2">
+                                <li class="flex items-start">
+                                    <i class="fas fa-check-circle text-accent mt-1 mr-2"></i>
+                                    <span>Handle daily live streaming of court proceedings using iCast devices & NDI camera setup</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check-circle text-accent mt-1 mr-2"></i>
+                                    <span>Coordinate with the Hon’ble Judges' bench, staff, and technical team</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check-circle text-accent mt-1 mr-2"></i>
+                                    <span>Oversee visual quality, network configuration, and smooth broadcasting</span>
+                                </li>
+                            </ul>
                         </div>
-
-                        <div class="sm:w-1/2 sm:pl-8">
-                            <!-- decorative card on opposite side for visual alternation -->
-                            <div
-                                class="p-4 sm:p-6 rounded-2xl bg-gradient-to-br from-slate-50 to-white border border-transparent shadow-sm">
-                                <div class="text-sm text-gray-600 italic">Key tools: iCast, NDI, vMix, OBS, Blackmagic
-                                </div>
-                            </div>
+                    </div>
+                    
+                    <div class="timeline-item relative">
+                        <div class="timeline-dot"></div>
+                        <div class="bg-white p-6 rounded-xl shadow-md transition-all duration-300 hover:shadow-xl">
+                            <h3 class="text-xl font-bold text-primary font-heading">Video Editor & Streaming Lead</h3>
+                            <p class="text-secondary font-medium">G20 India & MEA Events</p>
+                            <p class="text-gray-500 mb-4">2020 – 2023</p>
+                            <ul class="space-y-2">
+                                <li class="flex items-start">
+                                    <i class="fas fa-check-circle text-accent mt-1 mr-2"></i>
+                                    <span>Managed high-profile event coverage and live streaming for MEA and G20 India</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check-circle text-accent mt-1 mr-2"></i>
+                                    <span>Designed media graphics and social reels for global outreach</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check-circle text-accent mt-1 mr-2"></i>
+                                    <span>Provided post-production editing and content delivery on official channels</span>
+                                </li>
+                            </ul>
                         </div>
-                    </article>
-
-                    <!-- item 2 (alternate side) -->
-                    <article
-                        class="timeline-item flex flex-col sm:flex-row-reverse items-start sm:items-center gap-6 js-timeline-item">
-                        <div class="sm:w-1/2 sm:pl-8 sm:text-left">
-                            <div class="inline-block">
-                                <div
-                                    class="timeline-badge mx-auto sm:mx-0 bg-gradient-to-tr from-indigo-600 to-sky-500 p-1 rounded-full shadow-lg transform scale-95">
-                                    <div class="w-4 h-4 bg-white rounded-full"></div>
-                                </div>
-                            </div>
-
-                            <div class="mt-4 sm:mt-6">
-                                <div
-                                    class="bg-white p-6 rounded-2xl shadow-lg hover:shadow-2xl transform transition-transform duration-300">
-                                    <h3 class="text-xl font-semibold tracking-tight js-title-letter">Video Editor &
-                                        Streaming Lead</h3>
-                                    <p class="text-sm text-indigo-600 font-medium mt-1">G20 India & MEA Events</p>
-                                    <p class="text-gray-500 mt-2">2020 – 2023</p>
-
-                                    <ul class="mt-4 space-y-2 js-bullets">
-                                        <li class="flex items-start opacity-0 translate-y-2"><svg
-                                                class="w-5 h-5 text-sky-500 mr-2" viewBox="0 0 20 20"
-                                                fill="currentColor">
-                                                <path fill-rule="evenodd"
-                                                    d="M16.707 5.293a1 1 0 010 1.414L8.414 15l-4.121-4.121a1 1 0 011.414-1.414L8.414 12.172l7.293-7.293a1 1 0 011.414 0z"
-                                                    clip-rule="evenodd" />
-                                            </svg><span>Managed high-profile event coverage and multi-camera live
-                                                streams for G20 & MEA functions.</span></li>
-
-                                        <li class="flex items-start opacity-0 translate-y-2"><svg
-                                                class="w-5 h-5 text-sky-500 mr-2" viewBox="0 0 20 20"
-                                                fill="currentColor">
-                                                <path fill-rule="evenodd"
-                                                    d="M16.707 5.293a1 1 0 010 1.414L8.414 15l-4.121-4.121a1 1 0 011.414-1.414L8.414 12.172l7.293-7.293a1 1 0 011.414 0z"
-                                                    clip-rule="evenodd" />
-                                            </svg><span>Designed broadcast graphics, motion-stingers and short-form
-                                                reels for global audiences.</span></li>
-
-                                        <li class="flex items-start opacity-0 translate-y-2"><svg
-                                                class="w-5 h-5 text-sky-500 mr-2" viewBox="0 0 20 20"
-                                                fill="currentColor">
-                                                <path fill-rule="evenodd"
-                                                    d="M16.707 5.293a1 1 0 010 1.414L8.414 15l-4.121-4.121a1 1 0 011.414-1.414L8.414 12.172l7.293-7.293a1 1 0 011.414 0z"
-                                                    clip-rule="evenodd" />
-                                            </svg><span>Handled post-production edits and coordinated content delivery
-                                                to official channels.</span></li>
-                                    </ul>
-                                </div>
-                            </div>
+                    </div>
+                    
+                    <div class="timeline-item relative">
+                        <div class="timeline-dot"></div>
+                        <div class="bg-white p-6 rounded-xl shadow-md transition-all duration-300 hover:shadow-xl">
+                            <h3 class="text-xl font-bold text-primary font-heading">Media Consultant & Editor</h3>
+                            <p class="text-secondary font-medium">Bihar Vidhan Sabha – Patna</p>
+                            <p class="text-gray-500 mb-4">2023</p>
+                            <ul class="space-y-2">
+                                <li class="flex items-start">
+                                    <i class="fas fa-check-circle text-accent mt-1 mr-2"></i>
+                                    <span>Handled multi-camera live setups and visual editing for legislative sessions</span>
+                                </li>
+                            </ul>
                         </div>
-
-                        <div class="sm:w-1/2 sm:pr-8">
-                            <div
-                                class="p-4 sm:p-6 rounded-2xl bg-gradient-to-br from-slate-50 to-white border border-transparent shadow-sm">
-                                <div class="text-sm text-gray-600 italic">Highlights: Multi-camera, Live switching,
-                                    Motion design</div>
-                            </div>
-                        </div>
-                    </article>
-
-                    <!-- item 3 -->
-                    <article
-                        class="timeline-item flex flex-col sm:flex-row items-start sm:items-center gap-6 js-timeline-item">
-                        <div class="sm:w-1/2 sm:pr-8 sm:text-right">
-                            <div class="inline-block">
-                                <div
-                                    class="timeline-badge mx-auto sm:mx-0 bg-gradient-to-tr from-indigo-600 to-sky-500 p-1 rounded-full shadow-lg transform scale-95">
-                                    <div class="w-4 h-4 bg-white rounded-full"></div>
-                                </div>
-                            </div>
-
-                            <div class="mt-4 sm:mt-6">
-                                <div
-                                    class="bg-white p-6 rounded-2xl shadow-lg hover:shadow-2xl transform transition-transform duration-300">
-                                    <h3 class="text-xl font-semibold tracking-tight js-title-letter">Media Consultant &
-                                        Editor</h3>
-                                    <p class="text-sm text-indigo-600 font-medium mt-1">Bihar Vidhan Sabha – Patna</p>
-                                    <p class="text-gray-500 mt-2">2023</p>
-
-                                    <ul class="mt-4 space-y-2 js-bullets">
-                                        <li class="flex items-start opacity-0 translate-y-2"><svg
-                                                class="w-5 h-5 text-sky-500 mr-2" viewBox="0 0 20 20"
-                                                fill="currentColor">
-                                                <path fill-rule="evenodd"
-                                                    d="M16.707 5.293a1 1 0 010 1.414L8.414 15l-4.121-4.121a1 1 0 011.414-1.414L8.414 12.172l7.293-7.293a1 1 0 011.414 0z"
-                                                    clip-rule="evenodd" />
-                                            </svg><span>Handled multi-camera live setups and visual editing for
-                                                legislative sessions.</span></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="sm:w-1/2 sm:pl-8">
-                            <div
-                                class="p-4 sm:p-6 rounded-2xl bg-gradient-to-br from-slate-50 to-white border border-transparent shadow-sm">
-                                <div class="text-sm text-gray-600 italic">Outcome: Smooth legislative streaming & quick
-                                    turnaround edits</div>
-                            </div>
-                        </div>
-                    </article>
-
+                    </div>
                 </div>
             </div>
         </div>
@@ -966,23 +1148,24 @@
                 <p class="text-gray-700">A visual showcase of high-profile events and productions</p>
             </div>
 
-            <div class="gallery-container">
-                <div class="gallery-tabs" id="galleryTabs">
-                    <div class="gallery-tab active" data-category="all">All Events</div>
-                    <div class="gallery-tab" data-category="g20">G20 Summit</div>
-                    <div class="gallery-tab" data-category="bihar">Bihar Assembly</div>
-                    <div class="gallery-tab" data-category="mea">MEA Events</div>
-                    <div class="gallery-tab" data-category="sco">SCO Council</div>
-                    <div class="gallery-tab" data-category="highcourt">High Court of UK</div>
-                    <div class="gallery-tab" data-category="other">Other Events</div>
-                </div>
-
-                <div class="gallery-grid" id="galleryGrid">
-                    <!-- Gallery items will be populated by JavaScript -->
-                </div>
+            <div class="category-gallery">
+                <!-- Category items will be populated by JavaScript -->
             </div>
         </div>
     </section>
+
+    <!-- Images Modal -->
+    <div class="images-modal" id="imagesModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modalTitle">Category Title</h2>
+                <button class="close-modal" id="closeModal">&times;</button>
+            </div>
+            <div class="images-grid" id="imagesGrid">
+                <!-- Images will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
 
     <!-- Contact Section -->
     <section id="contact" class="py-16 bg-gradient-to-br from-primary to-secondary text-white">
@@ -1020,19 +1203,15 @@
                         <div class="mt-8">
                             <h3 class="text-xl font-bold mb-4 font-heading">Follow Me</h3>
                             <div class="flex space-x-4">
-                                <a href="#"
+                                <a href="https://www.linkedin.com/in/pramod-dabhole-7964a225a?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app"
                                     class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center hover:bg-white/30 transition">
                                     <i class="fab fa-linkedin-in"></i>
                                 </a>
-                                <a href="#"
-                                    class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center hover:bg-white/30 transition">
-                                    <i class="fab fa-twitter"></i>
-                                </a>
-                                <a href="#"
+                                <a href="https://www.instagram.com/pramod_dabhole_editz?igsh=MWduajJ4ZDR2bTV1bQ=="
                                     class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center hover:bg-white/30 transition">
                                     <i class="fab fa-instagram"></i>
                                 </a>
-                                <a href="#"
+                                <a href="https://youtube.com/@pramod_dabhole_editz?si=MgWOksKhSp51j6L2"
                                     class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center hover:bg-white/30 transition">
                                     <i class="fab fa-youtube"></i>
                                 </a>
@@ -1042,28 +1221,32 @@
 
                     <div>
                         <h3 class="text-xl font-bold mb-4 font-heading">Send a Message</h3>
-                        <form class="space-y-4">
+                        <form id="contactForm" class="space-y-4">
                             <div>
-                                <input type="text" placeholder="Your Name"
+                                <input type="text" name="user_name" placeholder="Your Name"
+                                    class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent placeholder-white/60"
+                                    required>
+                            </div>
+                            <div>
+                                <input type="email" name="user_email" placeholder="Your Email"
+                                    class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent placeholder-white/60"
+                                    required>
+                            </div>
+                            <div>
+                                <input type="text" name="subject" placeholder="Subject"
                                     class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent placeholder-white/60">
                             </div>
                             <div>
-                                <input type="email" placeholder="Your Email"
-                                    class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent placeholder-white/60">
-                            </div>
-                            <div>
-                                <input type="text" placeholder="Subject"
-                                    class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent placeholder-white/60">
-                            </div>
-                            <div>
-                                <textarea placeholder="Your Message" rows="4"
-                                    class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent placeholder-white/60"></textarea>
+                                <textarea name="message" placeholder="Your Message" rows="4"
+                                    class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent placeholder-white/60"
+                                    required></textarea>
                             </div>
                             <button type="submit"
-                                class="bg-accent hover:bg-blue-500 text-white px-6 py-3 rounded-lg font-medium transition w-full">
+                                class="bg-accent hover:bg-cyan-700 text-white px-6 py-3 rounded-lg font-medium transition w-full">
                                 Send Message
                             </button>
                         </form>
+
                     </div>
                 </div>
             </div>
@@ -1071,7 +1254,7 @@
     </section>
 
     <!-- Footer -->
-    <footer class="py-8 bg-secondary text-white">
+    <footer class="py-8 bg-dark text-white">
         <div class="container mx-auto px-4">
             <div class="flex flex-col md:flex-row justify-between items-center">
                 <div class="mb-4 md:mb-0">
@@ -1091,333 +1274,149 @@
         </div>
     </footer>
 
-    <!-- Gallery Modal -->
-    <div id="galleryModal" class="fixed inset-0 bg-black/90 z-50 flex items-center justify-center hidden">
-        <div class="max-w-6xl w-full px-4 relative">
-            <button id="closeModal" class="absolute top-4 right-4 text-white text-4xl z-10">&times;</button>
-            <img id="modalImage" src="" alt="" class="max-w-full max-h-[90vh] mx-auto">
-            <div id="modalCaption" class="text-white text-center mt-4 text-xl"></div>
-        </div>
-    </div>
-
     <script>
-
-            (function () {
-                // split title into spans for small letter animation
-                document.querySelectorAll('.js-title-letter').forEach(el => {
-                    const text = el.textContent.trim();
-                    el.innerHTML = '';
-                    // split by characters (preserve spaces)
-                    Array.from(text).forEach((ch, i) => {
-                        const sp = document.createElement('span');
-                        sp.textContent = ch;
-                        sp.style.transitionDelay = (i * 22) + 'ms';
-                        el.appendChild(sp);
-                    });
-                });
-
-                // IntersectionObserver to reveal timeline items
-                const io = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        const el = entry.target;
-                        if (entry.isIntersecting) {
-                            el.classList.add('in-view');
-                            // trigger title letter animation
-                            el.querySelectorAll('.js-title-letter').forEach(t => t.classList.add('play'));
-                            // animate bullets with stagger
-                            const bullets = el.querySelectorAll('.js-bullets li');
-                            bullets.forEach((li, idx) => {
-                                setTimeout(() => {
-                                    li.classList.remove('opacity-0');
-                                    li.classList.add('show');
-                                }, 80 * idx + 120);
-                            });
-                            // unobserve once played
-                            io.unobserve(el);
-                        }
-                    });
-                }, { threshold: 0.18 });
-
-                document.querySelectorAll('.js-timeline-item').forEach(item => {
-                    // initially set bullets to hidden
-                    item.querySelectorAll('.js-bullets li').forEach(li => li.classList.add('opacity-0'));
-                    io.observe(item);
-                });
-
-                // also split the paragraph intro into word spans for small stagger effect
-                document.querySelectorAll('.js-animate-text').forEach(el => {
-                    const words = el.textContent.trim().split(' ');
-                    el.innerHTML = '';
-                    words.forEach((w, i) => {
-                        const span = document.createElement('span');
-                        span.textContent = w + (i < words.length - 1 ? ' ' : '');
-                        span.style.opacity = 0;
-                        span.style.display = 'inline-block';
-                        span.style.transform = 'translateY(6px)';
-                        span.style.transition = 'all 420ms cubic-bezier(.2,.9,.2,1)';
-                        span.style.transitionDelay = (i * 30) + 'ms';
-                        el.appendChild(span);
-                    });
-                    // reveal on intersection
-                    const pIO = new IntersectionObserver((entries) => {
-                        entries.forEach(en => {
-                            if (en.isIntersecting) {
-                                el.querySelectorAll('span').forEach(sp => {
-                                    sp.style.opacity = 1;
-                                    sp.style.transform = 'translateY(0)';
-                                });
-                                pIO.unobserve(el);
-                            }
-                        });
-                    }, { threshold: 0.2 });
-                    pIO.observe(el);
-                });
-            })();
-
-        // Gallery data arranged per your screenshots (paths assume /img/<filename>)
-        const galleryData = [
-            // Bihar Assembly
-            { category: 'bihar', title: 'Bihar Assembly - IMG_3144.JPG', description: 'Bihar Assembly Session', image: '/img/Bihar Assembly/IMG_3144.JPG' },
-
-            // G20 Summit
-            { category: 'g20', title: 'G20 - 01f5acdc-bdde-4d5c-8dca-ce76852afec1.JPG', description: 'G20 image 1', image: '/img/G20 Summit/G20 Summit/01f5acdc-bdde-4d5c-8dca-ce76852afec1.JPG' },
-            { category: 'g20', title: 'G20 - e5b6649c-6673-430d-81b5-26b67de3d285.jpg', description: 'G20 image 2', image: '/img/G20 Summit/G20 Summit/e5b6649c-6673-430d-81b5-26b67de3d285.jpg' },
-            { category: 'g20', title: 'G20 - IMG_4065.heic', description: 'G20 (HEIC)', image: '/img/G20 Summit/G20 Summit/IMG_4065.heic' },
-            { category: 'g20', title: 'G20 - IMG_4147.jpg', description: 'G20 photo', image: '/img/G20 Summit/G20 Summit/IMG_4147.jpg' },
-            { category: 'g20', title: 'G20 - IMG_4327.HEIC', description: 'G20 (HEIC)', image: '/img/G20 Summit/G20 Summit/IMG_4327.HEIC' },
-            { category: 'g20', title: 'G20 - IMG_4365.heic', description: 'G20 (heic)', image: '/img/G20 Summit/G20 Summit/IMG_4365.heic' },
-            { category: 'g20', title: 'G20 - IMG_4371.jpg', description: 'G20 photo', image: '/img/G20 Summit/G20 Summit/IMG_4371.jpg' },
-            { category: 'g20', title: 'G20 - IMG_4372.jpg', description: 'G20 photo', image: '/img/G20 Summit/G20 Summit/IMG_4372.jpg' },
-            { category: 'g20', title: 'G20 - IMG_4374.JPG', description: 'G20 photo', image: '/img/G20 Summit/G20 Summit/IMG_4374.JPG' },
-
-            // Other img (screenshot #1)
-            { category: 'other', title: 'Other - IMG_0406.JPG', description: 'Other image', image: '/img/G20 Summit/Other img/IMG_0406.JPG' },
-            { category: 'other', title: 'Other - IMG_0407.JPG', description: 'Other image', image: '/img/G20 Summit/Other img/IMG_0407.JPG' },
-            { category: 'other', title: 'Other - IMG_0513.heic', description: 'Other (HEIC)', image: '/img/G20 Summit/Other img/IMG_0513.heic' },
-            { category: 'other', title: 'Other - IMG_0534.HEIC', description: 'Other (HEIC)', image: '/img/G20 Summit/Other img/IMG_0534.HEIC' },
-            { category: 'other', title: 'Other - IMG_2426.JPG', description: 'Other image', image: '/img/G20 Summit/Other img/IMG_2426.JPG' },
-            { category: 'other', title: 'Other - IMG_2427.jpg', description: 'Other image', image: '/img/G20 Summit/Other img/IMG_2427.jpg' },
-            { category: 'other', title: 'Other - IMG_3929.JPG', description: 'Other image', image: '/img/G20 Summit/Other img/IMG_3929.JPG' },
-
-            // High Court of Uttarakhand
-            { category: 'highcourt', title: 'High Court - IMG_0231.heic', description: 'High Court Proceedings', image: '/img/High Court of Uttarakhand/IMG_0231.heic' },
-
-            // MEA Event (Denmark PM + Namaste Trump + others)
-            { category: 'mea', title: 'Denmark PM - IMG_9818.HEIC', description: 'Denmark PM (HEIC)', image: '/img/MEA Event/Denmark PM/IMG_9818.HEIC' },
-            { category: 'mea', title: 'Denmark PM - IMG_9819.mov', description: 'Denmark PM (MOV)', image: '/img/MEA Event/Denmark PM/IMG_9819.mov' },
-            { category: 'mea', title: 'Denmark PM - IMG_9821.heic', description: 'Denmark PM', image: '/img/MEA Event/Denmark PM/IMG_9821.heic' },
-            { category: 'mea', title: 'Denmark PM - IMG_9855.HEIC', description: 'Denmark PM', image: '/img/MEA Event/Denmark PM/IMG_9855.HEIC' },
-
-            { category: 'mea', title: 'Namaste Trump - IMG_1182.MP4', description: 'Namaste Trump (MP4)', image: '/img/MEA Event/Namste Trump/IMG_1182.MP4' },
-            { category: 'mea', title: 'Namaste Trump - IMG_1861.jpg', description: 'Namaste Trump photo', image: '/img/MEA Event/Namste Trump/IMG_1861.jpg' },
-            { category: 'mea', title: 'Namaste Trump - IMG_1862.jpg', description: 'Namaste Trump photo', image: '/img/MEA Event/Namste Trump/IMG_1862.jpg' },
-
-            { category: 'mea', title: 'MEA - FE935D3A-B07C-4B03-88AB-D817C729EB52.JPG', description: 'MEA other image', image: '/img/MEA Event/Other MEA img/FE935D3A-B07C-4B03-88AB-D817C729EB52.JPG' },
-            { category: 'mea', title: 'MEA - IMG_2297.JPG', description: 'MEA other image', image: '/img/MEA Event/Other MEA img/IMG_2297.JPG' },
-            { category: 'mea', title: 'MEA - IMG_2639.heic', description: 'MEA other (heic)', image: '/img/MEA Event/Other MEA img/IMG_2639.heic' },
-            { category: 'mea', title: 'MEA - IMG_2651.HEIC', description: 'MEA other (HEIC)', image: '/img/MEA Event/Other MEA img/IMG_2651.HEIC' },
-            { category: 'mea', title: 'MEA - IMG_2653.jpg', description: 'MEA other image', image: '/img/MEA Event/Other MEA img/IMG_2653.jpg' },
-            { category: 'mea', title: 'MEA - IMG_3759.HEIC', description: 'MEA other (HEIC)', image: '/img/MEA Event/Other MEA img/IMG_3759.HEIC' },
-            { category: 'mea', title: 'MEA - IMG_8068.HEIC', description: 'MEA other (HEIC)', image: '/img/MEA Event/Other MEA img/IMG_8068.HEIC' },
-            { category: 'mea', title: 'MEA - IMG_8097.JPG', description: 'MEA other image', image: '/img/MEA Event/Other MEA img/IMG_8097.JPG' },
-
-            // Portuguese President
-            { category: 'portuguese', title: 'Portuguese President - IMG_3142.jpg', description: 'Portuguese President', image: '/img/MEA Event/Portuguese President/IMG_3142.jpg' },
-            { category: 'portuguese', title: 'Portuguese President - IMG_3143.jpg', description: 'Portuguese President', image: '/img/MEA Event/Portuguese President/IMG_3143.jpg' },
-
-            // Srilanka PM
-            { category: 'srilanka', title: 'Srilanka PM - IMG_1075.JPG', description: 'Srilanka PM', image: '/img/MEA Event/Srilanka PM/IMG_1075.JPG' },
-            { category: 'srilanka', title: 'Srilanka PM - IMG_3141.JPG', description: 'Srilanka PM', image: '/img/MEA Event/Srilanka PM/IMG_3141.JPG' },
-
-            // Pramod's Photos
-            { category: 'pramod', title: "Pramod - IMG_4065.HEIC", description: "Pramod's photo", image: '/img/MEA Event/Pramod/IMG_4065.HEIC' },
-            { category: 'pramod', title: "Pramod - IMG_4066.HEIC", description: "Pramod's photo", image: '/img/MEA Event/Pramod/IMG_4066.HEIC' },
-            { category: 'pramod', title: "Pramod - IMG_4176.HEIC", description: "Pramod's photo", image: '/img/MEA Event/Pramod/IMG_4176.HEIC' },
-            { category: 'pramod', title: "Pramod - IMG_4196.HEIC", description: "Pramod's photo", image: '/img/IMG_4196.HEIC' },
-            { category: 'pramod', title: "Pramod - IMG_4330.HEIC", description: "Pramod's photo", image: '/img/IMG_4330.HEIC' },
-            { category: 'pramod', title: "Pramod - IMG_4372.JPG", description: "Pramod's photo", image: '/img/IMG_4372.JPG' },
-            { category: 'pramod', title: "Pramod - IMG_4374.JPG", description: "Pramod's photo", image: '/img/IMG_4374.JPG' },
-
-            // SCO Council
-            { category: 'sco', title: 'SCO - _DSC5823.jpg', description: 'SCO Council', image: '/img/SCO Council/_DSC5823.jpg' },
-            { category: 'sco', title: 'SCO - _DSC5824.jpg', description: 'SCO Council', image: '/img/SCO Council/_DSC5824.jpg' },
-            { category: 'sco', title: 'SCO - IMG_1810.heic', description: 'SCO Council', image: '/img/SCO Council/IMG_1810.heic' },
-
-            // fallback
-            { category: 'other', title: 'Profile (fallback)', description: 'Profile / misc', image: '/img/profile.JPG' }
+        // Gallery categories with their first image and all images
+        const galleryCategories = [
+            {
+                name: "Bihar Assembly",
+                firstImage: "/img/Bihar Assembly/IMG_3144.JPG",
+                images: [
+                    { name: "IMG_3144.JPG", path: "/img/Bihar Assembly/IMG_3144.JPG" }
+                ]
+            },
+            {
+                name: "G20 Summit",
+                firstImage: "/img/G20 Summit/G20 Summit/IMG_4374.JPG",
+                images: [
+                    { name: "G20 Summit", path: "/img/G20 Summit/G20 Summit/IMG_4374.JPG" },
+                    { name: "01f5acdc-bdde-4d5c-8dca-ce76852afec1.JPG", path: "/img/G20 Summit/G20 Summit/01f5acdc-bdde-4d5c-8dca-ce76852afec1.JPG" },
+                    { name: "e5b6649c-6673-430d-81b5-26b67de3d285.jpg", path: "/img/G20 Summit/G20 Summit/e5b6649c-6673-430d-81b5-26b67de3d285.jpg" },
+                    { name: "IMG_4065.heic", path: "/img/G20 Summit/G20 Summit/IMG_4065.heic" },
+                    { name: "IMG_4147.jpg", path: "/img/G20 Summit/G20 Summit/IMG_4147.jpg" },
+                    { name: "IMG_4327.HEIC", path: "/img/G20 Summit/G20 Summit/IMG_4327.HEIC" },
+                    { name: "IMG_4365.heic", path: "/img/G20 Summit/G20 Summit/IMG_4365.heic" },
+                    { name: "IMG_4371.jpg", path: "/img/G20 Summit/G20 Summit/IMG_4371.jpg" },
+                    { name: "IMG_4372.jpg", path: "/img/G20 Summit/G20 Summit/IMG_4372.jpg" },
+                    { name: "IMG_4374.JPG", path: "/img/G20 Summit/G20 Summit/IMG_4374.JPG" }
+                ]
+            },
+            {
+                name: "Other Images",
+                firstImage: "/img/G20 Summit/Other img/IMG_3929.JPG",
+                images: [
+                    { name: "IMG_0406.JPG", path: "/img/G20 Summit/Other img/IMG_0406.JPG" },
+                    { name: "IMG_0407.JPG", path: "/img/G20 Summit/Other img/IMG_0407.JPG" },
+                    { name: "IMG_0513.heic", path: "/img/G20 Summit/Other img/IMG_0513.heic" },
+                    { name: "IMG_0534.HEIC", path: "/img/G20 Summit/Other img/IMG_0534.HEIC" },
+                    { name: "IMG_2426.JPG", path: "/img/G20 Summit/Other img/IMG_2426.JPG" },
+                    { name: "IMG_2427.jpg", path: "/img/G20 Summit/Other img/IMG_2427.jpg" },
+                    { name: "IMG_3929.JPG", path: "/img/G20 Summit/Other img/IMG_3929.JPG" }
+                ]
+            },
+            {
+                name: "High Court of Uttarakhand",
+                firstImage: "/img/High Court of Uttarakhand/IMG_0231.heic",
+                images: [
+                    { name: "IMG_0231.heic", path: "/img/High Court of Uttarakhand/IMG_0231.heic" }
+                ]
+            },
+            {
+                name: "MEA Event",
+                firstImage: "/img/MEA Event/Denmark PM/IMG_9818.HEIC",
+                images: [
+                    { name: "Denmark PM", path: "/img/MEA Event/Denmark PM/IMG_9818.HEIC" },
+                    { name: "IMG_9819.mov", path: "/img/MEA Event/Denmark PM/IMG_9819.mov" },
+                    { name: "IMG_9821.heic", path: "/img/MEA Event/Denmark PM/IMG_9821.heic" },
+                    { name: "IMG_9855.HEIC", path: "/img/MEA Event/Denmark PM/IMG_9855.HEIC" },
+                    { name: "Namste Trump", path: "/img/MEA Event/Namste Trump/IMG_1182.MP4" },
+                    { name: "IMG_1861.jpg", path: "/img/MEA Event/Namste Trump/IMG_1861.jpg" },
+                    { name: "IMG_1862.jpg", path: "/img/MEA Event/Namste Trump/IMG_1862.jpg" },
+                    { name: "Other MEA img", path: "/img/MEA Event/Other MEA img/FE935D3A-B07C-4B03-88AB-D817C729EB52.JPG" },
+                    { name: "IMG_2297.JPG", path: "/img/MEA Event/Other MEA img/IMG_2297.JPG" },
+                    { name: "IMG_2639.heic", path: "/img/MEA Event/Other MEA img/IMG_2639.heic" },
+                    { name: "IMG_2651.HEIC", path: "/img/MEA Event/Other MEA img/IMG_2651.HEIC" },
+                    { name: "IMG_2653.jpg", path: "/img/MEA Event/Other MEA img/IMG_2653.jpg" },
+                    { name: "IMG_3759.HEIC", path: "/img/MEA Event/Other MEA img/IMG_3759.HEIC" },
+                    { name: "IMG_8068.HEIC", path: "/img/MEA Event/Other MEA img/IMG_8068.HEIC" },
+                    { name: "IMG_8097.JPG", path: "/img/MEA Event/Other MEA img/IMG_8097.JPG" },
+                    { name: "Portuguse President", path: "/img/MEA Event/Portuguse President/IMG_3142.jpg" },
+                    { name: "IMG_3143.jpg", path: "/img/MEA Event/Portuguse President/IMG_3143.jpg" },
+                    { name: "Srilanka PM", path: "/img/MEA Event/Srilanka PM/IMG_1075.JPG" },
+                    { name: "IMG_3141.JPG", path: "/img/MEA Event/Srilanka PM/IMG_3141.JPG" },
+                    { name: "Pramod's Photos", path: "/img/MEA Event/Pramod's Photos/IMG_4065.HEIC" },
+                    { name: "IMG_4066.HEIC", path: "/img/MEA Event/Pramod's Photos/IMG_4066.HEIC" },
+                    { name: "IMG_4176.HEIC", path: "/img/MEA Event/Pramod's Photos/IMG_4176.HEIC" },
+                    { name: "IMG_4196.HEIC", path: "/img/MEA Event/Pramod's Photos/IMG_4196.HEIC" },
+                    { name: "IMG_4330.HEIC", path: "/img/MEA Event/Pramod's Photos/IMG_4330.HEIC" },
+                    { name: "IMG_4372.JPG", path: "/img/MEA Event/Pramod's Photos/IMG_4372.JPG" },
+                    { name: "IMG_4374.JPG", path: "/img/MEA Event/Pramod's Photos/IMG_4374.JPG" }
+                ]
+            },
+            {
+                name: "SCO Council",
+                firstImage: "/img/SCO Council/_DSC5823.jpg",
+                images: [
+                    { name: "DSC5823.jpg", path: "/img/SCO Council/_DSC5823.jpg" },
+                    { name: "DSC5824.jpg", path: "/img/SCO Council/_DSC5824.jpg" },
+                    { name: "IMG_1810.heic", path: "/img/SCO Council/IMG_1810.heic" }
+                ]
+            }
         ];
 
-        // categories order (you can change order/labels if needed)
-        const categories = [
-            { key: 'all', label: 'All' },
-            { key: 'g20', label: 'G20 Summit' },
-            { key: 'bihar', label: 'Bihar Assembly' },
-            { key: 'mea', label: 'MEA Event' },
-            { key: 'portuguese', label: 'Portuguese President' },
-            { key: 'srilanka', label: 'Srilanka PM' },
-            { key: 'sco', label: 'SCO Council' },
-            { key: 'pramod', label: "Pramod's Photos" },
-            { key: 'highcourt', label: 'High Court' },
-            { key: 'other', label: 'Other' }
-        ];
-
-        // DOM refs (keep IDs same as in your HTML)
-        const galleryGrid = document.getElementById('galleryGrid');
-        const categoryButtons = document.getElementById('categoryButtons'); // if you have a container for buttons
-        const galleryModal = document.getElementById('galleryModal');      // modal overlay element
-        const modalCaption = document.getElementById('modalCaption');      // caption element in modal
-        const viewerInner = document.getElementById('viewerInner');        // container where <img> or <video> is inserted
-        const modalCloseBtn = document.getElementById('modalClose');       // close button (span) if present
-
-        // Helper to detect video files
-        function isVideoFile(url) {
-            return /\.mp4$|\.mov$/i.test(url);
-        }
-
-        // Simple escaping helpers
-        function escapeHtml(s) { if (!s) return ''; return s.replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
-        function escapeAttr(s) { return escapeHtml(s).replace(/"/g, '&quot;'); }
-
-        // Render category buttons (if you have a container)
-        if (categoryButtons) {
-            categories.forEach(cat => {
-                const btn = document.createElement('button');
-                btn.className = 'cat-btn' + (cat.key === 'all' ? ' active' : '');
-                btn.textContent = cat.label;
-                btn.dataset.key = cat.key;
-                btn.addEventListener('click', () => {
-                    // toggle active class
-                    document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    renderGallery(cat.key);
+        // Render gallery categories
+        function renderGalleryCategories() {
+            const galleryContainer = document.querySelector('.category-gallery');
+            galleryContainer.innerHTML = '';
+            
+            galleryCategories.forEach(category => {
+                const categoryItem = document.createElement('div');
+                categoryItem.className = 'category-item';
+                categoryItem.innerHTML = `
+                    <img src="${category.firstImage}" alt="${category.name}" class="category-image">
+                    <div class="category-label">${category.name}</div>
+                `;
+                
+                categoryItem.addEventListener('click', () => {
+                    openCategoryModal(category);
                 });
-                categoryButtons.appendChild(btn);
+                
+                galleryContainer.appendChild(categoryItem);
             });
         }
-
-        // Render gallery items into #galleryGrid
-        function renderGallery(category = 'all') {
-            if (!galleryGrid) return;
-            galleryGrid.innerHTML = '';
-
-            const filteredData = category === 'all'
-                ? galleryData
-                : galleryData.filter(item => item.category === category);
-
-            if (filteredData.length === 0) {
-                const empty = document.createElement('div');
-                empty.textContent = 'No images in this category';
-                empty.style.gridColumn = '1/-1';
-                empty.style.color = '#6b7280';
-                galleryGrid.appendChild(empty);
-                return;
-            }
-
-            filteredData.forEach(item => {
-                const card = document.createElement('div');
-                card.className = 'gallery-card';
-                card.innerHTML = `
-      <div class="gallery-img-container" role="button" aria-label="${escapeAttr(item.title)}">
-        ${isVideoFile(item.image)
-                        ? `<video muted playsinline preload="metadata"><source src="${escapeAttr(item.image)}"></video>`
-                        : `<img src="${escapeAttr(item.image)}" alt="${escapeAttr(item.title)}">`
-                    }
-      </div>
-      <div class="gallery-caption">
-        <h3>${escapeHtml(item.title)}</h3>
-        <p>${escapeHtml(item.description)}</p>
-      </div>
-    `.trim();
-
-                // click opens viewer (re-usable function)
-                card.addEventListener('click', () => {
-                    openImageViewer(item);
-                });
-
-                galleryGrid.appendChild(card);
+        
+        // Open category modal with all images
+        function openCategoryModal(category) {
+            const modal = document.getElementById('imagesModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const imagesGrid = document.getElementById('imagesGrid');
+            
+            modalTitle.textContent = category.name;
+            imagesGrid.innerHTML = '';
+            
+            category.images.forEach(image => {
+                const imageItem = document.createElement('div');
+                imageItem.className = 'image-item';
+                imageItem.innerHTML = `
+                    <img src="${image.path}" alt="${image.name}">
+                    <div class="image-label">${image.name}</div>
+                `;
+                imagesGrid.appendChild(imageItem);
             });
+            
+            modal.classList.add('active');
         }
-
-        // Open viewer (inserts <img> or <video> into viewerInner and shows modal)
-        function openImageViewer(item) {
-            if (!viewerInner || !galleryModal || !modalCaption) return;
-
-            viewerInner.innerHTML = '';
-            modalCaption.textContent = '';
-
-            if (isVideoFile(item.image)) {
-                const video = document.createElement('video');
-                video.className = 'viewer-media';
-                video.controls = true;
-                video.autoplay = true;
-                video.playsInline = true;
-                video.preload = 'metadata';
-                const src = document.createElement('source');
-                src.src = item.image;
-                video.appendChild(src);
-                viewerInner.appendChild(video);
-
-                // force layout then add enter class if you use such CSS for slide animation
-                requestAnimationFrame(() => video.classList.add('enter'));
-            } else {
-                const img = document.createElement('img');
-                img.className = 'viewer-media';
-                img.alt = item.title || 'Image';
-                img.src = item.image;
-                img.addEventListener('load', () => requestAnimationFrame(() => img.classList.add('enter')));
-                viewerInner.appendChild(img);
-            }
-
-            modalCaption.textContent = item.title || '';
-            galleryModal.classList.remove('hidden'); // assumes you use 'hidden' class to hide modal
-            galleryModal.classList.add('open');      // optional class for styling visible modal
-            galleryModal.setAttribute('aria-hidden', 'false');
-            document.body.style.overflow = 'hidden';
-        }
-
-        // CLOSE viewer function (for span close icon to call)
-        function closeImageViewer() {
-            if (!viewerInner || !galleryModal) return;
-
-            // slide-out: remove 'enter' class so CSS can animate translateX back to right
-            const media = viewerInner.querySelector('.viewer-media');
-            if (media) media.classList.remove('enter');
-
-            // wait for CSS animation to finish, then hide modal and remove media
-            setTimeout(() => {
-                galleryModal.classList.add('hidden');
-                galleryModal.classList.remove('open');
-                galleryModal.setAttribute('aria-hidden', 'true');
-                viewerInner.innerHTML = ''; // removes media (stops video)
-                modalCaption.textContent = '';
-                document.body.style.overflow = '';
-            }, 360); // match this to your CSS transition-duration
-        }
-
-        // Attach close to modal backdrop (if overlay element exists)
-        if (galleryModal) {
-            galleryModal.addEventListener('click', (e) => {
-                if (e.target === galleryModal) closeImageViewer();
-            });
-        }
-
-        // ESC key closes modal
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && galleryModal && !galleryModal.classList.contains('hidden')) {
-                closeImageViewer();
+        
+        // Close modal
+        document.getElementById('closeModal').addEventListener('click', () => {
+            document.getElementById('imagesModal').classList.remove('active');
+        });
+        
+        // Close modal when clicking outside
+        document.getElementById('imagesModal').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('imagesModal')) {
+                document.getElementById('imagesModal').classList.remove('active');
             }
         });
-
-        // expose to global so inline span onclick="closeImageViewer()" works
-        window.closeImageViewer = closeImageViewer;
-
-        // initialize default render
-        document.addEventListener('DOMContentLoaded', () => {
-            renderGallery('all');
-
-            // optional: if you don't have categoryButtons element, you can still call renderGallery with a default category
-        });
-
 
         // Initialize gallery
         document.addEventListener('DOMContentLoaded', function () {
@@ -1451,25 +1450,89 @@
                 });
             });
 
-            // Gallery tab functionality
-            const tabs = document.querySelectorAll('.gallery-tab');
-            tabs.forEach(tab => {
-                tab.addEventListener('click', () => {
-                    tabs.forEach(t => t.classList.remove('active'));
-                    tab.classList.add('active');
-                    const category = tab.getAttribute('data-category');
-                    renderGallery(category);
-                });
-            });
+            // Render gallery categories
+            renderGalleryCategories();
 
-            // Close modal functionality
-            document.getElementById('closeModal').addEventListener('click', () => {
-                document.getElementById('galleryModal').classList.add('hidden');
+            // Initialize contact form
+            document.getElementById('contactForm').addEventListener('submit', function (e) {
+                e.preventDefault();
+                alert('Message sent successfully!');
+                this.reset();
             });
-
-            // Initial gallery render
-            renderGallery();
         });
+
+        (function () {
+            // guard: don't initialize twice
+            if (document.getElementById('marathi-typing').dataset.typed === 'true') return;
+            document.getElementById('marathi-typing').dataset.typed = 'true';
+
+            const el = document.getElementById('marathi-typing');
+            const caret = document.getElementById('marathi-caret');
+
+            // The Marathi sentence you requested (adjust if you want different wording)
+            const phrases = [
+                'नमस्कार मी...'
+            ];
+
+            // Typing settings (ms)
+            const TYPING_SPEED = 90;      // per grapheme
+            const DELETING_SPEED = 45;    // per grapheme when deleting
+            const PAUSE_AFTER = 1400;     // pause after full phrase typed
+            const PAUSE_BEFORE = 300;     // pause before typing after delete
+
+            // grapheme splitter using Intl.Segmenter (if available) for correct Devanagari clusters
+            function splitGraphemes(str) {
+                if (typeof Intl !== 'undefined' && typeof Intl.Segmenter === 'function') {
+                    try {
+                        const seg = new Intl.Segmenter(undefined, { granularity: 'grapheme' });
+                        return Array.from(seg.segment(str), s => s.segment);
+                    } catch (e) {
+                        // fallback below
+                    }
+                }
+                // fallback: use Array.from (works well for most cases)
+                return Array.from(str);
+            }
+
+            // helper: sleep
+            function wait(ms) { return new Promise(res => setTimeout(res, ms)); }
+
+            // reduced-motion: show text statically
+            if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                el.textContent = phrases.join(' ');
+                caret.style.display = 'none';
+                return;
+            }
+
+            // main loop
+            (async function loop() {
+                while (true) {
+                    for (const phrase of phrases) {
+                        const chars = splitGraphemes(phrase);
+
+                        // type
+                        for (let i = 0; i < chars.length; i++) {
+                            el.textContent += chars[i];
+                            await wait(TYPING_SPEED);
+                        }
+
+                        await wait(PAUSE_AFTER);
+
+                        // delete
+                        for (let i = chars.length - 1; i >= 0; i--) {
+                            // remove last grapheme (works because we used grapheme-aware typing)
+                            // we reconstruct the string from graphemes for reliability
+                            const current = splitGraphemes(el.textContent);
+                            current.pop();
+                            el.textContent = current.join('');
+                            await wait(DELETING_SPEED);
+                        }
+
+                        await wait(PAUSE_BEFORE);
+                        }
+                    }
+                })();
+            })();
     </script>
 </body>
 
