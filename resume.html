@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Resume Viewer — Pramod Uday Dabhole</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* small custom animation (Tailwind utility for convenience) */
+    @keyframes slideInUp {
+      0% { transform: translateY(12px); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+    .animate-slideInUp { animation: slideInUp 420ms cubic-bezier(.2,.9,.3,1) both; }
+  </style>
+</head>
+<body class="bg-gradient-to-b from-gray-50 via-white to-gray-50 min-h-screen flex items-center justify-center p-6">
+  <main class="w-full max-w-5xl">
+    <header class="flex items-start justify-between gap-4 mb-4 animate-slideInUp">
+      <div>
+        <h1 class="text-2xl sm:text-3xl font-extrabold text-gray-800">Pramod Uday Dabhole — Resume</h1>
+        <p class="text-sm text-gray-500 mt-1">Preview, stream and download the professional resume.</p>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="inline-flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 shadow-sm rounded-lg text-sm font-medium text-gray-700 hover:shadow-md hover:-translate-y-0.5 transition-transform">
+          <!-- back icon -->
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+          Back to Home
+        </a>
+
+        <a id="downloadBtn" href="Pramod_Uday_Dabhole_Resume.pdf" download class="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-semibold shadow-lg hover:bg-blue-700 hover:scale-1.01 transition-transform">
+          <!-- download icon -->
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 14.5A1.5 1.5 0 014.5 13h11a1.5 1.5 0 011.5 1.5v.5a1.5 1.5 0 01-1.5 1.5h-11A1.5 1.5 0 013 15v-.5zM9 3a1 1 0 012 0v6.586l1.293-1.293a1 1 0 011.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 011.414-1.414L9 9.586V3z" clip-rule="evenodd"/></svg>
+          Download PDF
+        </a>
+      </div>
+    </header>
+
+    <section class="bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-100 relative" style="height:72vh;">
+
+      <!-- loading overlay -->
+      <div id="loading" class="absolute inset-0 bg-white/70 flex items-center justify-center z-20">
+        <div class="text-center">
+          <svg class="animate-spin h-10 w-10 mx-auto text-gray-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path></svg>
+          <p class="text-sm text-gray-600 mt-3">Loading resume...</p>
+        </div>
+      </div>
+
+      <!-- PDF viewer -->
+      <iframe id="pdfFrame" src="Pramod_Uday_Dabhole_Resume.pdf" class="w-full h-full" frameborder="0" aria-label="Resume PDF viewer"></iframe>
+
+    </section>
+
+    <p class="text-center mt-3 text-sm text-gray-500">If the preview doesn't load, <a id="fallbackLink" href="Pramod_Uday_Dabhole_Resume.pdf" target="_blank" rel="noopener" class="underline text-blue-600">open the PDF in a new tab</a> or right-click the download button.</p>
+  </main>
+
+  <script>
+    // Adjust this filename if your PDF has a different name or path
+    const PDF_FILE = 'Pramod_Uday_Dabhole_Resume.pdf';
+    const pdfFrame = document.getElementById('pdfFrame');
+    const loading = document.getElementById('loading');
+    const downloadBtn = document.getElementById('downloadBtn');
+    const fallbackLink = document.getElementById('fallbackLink');
+
+    // Set hrefs dynamically (makes it easy to change file name in one place)
+    downloadBtn.setAttribute('href', PDF_FILE);
+    fallbackLink.setAttribute('href', PDF_FILE);
+    pdfFrame.setAttribute('src', PDF_FILE + '#view=FitH');
+
+    // Hide loading overlay when iframe content loads (best-effort)
+    pdfFrame.addEventListener('load', () => {
+      // Give small delay so user sees smooth transition
+      setTimeout(() => { loading.style.display = 'none'; }, 300);
+    });
+
+    // Accessibility: keyboard shortcut to download (D) and go home (H)
+    document.addEventListener('keydown', (e) => {
+      if (e.key.toLowerCase() === 'd') downloadBtn.click();
+      if (e.key.toLowerCase() === 'h') window.location.href = 'index.html';
+    });
+  </script>
+</body>
+</html>
