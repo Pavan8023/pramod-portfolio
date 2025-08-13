@@ -669,16 +669,19 @@
 </head>
 
 <body class="font-body">
-    <!-- Header -->
-    <header class="fixed w-full z-50 bg-white/90 backdrop-blur-sm shadow-sm">
+    <!-- Header (responsive + slide-in mobile menu) -->
+    <header class="fixed w-full z-[1000] bg-white/90 backdrop-blur-sm shadow-sm">
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <!-- Logo / Branding -->
             <div class="flex items-center">
                 <div
-                    class="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center floating">
+                    class="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center">
                     <span class="text-white font-bold text-xl">PD</span>
                 </div>
                 <span class="ml-3 font-bold text-xl text-dark font-heading">Pramod Dabhole</span>
             </div>
+
+            <!-- Desktop nav -->
             <nav class="hidden md:flex space-x-8">
                 <a href="#about" class="font-medium text-dark nav-link">About</a>
                 <a href="#experience" class="font-medium text-dark nav-link">Experience</a>
@@ -687,10 +690,76 @@
                 <a href="#gallery" class="font-medium text-dark nav-link">Gallery</a>
                 <a href="#contact" class="font-medium text-dark nav-link">Contact</a>
             </nav>
-            <button class="md:hidden text-2xl">
-                <i class="fas fa-bars"></i>
+
+            <!-- Mobile toggle button -->
+            <button id="mobile-menu-button" aria-controls="mobile-menu" aria-expanded="false"
+                class="md:hidden inline-flex items-center justify-center p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
+                aria-label="Open menu">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                    <path fill-rule="evenodd"
+                        d="M3 5h14a1 1 0 010 2H3a1 1 0 010-2zm0 4h14a1 1 0 010 2H3a1 1 0 010-2zm0 4h14a1 1 0 010 2H3a1 1 0 010-2z"
+                        clip-rule="evenodd" />
+                </svg>
             </button>
         </div>
+
+        <!-- Mobile overlay (semi-transparent) -->
+        <div id="mobile-menu-overlay"
+            class="fixed inset-0 bg-black/40 opacity-0 pointer-events-none transition-opacity duration-300 md:hidden"
+            aria-hidden="true"></div>
+
+        <!-- Mobile overlay (faint blue + blur) -->
+        <div id="mobile-menu-overlay"
+            class="fixed inset-0 bg-blue-100/60 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300 md:hidden z-40"
+            aria-hidden="true"></div>
+
+        <!-- Mobile slide-in panel (from right) -->
+        <aside id="mobile-menu" style="background-color: #e8faff;"
+            class="fixed inset-y-0 right-0 w-3/4 max-w-xs bg-white shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out md:hidden z-50"
+            role="dialog" aria-modal="true" aria-labelledby="mobile-menu-label" aria-hidden="true">
+            <div class="p-4 h-full flex flex-col">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <div
+                            class="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center">
+                            <span class="text-white font-bold">PD</span>
+                        </div>
+                        <span class="ml-3 font-bold text-lg">Pramod Dabhole</span>
+                    </div>
+                    <button id="mobile-menu-close"
+                        class="p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+                        aria-label="Close menu">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                            <path fill-rule="evenodd"
+                                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Nav links -->
+                <nav class="mt-6 space-y-4" style="background-color: #e8faff;" aria-label="Mobile primary">
+                    <a href="#about" class="block px-2 py-3 text-base font-medium rounded-md hover:bg-gray-100"
+                        data-close>About</a>
+                    <a href="#experience" class="block px-2 py-3 text-base font-medium rounded-md hover:bg-gray-100"
+                        data-close>Experience</a>
+                    <a href="#projects" class="block px-2 py-3 text-base font-medium rounded-md hover:bg-gray-100"
+                        data-close>Projects</a>
+                    <a href="#skills" class="block px-2 py-3 text-base font-medium rounded-md hover:bg-gray-100"
+                        data-close>Skills</a>
+                    <a href="#gallery" class="block px-2 py-3 text-base font-medium rounded-md hover:bg-gray-100"
+                        data-close>Gallery</a>
+                    <a href="#contact" class="block px-2 py-3 text-base font-medium rounded-md hover:bg-gray-100"
+                        data-close>Contact</a>
+                </nav>
+
+                <div class="mt-auto pt-4 border-t border-gray-100">
+                    <a href="#contact"
+                        class="block w-full text-center py-3 rounded-md bg-primary text-white font-medium"
+                        data-close>Hire / Contact</a>
+                </div>
+            </div>
+        </aside>
     </header>
 
     <!-- Hero Section -->
@@ -1291,10 +1360,10 @@
                     { name: "G20 Summit", path: "/img/G20 Summit/G20 Summit/IMG_4374.JPG" },
                     { name: "01f5acdc-bdde-4d5c-8dca-ce76852afec1.JPG", path: "/img/G20 Summit/G20 Summit/01f5acdc-bdde-4d5c-8dca-ce76852afec1.JPG" },
                     { name: "e5b6649c-6673-430d-81b5-26b67de3d285.jpg", path: "/img/G20 Summit/G20 Summit/e5b6649c-6673-430d-81b5-26b67de3d285.jpg" },
-                    { name: "IMG_4065.heic", path: "/img/G20 Summit/G20 Summit/IMG_4065.heic" },
+                    { name: "IMG_4065.heic", path: "/img/G20 Summit/G20 Summit/IMG_4065.jpg" },
                     { name: "IMG_4147.jpg", path: "/img/G20 Summit/G20 Summit/IMG_4147.jpg" },
-                    { name: "IMG_4327.HEIC", path: "/img/G20 Summit/G20 Summit/IMG_4327.HEIC" },
-                    { name: "IMG_4365.heic", path: "/img/G20 Summit/G20 Summit/IMG_4365.heic" },
+                    { name: "IMG_4327.HEIC", path: "/img/G20 Summit/G20 Summit/IMG_4327.jpg" },
+                    { name: "IMG_4365.heic", path: "/img/G20 Summit/G20 Summit/IMG_4365.jpg" },
                     { name: "IMG_4371.jpg", path: "/img/G20 Summit/G20 Summit/IMG_4371.jpg" },
                     { name: "IMG_4372.jpg", path: "/img/G20 Summit/G20 Summit/IMG_4372.jpg" },
                     { name: "IMG_4374.JPG", path: "/img/G20 Summit/G20 Summit/IMG_4374.JPG" }
@@ -1302,54 +1371,49 @@
             },
             {
                 name: "Other Images",
-                firstImage: "/img/G20 Summit/Other img/IMG_3929.JPG",
+                firstImage: "/img/G20 Summit/Other img/IMG_0407.JPG",
                 images: [
-                    { name: "IMG_0406.JPG", path: "/img/G20 Summit/Other img/IMG_0406.JPG" },
-                    { name: "IMG_0407.JPG", path: "/img/G20 Summit/Other img/IMG_0407.JPG" },
-                    { name: "IMG_0513.heic", path: "/img/G20 Summit/Other img/IMG_0513.heic" },
-                    { name: "IMG_0534.HEIC", path: "/img/G20 Summit/Other img/IMG_0534.HEIC" },
-                    { name: "IMG_2426.JPG", path: "/img/G20 Summit/Other img/IMG_2426.JPG" },
-                    { name: "IMG_2427.jpg", path: "/img/G20 Summit/Other img/IMG_2427.jpg" },
-                    { name: "IMG_3929.JPG", path: "/img/G20 Summit/Other img/IMG_3929.JPG" }
+                    { name: "", path: "/img/G20 Summit/Other img/IMG_0407.JPG" },
+                    { name: "", path: "/img/G20 Summit/Other img/IMG_0513.jpg" },
+                    { name: "", path: "/img/G20 Summit/Other img/IMG_0534.jpg" },
+                    { name: "", path: "/img/G20 Summit/Other img/IMG_2426.JPG" },
+                    { name: "", path: "/img/G20 Summit/Other img/IMG_2427.jpg" },
                 ]
             },
             {
                 name: "High Court of Uttarakhand",
-                firstImage: "/img/High Court of Uttarakhand/IMG_0231.heic",
+                firstImage: "/img/High Court of Uttarakhand/IMG_0231.jpg",
                 images: [
-                    { name: "IMG_0231.heic", path: "/img/High Court of Uttarakhand/IMG_0231.heic" }
+                    { name: "IMG_0231.heic", path: "/img/High Court of Uttarakhand/IMG_0231.jpg" }
                 ]
             },
             {
                 name: "MEA Event",
-                firstImage: "/img/MEA Event/Denmark PM/IMG_9818.HEIC",
+                firstImage: "/img/MEA Event/Denmark PM/IMG_9818.jpg",
                 images: [
-                    { name: "Denmark PM", path: "/img/MEA Event/Denmark PM/IMG_9818.HEIC" },
-                    { name: "IMG_9819.mov", path: "/img/MEA Event/Denmark PM/IMG_9819.mov" },
-                    { name: "IMG_9821.heic", path: "/img/MEA Event/Denmark PM/IMG_9821.heic" },
-                    { name: "IMG_9855.HEIC", path: "/img/MEA Event/Denmark PM/IMG_9855.HEIC" },
-                    { name: "Namste Trump", path: "/img/MEA Event/Namste Trump/IMG_1182.MP4" },
-                    { name: "IMG_1861.jpg", path: "/img/MEA Event/Namste Trump/IMG_1861.jpg" },
-                    { name: "IMG_1862.jpg", path: "/img/MEA Event/Namste Trump/IMG_1862.jpg" },
-                    { name: "Other MEA img", path: "/img/MEA Event/Other MEA img/FE935D3A-B07C-4B03-88AB-D817C729EB52.JPG" },
-                    { name: "IMG_2297.JPG", path: "/img/MEA Event/Other MEA img/IMG_2297.JPG" },
-                    { name: "IMG_2639.heic", path: "/img/MEA Event/Other MEA img/IMG_2639.heic" },
-                    { name: "IMG_2651.HEIC", path: "/img/MEA Event/Other MEA img/IMG_2651.HEIC" },
-                    { name: "IMG_2653.jpg", path: "/img/MEA Event/Other MEA img/IMG_2653.jpg" },
-                    { name: "IMG_3759.HEIC", path: "/img/MEA Event/Other MEA img/IMG_3759.HEIC" },
-                    { name: "IMG_8068.HEIC", path: "/img/MEA Event/Other MEA img/IMG_8068.HEIC" },
-                    { name: "IMG_8097.JPG", path: "/img/MEA Event/Other MEA img/IMG_8097.JPG" },
-                    { name: "Portuguse President", path: "/img/MEA Event/Portuguse President/IMG_3142.jpg" },
-                    { name: "IMG_3143.jpg", path: "/img/MEA Event/Portuguse President/IMG_3143.jpg" },
-                    { name: "Srilanka PM", path: "/img/MEA Event/Srilanka PM/IMG_1075.JPG" },
-                    { name: "IMG_3141.JPG", path: "/img/MEA Event/Srilanka PM/IMG_3141.JPG" },
-                    { name: "Pramod's Photos", path: "/img/MEA Event/Pramod's Photos/IMG_4065.HEIC" },
-                    { name: "IMG_4066.HEIC", path: "/img/MEA Event/Pramod's Photos/IMG_4066.HEIC" },
-                    { name: "IMG_4176.HEIC", path: "/img/MEA Event/Pramod's Photos/IMG_4176.HEIC" },
-                    { name: "IMG_4196.HEIC", path: "/img/MEA Event/Pramod's Photos/IMG_4196.HEIC" },
-                    { name: "IMG_4330.HEIC", path: "/img/MEA Event/Pramod's Photos/IMG_4330.HEIC" },
-                    { name: "IMG_4372.JPG", path: "/img/MEA Event/Pramod's Photos/IMG_4372.JPG" },
-                    { name: "IMG_4374.JPG", path: "/img/MEA Event/Pramod's Photos/IMG_4374.JPG" }
+                    { name: "Denmark PM", path: "/img/MEA Event/Denmark PM/IMG_9818.jpg" },
+                    { name: "", path: "/img/MEA Event/Denmark PM/IMG_9821.jpg" },
+                    { name: "", path: "/img/MEA Event/Denmark PM/IMG_9855.jpg" },
+                    { name: "", path: "/img/MEA Event/Namste Trump/IMG_1861.jpg" },
+                    { name: "", path: "/img/MEA Event/Namste Trump/IMG_1862.jpg" },
+                    { name: "", path: "/img/MEA Event/Other MEA img/FE935D3A-B07C-4B03-88AB-D817C729EB52.JPG" },
+                    { name: "", path: "/img/MEA Event/Other MEA img/IMG_2297.JPG" },
+                    { name: "", path: "/img/MEA Event/Other MEA img/IMG_2639.jpg" },
+                    { name: "", path: "/img/MEA Event/Other MEA img/IMG_2651.jpg" },
+                    { name: "", path: "/img/MEA Event/Other MEA img/IMG_2653.jpg" },
+                    { name: "", path: "/img/MEA Event/Other MEA img/IMG_3759.jpg" },
+                    { name: "", path: "/img/MEA Event/Other MEA img/IMG_8068.jpg" },
+                    { name: "", path: "/img/MEA Event/Other MEA img/IMG_8097.JPG" },
+                    { name: "", path: "/img/MEA Event/Portuguse President/IMG_3142.jpg" },
+                    { name: "", path: "/img/MEA Event/Portuguse President/IMG_3143.jpg" },
+                    { name: "", path: "/img/MEA Event/Srilanka PM/IMG_1075.JPG" },
+                    { name: "", path: "/img/MEA Event/Srilanka PM/IMG_3141.JPG" },
+                    { name: "", path: "/img/Pramod/IMG_4066.jpg" },
+                    { name: "", path: "/img/Pramod/IMG_4176.jpg" },
+                    { name: "", path: "/img/Pramod/IMG_4196.jpg" },
+                    { name: "", path: "/img/Pramod/IMG_4330.jpg" },
+                    { name: "", path: "/img/Pramod/IMG_4372.JPG" },
+                    { name: "", path: "/img/Pramod/IMG_4374.JPG" }
                 ]
             },
             {
@@ -1358,7 +1422,7 @@
                 images: [
                     { name: "DSC5823.jpg", path: "/img/SCO Council/_DSC5823.jpg" },
                     { name: "DSC5824.jpg", path: "/img/SCO Council/_DSC5824.jpg" },
-                    { name: "IMG_1810.heic", path: "/img/SCO Council/IMG_1810.heic" }
+                    { name: "IMG_1810.heic", path: "/img/SCO Council/IMG_1810.jpg" }
                 ]
             }
         ];
@@ -1449,6 +1513,74 @@
                     }
                 });
             });
+
+            (function () {
+                const openBtn = document.getElementById('mobile-menu-button');
+                const closeBtn = document.getElementById('mobile-menu-close');
+                const menu = document.getElementById('mobile-menu');
+                const overlay = document.getElementById('mobile-menu-overlay');
+                const focusableSelectors = 'a, button, input, textarea, [tabindex]:not([tabindex="-1"])';
+                let lastFocusedEl = null;
+
+                function openMenu() {
+                    lastFocusedEl = document.activeElement;
+
+                    // show panel
+                    menu.classList.remove('translate-x-full');
+                    menu.setAttribute('aria-hidden', 'false');
+
+                    // show overlay (faint blue + blur), enable pointer events
+                    overlay.classList.remove('opacity-0', 'pointer-events-none');
+                    overlay.classList.add('opacity-100', 'pointer-events-auto');
+
+                    openBtn.setAttribute('aria-expanded', 'true');
+                    document.body.classList.add('overflow-hidden');
+
+                    // focus trap start
+                    const first = menu.querySelector(focusableSelectors);
+                    if (first) first.focus();
+                    document.addEventListener('keydown', onKeyDown);
+                }
+
+                function closeMenu() {
+                    // hide panel
+                    menu.classList.add('translate-x-full');
+                    menu.setAttribute('aria-hidden', 'true');
+
+                    // hide overlay and disable pointer events
+                    overlay.classList.remove('opacity-100', 'pointer-events-auto');
+                    overlay.classList.add('opacity-0', 'pointer-events-none');
+
+                    openBtn.setAttribute('aria-expanded', 'false');
+                    document.body.classList.remove('overflow-hidden');
+
+                    if (lastFocusedEl) lastFocusedEl.focus();
+                    document.removeEventListener('keydown', onKeyDown);
+                }
+
+                function onKeyDown(e) {
+                    if (e.key === 'Escape') closeMenu();
+                    if (e.key === 'Tab' && menu.getAttribute('aria-hidden') === 'false') {
+                        const focusables = Array.from(menu.querySelectorAll(focusableSelectors));
+                        if (focusables.length === 0) return;
+                        const first = focusables[0];
+                        const last = focusables[focusables.length - 1];
+                        if (e.shiftKey && document.activeElement === first) {
+                            e.preventDefault();
+                            last.focus();
+                        } else if (!e.shiftKey && document.activeElement === last) {
+                            e.preventDefault();
+                            first.focus();
+                        }
+                    }
+                }
+
+                openBtn.addEventListener('click', openMenu);
+                closeBtn.addEventListener('click', closeMenu);
+                overlay.addEventListener('click', closeMenu);
+
+                menu.querySelectorAll('[data-close]').forEach(el => el.addEventListener('click', closeMenu));
+            })()
 
             // Render gallery categories
             renderGalleryCategories();
