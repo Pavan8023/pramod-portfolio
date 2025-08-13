@@ -6,18 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pramod Dabhole - Media Professional</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="icon" type="image/x-icon" href="/img/profile.JPG">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link
         href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Raleway:wght@400;500;600;700&display=swap"
         rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-    <script>
-        (function () {
-            emailjs.init("cR1fCJej05d6XecV_"); // Replace with your EmailJS public key
-        })();
-    </script>
-
     <script>
         tailwind.config = {
             theme: {
@@ -27,11 +19,13 @@
                         secondary: '#0c4a6e',
                         accent: '#0891b2',
                         light: '#f0f9ff',
-                        dark: '#0f172a'
+                        dark: '#0f172a',
+                        gallery: '#e6f4ff'
                     },
                     animation: {
                         'slide-gallery': 'slideGallery 25s linear infinite',
-                        'fade-in': 'fadeIn 1s ease-out forwards'
+                        'fade-in': 'fadeIn 1s ease-out forwards',
+                        'float': 'float 6s ease-in-out infinite'
                     },
                     keyframes: {
                         slideGallery: {
@@ -41,6 +35,11 @@
                         fadeIn: {
                             '0%': { opacity: '0' },
                             '100%': { opacity: '1' }
+                        },
+                        float: {
+                            '0%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-15px)' },
+                            '100%': { transform: 'translateY(0px)' }
                         }
                     },
                     fontFamily: {
@@ -116,16 +115,6 @@
             transform: scale(1.05);
         }
 
-        @keyframes slideGallery {
-            from {
-                transform: translateX(0%);
-            }
-
-            to {
-                transform: translateX(-50%);
-            }
-        }
-
         .section-divider {
             height: 3px;
             background: linear-gradient(90deg, transparent, #0891b2, transparent);
@@ -158,81 +147,248 @@
             transition: width 1.5s ease-in-out;
         }
 
+        .nav-link {
+            position: relative;
+            padding-bottom: 5px;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #0891b2;
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .gallery-tabs {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .gallery-tab {
+            padding: 10px 20px;
+            border-radius: 30px;
+            background: rgba(8, 145, 178, 0.1);
+            color: #0c4a6e;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .gallery-tab:hover {
+            background: rgba(8, 145, 178, 0.2);
+        }
+
+        .gallery-tab.active {
+            background: #0891b2;
+            color: white;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .gallery-card {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            background: white;
+            height: 300px;
+        }
+
+        .gallery-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .gallery-img {
+            height: 200px;
+            width: 100%;
+            object-fit: cover;
+        }
+
+        .gallery-caption {
+            padding: 15px;
+            background: white;
+        }
+
+        .gallery-caption h3 {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #1e3a8a;
+        }
+
+        .gallery-caption p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .event-badge {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.5);
+            }
+
+            70% {
+                box-shadow: 0 0 0 10px rgba(59, 130, 246, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
+            }
+        }
+
         .floating {
             animation: float 6s ease-in-out infinite;
         }
 
-        @keyframes float {
-            0% {
-                transform: translateY(0px);
-            }
-
-            50% {
-                transform: translateY(-20px);
-            }
-
-            100% {
-                transform: translateY(0px);
-            }
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
         }
 
-        /* caret blink */
-        #marathi-caret {
+        .section-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            position: relative;
             display: inline-block;
-            line-height: 1;
+        }
+
+        .section-header h2:after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(to right, #1e3a8a, #0891b2);
+            border-radius: 2px;
+        }
+
+        .section-header p {
+            max-width: 700px;
+            margin: 20px auto 0;
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .gallery-container {
+            background: #e6f4ff;
+            padding: 60px 0;
+            border-radius: 20px;
+            margin: 50px 0;
+            box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.05);
+        }
+
+        /* small helper for revealing heading */
+        .animate-reveal {
+            opacity: 0;
+            transform: translateY(8px);
+            animation: reveal 700ms ease forwards 120ms;
+        }
+
+        @keyframes reveal {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* timeline badge */
+        .timeline-badge {
+            width: 42px;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* initial state for timeline-item animations */
+        .js-timeline-item {
+            opacity: 0;
+            transform: translateY(18px);
+            transition: all 520ms cubic-bezier(.2, .9, .2, 1);
+        }
+
+        .js-timeline-item.in-view {
             opacity: 1;
-            transition: opacity .15s linear;
-            font-weight: 700;
+            transform: translateY(0);
         }
 
-        @keyframes caret-blink {
-            0% {
-                opacity: 1;
-            }
-
-            49% {
-                opacity: 1;
-            }
-
-            50% {
-                opacity: 0;
-            }
-
-            100% {
-                opacity: 0;
-            }
+        /* alternate slide for left/right */
+        .js-timeline-item:nth-child(odd).in-view {
+            transform: translateY(0) translateX(-6px);
         }
 
-        /* apply blink unless user prefers reduced motion */
-        @media (prefers-reduced-motion: no-preference) {
-            #marathi-caret {
-                animation: caret-blink 1s steps(1) infinite;
-            }
+        .js-timeline-item:nth-child(even).in-view {
+            transform: translateY(0) translateX(6px);
         }
 
-        /* if user prefers reduced motion, show full text and hide caret */
-        @media (prefers-reduced-motion: reduce) {
-            #marathi-caret {
-                display: none;
+        /* letter animation for titles (simple) */
+        .js-title-letter span {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(6px);
+            transition: transform 420ms cubic-bezier(.2, .9, .2, 1), opacity 420ms;
+        }
+
+        .js-title-letter.play span {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* bullets animation (stagger) */
+        .js-bullets li {
+            transition: transform 360ms ease, opacity 360ms ease;
+        }
+
+        .js-bullets li.opacity-0 {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        .js-bullets li.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* responsive tweaks */
+        @media (max-width: 640px) {
+            .timeline-badge {
+                margin-left: 0;
             }
         }
     </style>
 </head>
 
 <body class="font-body">
-    <!-- Header (responsive + slide-in mobile menu) -->
-    <header class="fixed w-full z-[1000] bg-white/90 backdrop-blur-sm shadow-sm">
+    <!-- Header -->
+    <header class="fixed w-full z-50 bg-white/90 backdrop-blur-sm shadow-sm">
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-            <!-- Logo / Branding -->
             <div class="flex items-center">
                 <div
-                    class="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center">
+                    class="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center floating">
                     <span class="text-white font-bold text-xl">PD</span>
                 </div>
                 <span class="ml-3 font-bold text-xl text-dark font-heading">Pramod Dabhole</span>
             </div>
-
-            <!-- Desktop nav -->
             <nav class="hidden md:flex space-x-8">
                 <a href="#about" class="font-medium text-dark nav-link">About</a>
                 <a href="#experience" class="font-medium text-dark nav-link">Experience</a>
@@ -241,90 +397,18 @@
                 <a href="#gallery" class="font-medium text-dark nav-link">Gallery</a>
                 <a href="#contact" class="font-medium text-dark nav-link">Contact</a>
             </nav>
-
-            <!-- Mobile toggle button -->
-            <button id="mobile-menu-button" aria-controls="mobile-menu" aria-expanded="false"
-                class="md:hidden inline-flex items-center justify-center p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
-                aria-label="Open menu">
-                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
-                    <path fill-rule="evenodd"
-                        d="M3 5h14a1 1 0 010 2H3a1 1 0 010-2zm0 4h14a1 1 0 010 2H3a1 1 0 010-2zm0 4h14a1 1 0 010 2H3a1 1 0 010-2z"
-                        clip-rule="evenodd" />
-                </svg>
+            <button class="md:hidden text-2xl">
+                <i class="fas fa-bars"></i>
             </button>
         </div>
-
-        <!-- Mobile overlay (semi-transparent) -->
-        <div id="mobile-menu-overlay"
-            class="fixed inset-0 bg-black/40 opacity-0 pointer-events-none transition-opacity duration-300 md:hidden"
-            aria-hidden="true"></div>
-
-        <!-- Mobile overlay (faint blue + blur) -->
-        <div id="mobile-menu-overlay"
-            class="fixed inset-0 bg-blue-100/60 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300 md:hidden z-40"
-            aria-hidden="true"></div>
-
-        <!-- Mobile slide-in panel (from right) -->
-        <aside id="mobile-menu" style="background-color: #e8faff;"
-            class="fixed inset-y-0 right-0 w-3/4 max-w-xs bg-white shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out md:hidden z-50"
-            role="dialog" aria-modal="true" aria-labelledby="mobile-menu-label" aria-hidden="true">
-            <div class="p-4 h-full flex flex-col">
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center">
-                        <div
-                            class="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center">
-                            <span class="text-white font-bold">PD</span>
-                        </div>
-                        <span class="ml-3 font-bold text-lg">Pramod Dabhole</span>
-                    </div>
-                    <button id="mobile-menu-close"
-                        class="p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
-                        aria-label="Close menu">
-                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
-                            <path fill-rule="evenodd"
-                                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                                clip-rule="evenodd" />
-                        </svg>
-                    </button>
-                </div>
-
-                <!-- Nav links -->
-                <nav class="mt-6 space-y-4" style="background-color: #e8faff;" aria-label="Mobile primary">
-                    <a href="#about" class="block px-2 py-3 text-base font-medium rounded-md hover:bg-gray-100"
-                        data-close>About</a>
-                    <a href="#experience" class="block px-2 py-3 text-base font-medium rounded-md hover:bg-gray-100"
-                        data-close>Experience</a>
-                    <a href="#projects" class="block px-2 py-3 text-base font-medium rounded-md hover:bg-gray-100"
-                        data-close>Projects</a>
-                    <a href="#skills" class="block px-2 py-3 text-base font-medium rounded-md hover:bg-gray-100"
-                        data-close>Skills</a>
-                    <a href="#gallery" class="block px-2 py-3 text-base font-medium rounded-md hover:bg-gray-100"
-                        data-close>Gallery</a>
-                    <a href="#contact" class="block px-2 py-3 text-base font-medium rounded-md hover:bg-gray-100"
-                        data-close>Contact</a>
-                </nav>
-
-                <div class="mt-auto pt-4 border-t border-gray-100">
-                    <a href="#contact"
-                        class="block w-full text-center py-3 rounded-md bg-primary text-white font-medium"
-                        data-close>Hire / Contact</a>
-                </div>
-            </div>
-        </aside>
     </header>
 
     <!-- Hero Section -->
     <section id="about" class="pt-32 pb-20">
         <div class="container mx-auto px-4 flex flex-col md:flex-row items-center">
             <div class="md:w-1/2 mb-10 md:mb-0">
-                <!-- Marathi typing line -->
-                <p class="text-4xl md:text-5xl text-primary font-medium mb-6 flex items-center gap-3"
-                    aria-live="polite">
-                    <span id="marathi-typing" class="whitespace-pre-wrap"></span>
-                    <span id="marathi-caret" aria-hidden="true" class="ml-1">|</span>
-                </p>
-                <h1 class="text-3xl md:text-4xl font-bold  text-primary mb-4 font-heading">
-                    Pramod Dabhole.
+                <h1 class="text-4xl md:text-5xl font-bold text-secondary mb-4 font-heading">
+                    Pramod Uday Dabhole
                 </h1>
                 <div class="text-xl text-primary font-medium mb-6">
                     <span class="inline-block mr-4">Media Professional</span>
@@ -337,13 +421,16 @@
                     such as the Ministry of External Affairs (MEA), Bihar Vidhan Sabha, and G20 India.
                 </p>
                 <div class="flex flex-wrap gap-3 mb-8">
-                    <span class="bg-blue-100 text-primary px-4 py-1 rounded-full font-medium border border-primary/20">
+                    <span
+                        class="event-badge bg-blue-100 text-primary px-4 py-1 rounded-full font-medium border border-primary/20">
                         G20 India
                     </span>
-                    <span class="bg-blue-100 text-primary px-4 py-1 rounded-full font-medium border border-primary/20">
+                    <span
+                        class="event-badge bg-blue-100 text-primary px-4 py-1 rounded-full font-medium border border-primary/20">
                         High Court of Uttarakhand
                     </span>
-                    <span class="bg-blue-100 text-primary px-4 py-1 rounded-full font-medium border border-primary/20">
+                    <span
+                        class="event-badge bg-blue-100 text-primary px-4 py-1 rounded-full font-medium border border-primary/20">
                         MEA Events
                     </span>
                 </div>
@@ -359,16 +446,20 @@
                 </div>
             </div>
             <div class="md:w-1/2 flex justify-center">
-                <div class="relative">
+                <div class="relative floating">
                     <div
-                        class="w-64 h-64 md:w-80 md:h-80 bg-gradient-to-br from-primary to-secondary rounded-full overflow-hidden border-4 border-white shadow-xl floating">
+                        class="w-64 h-64 md:w-80 md:h-80 bg-gradient-to-br from-primary to-secondary rounded-full overflow-hidden border-4 border-white shadow-xl">
                         <!-- Profile image placeholder -->
                         <div
                             class="w-full h-full bg-gradient-to-br from-cyan-100 to-blue-100 border-2 border-dashed border-primary/30 rounded-full flex items-center justify-center text-primary">
-                            <img src="/img/profile.JPG" alt="">
+                            <i class="fas fa-user text-7xl"></i>
                         </div>
                     </div>
-
+                    <div class="absolute -bottom-4 -right-4 bg-white rounded-full p-4 shadow-lg">
+                        <div class="bg-accent text-white w-16 h-16 rounded-full flex items-center justify-center">
+                            <i class="fas fa-play text-2xl"></i>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -422,22 +513,19 @@
                             class="flip-card-front bg-gradient-to-br from-cyan-50 to-blue-50 rounded-xl p-6 flex flex-col justify-center items-center">
                             <div
                                 class="w-16 h-16 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center mb-4">
-                                <i class="fas fa-edit text-white text-2xl"></i>
+                                <i class="fas fa-globe text-white text-2xl"></i>
                             </div>
-                            <h3 class="text-xl font-bold text-dark font-heading mb-2">Editing work</h3>
+                            <h3 class="text-xl font-bold text-dark font-heading mb-2">Portfolio</h3>
                             <p class="text-gray-700">Available upon request</p>
                         </div>
                         <div class="flip-card-back">
                             <h3 class="text-xl font-bold mb-2 text-center font-heading">Online Presence</h3>
-                            <p class="text-center mb-4">Contact me by filling out the form below and I'll get back to
-                                you as soon as possible.</p>
+                            <p class="text-center mb-4">Portfolio samples available</p>
                             <div class="flex space-x-4">
-                                <a href="https://www.linkedin.com/in/pramod-dabhole-7964a225a?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app"
-                                    class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
+                                <a href="#" class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
                                     <i class="fab fa-linkedin-in"></i>
                                 </a>
-                                <a href="https://youtube.com/@pramod_dabhole_editz?si=MgWOksKhSp51j6L2"
-                                    class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
+                                <a href="#" class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
                                     <i class="fab fa-youtube"></i>
                                 </a>
                             </div>
@@ -448,96 +536,205 @@
         </div>
     </section>
 
-    <!-- Experience Section -->
+    <!-- Updated Experience Section (drop-in replacement) -->
     <section id="experience" class="py-16 bg-gradient-to-br from-cyan-50 to-blue-50">
         <div class="container mx-auto px-4">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl font-bold text-dark mb-4 font-heading">Professional Experience</h2>
-                <div class="section-divider"></div>
-                <p class="text-gray-700 max-w-2xl mx-auto">With over 5 years of experience in media production and event
-                    coverage, I've worked on some of India's most prestigious events</p>
+            <div class="mb-10 text-center">
+                <h2
+                    class="text-3xl sm:text-4xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-sky-700 to-indigo-600 animate-reveal">
+                    Professional Experience
+                </h2>
+                <p class="mt-3 text-gray-600 max-w-2xl mx-auto js-animate-text">
+                    With over <strong>5 years</strong> of hands-on experience in media production and event coverage,
+                    I've led live broadcasts, managed multi-camera workflows and delivered polished content for
+                    high-profile national and international events.
+                </p>
             </div>
 
-            <div class="relative timeline">
-                <div class="space-y-12">
-                    <div class="timeline-item relative">
-                        <div class="timeline-dot"></div>
-                        <div class="bg-white p-6 rounded-xl shadow-md">
-                            <h3 class="text-xl font-bold text-primary font-heading">Project Manager</h3>
-                            <p class="text-secondary font-medium">Shruti Visual Information Pvt. Ltd. – High Court of
-                                Uttarakhand, Nainital</p>
-                            <p class="text-gray-500 mb-4">Mar 2024 – Present</p>
-                            <ul class="space-y-2">
-                                <li class="flex items-start">
-                                    <i class="fas fa-check-circle text-accent mt-1 mr-2"></i>
-                                    <span>Handle daily live streaming of court proceedings using iCast devices & NDI
-                                        camera setup</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <i class="fas fa-check-circle text-accent mt-1 mr-2"></i>
-                                    <span>Coordinate with the Hon’ble Judges' bench, staff, and technical team</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <i class="fas fa-check-circle text-accent mt-1 mr-2"></i>
-                                    <span>Oversee visual quality, network configuration, and smooth broadcasting</span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+            <!-- timeline -->
+            <div class="relative">
+                <!-- vertical line -->
+                <div
+                    class="hidden sm:block absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-gradient-to-b from-indigo-200 to-sky-200 rounded-full">
+                </div>
 
-                    <div class="timeline-item relative">
-                        <div class="timeline-dot"></div>
-                        <div class="bg-white p-6 rounded-xl shadow-md">
-                            <h3 class="text-xl font-bold text-primary font-heading">Video Editor & Streaming Lead</h3>
-                            <p class="text-secondary font-medium">G20 India & MEA Events</p>
-                            <p class="text-gray-500 mb-4">2020 – 2023</p>
-                            <ul class="space-y-2">
-                                <li class="flex items-start">
-                                    <i class="fas fa-check-circle text-accent mt-1 mr-2"></i>
-                                    <span>Managed high-profile event coverage and live streaming for MEA and G20
-                                        India</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <i class="fas fa-check-circle text-accent mt-1 mr-2"></i>
-                                    <span>Designed media graphics and social reels for global outreach</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <i class="fas fa-check-circle text-accent mt-1 mr-2"></i>
-                                    <span>Provided post-production editing and content delivery on official
-                                        channels</span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+                <div class="space-y-10">
+                    <!-- item 1 -->
+                    <article
+                        class="timeline-item flex flex-col sm:flex-row items-start sm:items-center gap-6 js-timeline-item">
+                        <div class="sm:w-1/2 sm:pr-8 sm:text-right">
+                            <div class="inline-block">
+                                <div
+                                    class="timeline-badge mx-auto sm:mx-0 bg-gradient-to-tr from-indigo-600 to-sky-500 p-1 rounded-full shadow-lg transform scale-95">
+                                    <div class="w-4 h-4 bg-white rounded-full"></div>
+                                </div>
+                            </div>
+                            <div class="mt-4 sm:mt-6">
+                                <div
+                                    class="bg-white p-6 rounded-2xl shadow-lg hover:shadow-2xl transform transition-transform duration-300">
+                                    <h3 class="text-xl font-semibold tracking-tight js-title-letter">Project Manager
+                                    </h3>
+                                    <p class="text-sm text-indigo-600 font-medium mt-1">Shruti Visual Information Pvt.
+                                        Ltd. – High Court of Uttarakhand, Nainital</p>
+                                    <p class="text-gray-500 mt-2">Mar 2024 – Present</p>
 
-                    <div class="timeline-item relative">
-                        <div class="timeline-dot"></div>
-                        <div class="bg-white p-6 rounded-xl shadow-md">
-                            <h3 class="text-xl font-bold text-primary font-heading">Media Consultant & Editor</h3>
-                            <p class="text-secondary font-medium">Bihar Vidhan Sabha – Patna</p>
-                            <p class="text-gray-500 mb-4">2023</p>
-                            <ul class="space-y-2">
-                                <li class="flex items-start">
-                                    <i class="fas fa-check-circle text-accent mt-1 mr-2"></i>
-                                    <span>Handled multi-camera live setups and visual editing for legislative
-                                        sessions</span>
-                                </li>
-                            </ul>
+                                    <ul class="mt-4 space-y-2 js-bullets">
+                                        <li class="flex items-start opacity-0 translate-y-2"><svg
+                                                class="w-5 h-5 text-sky-500 mr-2" viewBox="0 0 20 20"
+                                                fill="currentColor">
+                                                <path fill-rule="evenodd"
+                                                    d="M16.707 5.293a1 1 0 010 1.414L8.414 15l-4.121-4.121a1 1 0 011.414-1.414L8.414 12.172l7.293-7.293a1 1 0 011.414 0z"
+                                                    clip-rule="evenodd" />
+                                            </svg><span>Lead daily live streaming of court proceedings using iCast & NDI
+                                                camera workflows.</span></li>
+
+                                        <li class="flex items-start opacity-0 translate-y-2"><svg
+                                                class="w-5 h-5 text-sky-500 mr-2" viewBox="0 0 20 20"
+                                                fill="currentColor">
+                                                <path fill-rule="evenodd"
+                                                    d="M16.707 5.293a1 1 0 010 1.414L8.414 15l-4.121-4.121a1 1 0 011.414-1.414L8.414 12.172l7.293-7.293a1 1 0 011.414 0z"
+                                                    clip-rule="evenodd" />
+                                            </svg><span>Coordinate with judges, court staff, and the technical crew for
+                                                flawless broadcasts.</span></li>
+
+                                        <li class="flex items-start opacity-0 translate-y-2"><svg
+                                                class="w-5 h-5 text-sky-500 mr-2" viewBox="0 0 20 20"
+                                                fill="currentColor">
+                                                <path fill-rule="evenodd"
+                                                    d="M16.707 5.293a1 1 0 010 1.414L8.414 15l-4.121-4.121a1 1 0 011.414-1.414L8.414 12.172l7.293-7.293a1 1 0 011.414 0z"
+                                                    clip-rule="evenodd" />
+                                            </svg><span>Oversee visual quality, network configuration and end-to-end
+                                                broadcast stability.</span></li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
-                    </div>
+
+                        <div class="sm:w-1/2 sm:pl-8">
+                            <!-- decorative card on opposite side for visual alternation -->
+                            <div
+                                class="p-4 sm:p-6 rounded-2xl bg-gradient-to-br from-slate-50 to-white border border-transparent shadow-sm">
+                                <div class="text-sm text-gray-600 italic">Key tools: iCast, NDI, vMix, OBS, Blackmagic
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- item 2 (alternate side) -->
+                    <article
+                        class="timeline-item flex flex-col sm:flex-row-reverse items-start sm:items-center gap-6 js-timeline-item">
+                        <div class="sm:w-1/2 sm:pl-8 sm:text-left">
+                            <div class="inline-block">
+                                <div
+                                    class="timeline-badge mx-auto sm:mx-0 bg-gradient-to-tr from-indigo-600 to-sky-500 p-1 rounded-full shadow-lg transform scale-95">
+                                    <div class="w-4 h-4 bg-white rounded-full"></div>
+                                </div>
+                            </div>
+
+                            <div class="mt-4 sm:mt-6">
+                                <div
+                                    class="bg-white p-6 rounded-2xl shadow-lg hover:shadow-2xl transform transition-transform duration-300">
+                                    <h3 class="text-xl font-semibold tracking-tight js-title-letter">Video Editor &
+                                        Streaming Lead</h3>
+                                    <p class="text-sm text-indigo-600 font-medium mt-1">G20 India & MEA Events</p>
+                                    <p class="text-gray-500 mt-2">2020 – 2023</p>
+
+                                    <ul class="mt-4 space-y-2 js-bullets">
+                                        <li class="flex items-start opacity-0 translate-y-2"><svg
+                                                class="w-5 h-5 text-sky-500 mr-2" viewBox="0 0 20 20"
+                                                fill="currentColor">
+                                                <path fill-rule="evenodd"
+                                                    d="M16.707 5.293a1 1 0 010 1.414L8.414 15l-4.121-4.121a1 1 0 011.414-1.414L8.414 12.172l7.293-7.293a1 1 0 011.414 0z"
+                                                    clip-rule="evenodd" />
+                                            </svg><span>Managed high-profile event coverage and multi-camera live
+                                                streams for G20 & MEA functions.</span></li>
+
+                                        <li class="flex items-start opacity-0 translate-y-2"><svg
+                                                class="w-5 h-5 text-sky-500 mr-2" viewBox="0 0 20 20"
+                                                fill="currentColor">
+                                                <path fill-rule="evenodd"
+                                                    d="M16.707 5.293a1 1 0 010 1.414L8.414 15l-4.121-4.121a1 1 0 011.414-1.414L8.414 12.172l7.293-7.293a1 1 0 011.414 0z"
+                                                    clip-rule="evenodd" />
+                                            </svg><span>Designed broadcast graphics, motion-stingers and short-form
+                                                reels for global audiences.</span></li>
+
+                                        <li class="flex items-start opacity-0 translate-y-2"><svg
+                                                class="w-5 h-5 text-sky-500 mr-2" viewBox="0 0 20 20"
+                                                fill="currentColor">
+                                                <path fill-rule="evenodd"
+                                                    d="M16.707 5.293a1 1 0 010 1.414L8.414 15l-4.121-4.121a1 1 0 011.414-1.414L8.414 12.172l7.293-7.293a1 1 0 011.414 0z"
+                                                    clip-rule="evenodd" />
+                                            </svg><span>Handled post-production edits and coordinated content delivery
+                                                to official channels.</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="sm:w-1/2 sm:pr-8">
+                            <div
+                                class="p-4 sm:p-6 rounded-2xl bg-gradient-to-br from-slate-50 to-white border border-transparent shadow-sm">
+                                <div class="text-sm text-gray-600 italic">Highlights: Multi-camera, Live switching,
+                                    Motion design</div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- item 3 -->
+                    <article
+                        class="timeline-item flex flex-col sm:flex-row items-start sm:items-center gap-6 js-timeline-item">
+                        <div class="sm:w-1/2 sm:pr-8 sm:text-right">
+                            <div class="inline-block">
+                                <div
+                                    class="timeline-badge mx-auto sm:mx-0 bg-gradient-to-tr from-indigo-600 to-sky-500 p-1 rounded-full shadow-lg transform scale-95">
+                                    <div class="w-4 h-4 bg-white rounded-full"></div>
+                                </div>
+                            </div>
+
+                            <div class="mt-4 sm:mt-6">
+                                <div
+                                    class="bg-white p-6 rounded-2xl shadow-lg hover:shadow-2xl transform transition-transform duration-300">
+                                    <h3 class="text-xl font-semibold tracking-tight js-title-letter">Media Consultant &
+                                        Editor</h3>
+                                    <p class="text-sm text-indigo-600 font-medium mt-1">Bihar Vidhan Sabha – Patna</p>
+                                    <p class="text-gray-500 mt-2">2023</p>
+
+                                    <ul class="mt-4 space-y-2 js-bullets">
+                                        <li class="flex items-start opacity-0 translate-y-2"><svg
+                                                class="w-5 h-5 text-sky-500 mr-2" viewBox="0 0 20 20"
+                                                fill="currentColor">
+                                                <path fill-rule="evenodd"
+                                                    d="M16.707 5.293a1 1 0 010 1.414L8.414 15l-4.121-4.121a1 1 0 011.414-1.414L8.414 12.172l7.293-7.293a1 1 0 011.414 0z"
+                                                    clip-rule="evenodd" />
+                                            </svg><span>Handled multi-camera live setups and visual editing for
+                                                legislative sessions.</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="sm:w-1/2 sm:pl-8">
+                            <div
+                                class="p-4 sm:p-6 rounded-2xl bg-gradient-to-br from-slate-50 to-white border border-transparent shadow-sm">
+                                <div class="text-sm text-gray-600 italic">Outcome: Smooth legislative streaming & quick
+                                    turnaround edits</div>
+                            </div>
+                        </div>
+                    </article>
+
                 </div>
             </div>
         </div>
     </section>
 
+
     <!-- Projects Section -->
     <section id="projects" class="py-16 bg-white">
         <div class="container mx-auto px-4">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold text-dark mb-4 font-heading">Key Projects</h2>
-                <div class="section-divider"></div>
-                <p class="text-gray-700 max-w-2xl mx-auto">High-impact projects that demonstrate expertise in
-                    large-scale event production and media management</p>
+            <div class="section-header">
+                <h2 class="text-3xl font-bold text-dark font-heading">Key Projects</h2>
+                <p class="text-gray-700">High-impact projects that demonstrate expertise in large-scale event production
+                    and media management</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -633,11 +830,10 @@
     <!-- Skills Section -->
     <section id="skills" class="py-16 bg-gradient-to-br from-cyan-50 to-blue-50">
         <div class="container mx-auto px-4">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold text-dark mb-4 font-heading">Professional Skills</h2>
-                <div class="section-divider"></div>
-                <p class="text-gray-700 max-w-2xl mx-auto">Technical expertise and soft skills developed through years
-                    of high-pressure event production</p>
+            <div class="section-header">
+                <h2 class="text-3xl font-bold text-dark font-heading">Professional Skills</h2>
+                <p class="text-gray-700">Technical expertise and soft skills developed through years of high-pressure
+                    event production</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
@@ -762,195 +958,31 @@
         </div>
     </section>
 
-    <section class="py-12 bg-gray-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-3xl font-bold text-center mb-8">Articles</h2>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-
-                <!-- Article 1 -->
-                <div class="relative group overflow-hidden rounded-xl shadow-lg h-56 cursor-pointer"
-                    onclick="openModal('/img/article.JPG')">
-                    <img src="/img/article.JPG" alt="Article 1"
-                        class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500">
-                    <div
-                        class="absolute inset-0 bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 transition duration-500 flex items-center justify-center">
-                        <span class="text-white text-lg font-semibold">Article Title 1</span>
-                    </div>
-                </div>
-
-                <!-- Article 2 -->
-                <div class="relative group overflow-hidden rounded-xl shadow-lg h-56 cursor-pointer"
-                    onclick="openModal('/img/article 2.jpg')">
-                    <img src="/img/article 2.jpg" alt="Article 2"
-                        class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500">
-                    <div
-                        class="absolute inset-0 bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 transition duration-500 flex items-center justify-center">
-                        <span class="text-white text-lg font-semibold">Article Title 2</span>
-                    </div>
-                </div>
-
-                <!-- Article 3 -->
-                <div class="relative group overflow-hidden rounded-xl shadow-lg h-56 cursor-pointer"
-                    onclick="openModal('/img/article 3.PNG')">
-                    <img src="/img/article 3.PNG" alt="Article 3"
-                        class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500">
-                    <div
-                        class="absolute inset-0 bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 transition duration-500 flex items-center justify-center">
-                        <span class="text-white text-lg font-semibold">Article Title 3</span>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- Modal -->
-    <div id="imageModal" class="fixed mt-8 inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 hidden">
-        <button onclick="closeModal()" style="z-index: 1000;margin-top: 30px;margin-right: 540px;font-size: 40px;"
-            class="absolute top-4 right-4 text-red-800 text-3xl font-bold hover:text-red-500">&times;</button>
-        <img id="modalImage" src="" alt="Full Size" onclick="closeModal()"
-            class="max-w-[90%] max-h-[90%] object-contain rounded-lg shadow-lg">
-    </div>
-
-    <!-- Event Gallery (auto sliding right-to-left) -->
-    <section id="gallery" class="py-16 bg-white overflow-hidden">
+    <!-- Gallery Section -->
+    <section id="gallery" class="py-16">
         <div class="container mx-auto px-4">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold text-dark mb-4 font-heading">Event Gallery</h2>
-                <div class="section-divider"></div>
-                <p class="text-gray-700 max-w-2xl mx-auto">A visual showcase of high-profile events and productions</p>
+            <div class="section-header">
+                <h2 class="text-3xl font-bold text-dark font-heading">Event Gallery</h2>
+                <p class="text-gray-700">A visual showcase of high-profile events and productions</p>
             </div>
-        </div>
 
-        <!-- Marquee / viewport -->
-        <div class="relative gallery-viewport h-auto overflow-hidden">
-            <!-- animated track -->
-            <div class="gallery-track inline-flex items-stretch will-change-transform">
-                <!-- === gallery items start === -->
-
-                <!-- 1 -->
-                <div class="gallery-item flex-shrink-0 w-80 max-h-[500px] p-2" data-image="/img/shrilanka pm.JPG">
-                    <div class="w-full h-full rounded-lg overflow-hidden relative bg-gray-100">
-                        <img src="/img/shrilanka pm.JPG" alt="Shrilanka PM Visit" loading="lazy"
-                            class="w-full h-full object-contain" />
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent flex items-end p-3">
-                            <span class="text-white font-bold text-sm">Shrilanka PM Visit</span>
-                        </div>
-                    </div>
+            <div class="gallery-container">
+                <div class="gallery-tabs" id="galleryTabs">
+                    <div class="gallery-tab active" data-category="all">All Events</div>
+                    <div class="gallery-tab" data-category="g20">G20 Summit</div>
+                    <div class="gallery-tab" data-category="bihar">Bihar Assembly</div>
+                    <div class="gallery-tab" data-category="mea">MEA Events</div>
+                    <div class="gallery-tab" data-category="sco">SCO Council</div>
+                    <div class="gallery-tab" data-category="highcourt">High Court of UK</div>
+                    <div class="gallery-tab" data-category="other">Other Events</div>
                 </div>
 
-                <!-- 2 -->
-                <div class="gallery-item flex-shrink-0 w-80 max-h-[500px] p-2" data-image="/img/trump.jpg">
-                    <div class="w-full h-full rounded-lg overflow-hidden relative bg-gray-100">
-                        <img src="/img/trump.jpg" alt="Trump Visit" loading="lazy"
-                            class="w-full h-full object-contain" />
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent flex items-end p-3">
-                            <span class="text-white font-bold text-sm">Trump Visit</span>
-                        </div>
-                    </div>
+                <div class="gallery-grid" id="galleryGrid">
+                    <!-- Gallery items will be populated by JavaScript -->
                 </div>
-
-                <!-- 3 -->
-                <div class="gallery-item flex-shrink-0 w-80 max-h-[500px] p-2" data-image="/img/denmark.jpg">
-                    <div class="w-full h-full rounded-lg overflow-hidden relative bg-gray-100">
-                        <img src="/img/denmark.jpg" alt="Denmark PM Visit" loading="lazy"
-                            class="w-full h-full object-contain" />
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent flex items-end p-3">
-                            <span class="text-white font-bold text-sm">Denmark PM Visit</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 4 -->
-                <div class="gallery-item flex-shrink-0 w-80 max-h-[500px] p-2" data-image="/img/bihar%20assembly.JPG">
-                    <div class="w-full h-full rounded-lg overflow-hidden relative bg-gray-100">
-                        <img src="/img/bihar%20assembly.JPG" alt="Bihar Assembly Session" loading="lazy"
-                            class="w-full h-full object-contain" />
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent flex items-end p-3">
-                            <span class="text-white font-bold text-sm">Bihar Assembly Session</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 5 -->
-                <div class="gallery-item flex-shrink-0 w-80 max-h-[500px] p-2" data-image="/img/g20%202.jpg">
-                    <div class="w-full h-full rounded-lg overflow-hidden relative bg-gray-100">
-                        <img src="/img/g20%202.jpg" alt="PM Modi Event Coverage" loading="lazy"
-                            class="w-full h-full object-contain" />
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent flex items-end p-3">
-                            <span class="text-white font-bold text-sm">PM Modi Event Coverage</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 6 -->
-                <div class="gallery-item flex-shrink-0 w-80 max-h-[500px] p-2" data-image="/img/g20%203.jpg">
-                    <div class="w-full h-full rounded-lg overflow-hidden relative bg-gray-100">
-                        <img src="/img/g20%203.jpg" alt="Trump Visit Production" loading="lazy"
-                            class="w-full h-full object-contain" />
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent flex items-end p-3">
-                            <span class="text-white font-bold text-sm">Trump Visit Production</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 7 -->
-                <div class="gallery-item flex-shrink-0 w-80 max-h-[500px] p-2" data-image="/img/g20.JPG">
-                    <div class="w-full h-full rounded-lg overflow-hidden relative bg-gray-100">
-                        <img src="/img/g20.JPG" alt="SCO India Event" loading="lazy"
-                            class="w-full h-full object-contain" />
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent flex items-end p-3">
-                            <span class="text-white font-bold text-sm">SCO India Event</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 8 -->
-                <div class="gallery-item flex-shrink-0 w-80 max-h-[500px] p-2" data-image="/img/high%20court%20UK.jpg">
-                    <div class="w-full h-full rounded-lg overflow-hidden relative bg-gray-100">
-                        <img src="/img/high%20court%20UK.jpg" alt="High Court Setup" loading="lazy"
-                            class="w-full h-full object-contain" />
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent flex items-end p-3">
-                            <span class="text-white font-bold text-sm">High Court Setup</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 9 -->
-                <div class="gallery-item flex-shrink-0 w-80 max-h-[500px] p-2" data-image="/img/operating.jpg">
-                    <div class="w-full h-full rounded-lg overflow-hidden relative bg-gray-100">
-                        <img src="/img/operating.jpg" alt="Operating Setup" loading="lazy"
-                            class="w-full h-full object-contain" />
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent flex items-end p-3">
-                            <span class="text-white font-bold text-sm">Operating Setup</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 10 -->
-                <div class="gallery-item flex-shrink-0 w-80 max-h-[500px] p-2" data-image="/img/profile.JPG">
-                    <div class="w-full h-full rounded-lg overflow-hidden relative bg-gray-100">
-                        <img src="/img/profile.JPG" alt="Profile" loading="lazy" class="w-full h-full object-contain" />
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent flex items-end p-3">
-                            <span class="text-white font-bold text-sm">Profile</span>
-                        </div>
-                    </div>
-                </div>
-
             </div>
         </div>
     </section>
-    <!-- Fullscreen Image Viewer -->
-    <div id="image-viewer"
-        class="fixed inset-0 bg-black/80 flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300 z-50">
-        <div id="close-viewer" class="relative max-w-5xl w-full px-4">
-            <button id="close-viewer" style="z-index: 1000;margin-top: 30px;font-size: 40px;"
-            class="absolute top-4 right-4 text-red-800 text-3xl font-bold hover:text-red-500">&times;</button>
-            <img id="viewer-img" src="" alt="Full View"
-                class="w-full max-h-[90vh] object-contain transform translate-x-full transition-transform duration-500 ease-out" />
-        </div>
-    </div>
 
     <!-- Contact Section -->
     <section id="contact" class="py-16 bg-gradient-to-br from-primary to-secondary text-white">
@@ -969,7 +1001,7 @@
                         <ul class="space-y-4">
                             <li class="flex items-start">
                                 <i class="fas fa-map-marker-alt mt-1 mr-4 text-accent"></i>
-                                <span>Kurukali, Kagai, Kolhapur, Maharashtra 416235</span>
+                                <span>Kurukali, Kagal, Kolhapur, Maharashtra 416235</span>
                             </li>
                             <li class="flex items-start">
                                 <i class="fas fa-envelope mt-1 mr-4 text-accent"></i>
@@ -988,15 +1020,19 @@
                         <div class="mt-8">
                             <h3 class="text-xl font-bold mb-4 font-heading">Follow Me</h3>
                             <div class="flex space-x-4">
-                                <a href="https://www.linkedin.com/in/pramod-dabhole-7964a225a?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app"
+                                <a href="#"
                                     class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center hover:bg-white/30 transition">
                                     <i class="fab fa-linkedin-in"></i>
                                 </a>
-                                <a href="https://www.instagram.com/pramod_dabhole_editz?igsh=MWduajJ4ZDR2bTV1bQ=="
+                                <a href="#"
+                                    class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center hover:bg-white/30 transition">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                                <a href="#"
                                     class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center hover:bg-white/30 transition">
                                     <i class="fab fa-instagram"></i>
                                 </a>
-                                <a href="https://youtube.com/@pramod_dabhole_editz?si=MgWOksKhSp51j6L2"
+                                <a href="#"
                                     class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center hover:bg-white/30 transition">
                                     <i class="fab fa-youtube"></i>
                                 </a>
@@ -1006,32 +1042,28 @@
 
                     <div>
                         <h3 class="text-xl font-bold mb-4 font-heading">Send a Message</h3>
-                        <form id="contactForm" class="space-y-4">
+                        <form class="space-y-4">
                             <div>
-                                <input type="text" name="user_name" placeholder="Your Name"
-                                    class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent placeholder-white/60"
-                                    required>
-                            </div>
-                            <div>
-                                <input type="email" name="user_email" placeholder="Your Email"
-                                    class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent placeholder-white/60"
-                                    required>
-                            </div>
-                            <div>
-                                <input type="text" name="subject" placeholder="Subject"
+                                <input type="text" placeholder="Your Name"
                                     class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent placeholder-white/60">
                             </div>
                             <div>
-                                <textarea name="message" placeholder="Your Message" rows="4"
-                                    class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent placeholder-white/60"
-                                    required></textarea>
+                                <input type="email" placeholder="Your Email"
+                                    class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent placeholder-white/60">
+                            </div>
+                            <div>
+                                <input type="text" placeholder="Subject"
+                                    class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent placeholder-white/60">
+                            </div>
+                            <div>
+                                <textarea placeholder="Your Message" rows="4"
+                                    class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent placeholder-white/60"></textarea>
                             </div>
                             <button type="submit"
-                                class="bg-accent hover:bg-cyan-700 text-white px-6 py-3 rounded-lg font-medium transition w-full">
+                                class="bg-accent hover:bg-blue-500 text-white px-6 py-3 rounded-lg font-medium transition w-full">
                                 Send Message
                             </button>
                         </form>
-
                     </div>
                 </div>
             </div>
@@ -1039,7 +1071,7 @@
     </section>
 
     <!-- Footer -->
-    <footer class="py-8 bg-dark text-white">
+    <footer class="py-8 bg-secondary text-white">
         <div class="container mx-auto px-4">
             <div class="flex flex-col md:flex-row justify-between items-center">
                 <div class="mb-4 md:mb-0">
@@ -1053,155 +1085,341 @@
                     <p class="mt-2 text-gray-400">Media Professional | Video Editor | Live Streaming Specialist</p>
                 </div>
                 <div>
-                    <p class="text-gray-400">© 2023 Pramod Dabhole. All rights reserved.</p>
+                    <p class="text-gray-400">© 2025 Pramod Dabhole. All rights reserved.</p>
                 </div>
             </div>
         </div>
     </footer>
 
+    <!-- Gallery Modal -->
+    <div id="galleryModal" class="fixed inset-0 bg-black/90 z-50 flex items-center justify-center hidden">
+        <div class="max-w-6xl w-full px-4 relative">
+            <button id="closeModal" class="absolute top-4 right-4 text-white text-4xl z-10">&times;</button>
+            <img id="modalImage" src="" alt="" class="max-w-full max-h-[90vh] mx-auto">
+            <div id="modalCaption" class="text-white text-center mt-4 text-xl"></div>
+        </div>
+    </div>
+
     <script>
 
-        const galleryItems = document.querySelectorAll('.gallery-item');
-    const imageViewer = document.getElementById('image-viewer');
-    const viewerImg = document.getElementById('viewer-img');
-    const closeViewer = document.getElementById('close-viewer');
-
-    // Function to open viewer
-    function openImageViewer(src) {
-        viewerImg.src = src;
-        imageViewer.classList.remove('pointer-events-none');
-        imageViewer.classList.add('opacity-100');
-        setTimeout(() => {
-            viewerImg.classList.remove('translate-x-full');
-            viewerImg.classList.add('translate-x-0');
-        }, 50);
-    }
-
-    // Function to close viewer
-    function closeImageViewer() {
-        viewerImg.classList.remove('translate-x-0');
-        viewerImg.classList.add('translate-x-full');
-        setTimeout(() => {
-            imageViewer.classList.add('pointer-events-none');
-            imageViewer.classList.remove('opacity-100');
-        }, 300);
-    }
-
-    // Open on click
-    galleryItems.forEach(item => {
-        item.addEventListener('click', () => {
-            const imgSrc = item.getAttribute('data-image');
-            openImageViewer(imgSrc);
-        });
-    });
-
-    // Close when clicking close icon
-    closeViewer.addEventListener('click', closeImageViewer);
-
-    // Close when clicking outside image
-    imageViewer.addEventListener('click', (e) => {
-        if (e.target === imageViewer) {
-            closeImageViewer();
-        }
-    });
-
-
-
-        document.getElementById('contactForm').addEventListener('submit', function (event) {
-            event.preventDefault();
-
-            emailjs.sendForm('service_v2yklup', 'template_u7mfwxq', this)
-                .then(function () {
-                    alert('✅ Message sent successfully!');
-                }, function (error) {
-                    alert('❌ Failed to send message: ' + JSON.stringify(error));
+            (function () {
+                // split title into spans for small letter animation
+                document.querySelectorAll('.js-title-letter').forEach(el => {
+                    const text = el.textContent.trim();
+                    el.innerHTML = '';
+                    // split by characters (preserve spaces)
+                    Array.from(text).forEach((ch, i) => {
+                        const sp = document.createElement('span');
+                        sp.textContent = ch;
+                        sp.style.transitionDelay = (i * 22) + 'ms';
+                        el.appendChild(sp);
+                    });
                 });
-        });
 
+                // IntersectionObserver to reveal timeline items
+                const io = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        const el = entry.target;
+                        if (entry.isIntersecting) {
+                            el.classList.add('in-view');
+                            // trigger title letter animation
+                            el.querySelectorAll('.js-title-letter').forEach(t => t.classList.add('play'));
+                            // animate bullets with stagger
+                            const bullets = el.querySelectorAll('.js-bullets li');
+                            bullets.forEach((li, idx) => {
+                                setTimeout(() => {
+                                    li.classList.remove('opacity-0');
+                                    li.classList.add('show');
+                                }, 80 * idx + 120);
+                            });
+                            // unobserve once played
+                            io.unobserve(el);
+                        }
+                    });
+                }, { threshold: 0.18 });
 
-        function openModal(imageSrc) {
-            document.getElementById('modalImage').src = imageSrc;
-            document.getElementById('imageModal').classList.remove('hidden');
+                document.querySelectorAll('.js-timeline-item').forEach(item => {
+                    // initially set bullets to hidden
+                    item.querySelectorAll('.js-bullets li').forEach(li => li.classList.add('opacity-0'));
+                    io.observe(item);
+                });
+
+                // also split the paragraph intro into word spans for small stagger effect
+                document.querySelectorAll('.js-animate-text').forEach(el => {
+                    const words = el.textContent.trim().split(' ');
+                    el.innerHTML = '';
+                    words.forEach((w, i) => {
+                        const span = document.createElement('span');
+                        span.textContent = w + (i < words.length - 1 ? ' ' : '');
+                        span.style.opacity = 0;
+                        span.style.display = 'inline-block';
+                        span.style.transform = 'translateY(6px)';
+                        span.style.transition = 'all 420ms cubic-bezier(.2,.9,.2,1)';
+                        span.style.transitionDelay = (i * 30) + 'ms';
+                        el.appendChild(span);
+                    });
+                    // reveal on intersection
+                    const pIO = new IntersectionObserver((entries) => {
+                        entries.forEach(en => {
+                            if (en.isIntersecting) {
+                                el.querySelectorAll('span').forEach(sp => {
+                                    sp.style.opacity = 1;
+                                    sp.style.transform = 'translateY(0)';
+                                });
+                                pIO.unobserve(el);
+                            }
+                        });
+                    }, { threshold: 0.2 });
+                    pIO.observe(el);
+                });
+            })();
+
+        // Gallery data arranged per your screenshots (paths assume /img/<filename>)
+        const galleryData = [
+            // Bihar Assembly
+            { category: 'bihar', title: 'Bihar Assembly - IMG_3144.JPG', description: 'Bihar Assembly Session', image: '/img/Bihar Assembly/IMG_3144.JPG' },
+
+            // G20 Summit
+            { category: 'g20', title: 'G20 - 01f5acdc-bdde-4d5c-8dca-ce76852afec1.JPG', description: 'G20 image 1', image: '/img/G20 Summit/G20 Summit/01f5acdc-bdde-4d5c-8dca-ce76852afec1.JPG' },
+            { category: 'g20', title: 'G20 - e5b6649c-6673-430d-81b5-26b67de3d285.jpg', description: 'G20 image 2', image: '/img/G20 Summit/G20 Summit/e5b6649c-6673-430d-81b5-26b67de3d285.jpg' },
+            { category: 'g20', title: 'G20 - IMG_4065.heic', description: 'G20 (HEIC)', image: '/img/G20 Summit/G20 Summit/IMG_4065.heic' },
+            { category: 'g20', title: 'G20 - IMG_4147.jpg', description: 'G20 photo', image: '/img/G20 Summit/G20 Summit/IMG_4147.jpg' },
+            { category: 'g20', title: 'G20 - IMG_4327.HEIC', description: 'G20 (HEIC)', image: '/img/G20 Summit/G20 Summit/IMG_4327.HEIC' },
+            { category: 'g20', title: 'G20 - IMG_4365.heic', description: 'G20 (heic)', image: '/img/G20 Summit/G20 Summit/IMG_4365.heic' },
+            { category: 'g20', title: 'G20 - IMG_4371.jpg', description: 'G20 photo', image: '/img/G20 Summit/G20 Summit/IMG_4371.jpg' },
+            { category: 'g20', title: 'G20 - IMG_4372.jpg', description: 'G20 photo', image: '/img/G20 Summit/G20 Summit/IMG_4372.jpg' },
+            { category: 'g20', title: 'G20 - IMG_4374.JPG', description: 'G20 photo', image: '/img/G20 Summit/G20 Summit/IMG_4374.JPG' },
+
+            // Other img (screenshot #1)
+            { category: 'other', title: 'Other - IMG_0406.JPG', description: 'Other image', image: '/img/G20 Summit/Other img/IMG_0406.JPG' },
+            { category: 'other', title: 'Other - IMG_0407.JPG', description: 'Other image', image: '/img/G20 Summit/Other img/IMG_0407.JPG' },
+            { category: 'other', title: 'Other - IMG_0513.heic', description: 'Other (HEIC)', image: '/img/G20 Summit/Other img/IMG_0513.heic' },
+            { category: 'other', title: 'Other - IMG_0534.HEIC', description: 'Other (HEIC)', image: '/img/G20 Summit/Other img/IMG_0534.HEIC' },
+            { category: 'other', title: 'Other - IMG_2426.JPG', description: 'Other image', image: '/img/G20 Summit/Other img/IMG_2426.JPG' },
+            { category: 'other', title: 'Other - IMG_2427.jpg', description: 'Other image', image: '/img/G20 Summit/Other img/IMG_2427.jpg' },
+            { category: 'other', title: 'Other - IMG_3929.JPG', description: 'Other image', image: '/img/G20 Summit/Other img/IMG_3929.JPG' },
+
+            // High Court of Uttarakhand
+            { category: 'highcourt', title: 'High Court - IMG_0231.heic', description: 'High Court Proceedings', image: '/img/High Court of Uttarakhand/IMG_0231.heic' },
+
+            // MEA Event (Denmark PM + Namaste Trump + others)
+            { category: 'mea', title: 'Denmark PM - IMG_9818.HEIC', description: 'Denmark PM (HEIC)', image: '/img/MEA Event/Denmark PM/IMG_9818.HEIC' },
+            { category: 'mea', title: 'Denmark PM - IMG_9819.mov', description: 'Denmark PM (MOV)', image: '/img/MEA Event/Denmark PM/IMG_9819.mov' },
+            { category: 'mea', title: 'Denmark PM - IMG_9821.heic', description: 'Denmark PM', image: '/img/MEA Event/Denmark PM/IMG_9821.heic' },
+            { category: 'mea', title: 'Denmark PM - IMG_9855.HEIC', description: 'Denmark PM', image: '/img/MEA Event/Denmark PM/IMG_9855.HEIC' },
+
+            { category: 'mea', title: 'Namaste Trump - IMG_1182.MP4', description: 'Namaste Trump (MP4)', image: '/img/MEA Event/Namste Trump/IMG_1182.MP4' },
+            { category: 'mea', title: 'Namaste Trump - IMG_1861.jpg', description: 'Namaste Trump photo', image: '/img/MEA Event/Namste Trump/IMG_1861.jpg' },
+            { category: 'mea', title: 'Namaste Trump - IMG_1862.jpg', description: 'Namaste Trump photo', image: '/img/MEA Event/Namste Trump/IMG_1862.jpg' },
+
+            { category: 'mea', title: 'MEA - FE935D3A-B07C-4B03-88AB-D817C729EB52.JPG', description: 'MEA other image', image: '/img/MEA Event/Other MEA img/FE935D3A-B07C-4B03-88AB-D817C729EB52.JPG' },
+            { category: 'mea', title: 'MEA - IMG_2297.JPG', description: 'MEA other image', image: '/img/MEA Event/Other MEA img/IMG_2297.JPG' },
+            { category: 'mea', title: 'MEA - IMG_2639.heic', description: 'MEA other (heic)', image: '/img/MEA Event/Other MEA img/IMG_2639.heic' },
+            { category: 'mea', title: 'MEA - IMG_2651.HEIC', description: 'MEA other (HEIC)', image: '/img/MEA Event/Other MEA img/IMG_2651.HEIC' },
+            { category: 'mea', title: 'MEA - IMG_2653.jpg', description: 'MEA other image', image: '/img/MEA Event/Other MEA img/IMG_2653.jpg' },
+            { category: 'mea', title: 'MEA - IMG_3759.HEIC', description: 'MEA other (HEIC)', image: '/img/MEA Event/Other MEA img/IMG_3759.HEIC' },
+            { category: 'mea', title: 'MEA - IMG_8068.HEIC', description: 'MEA other (HEIC)', image: '/img/MEA Event/Other MEA img/IMG_8068.HEIC' },
+            { category: 'mea', title: 'MEA - IMG_8097.JPG', description: 'MEA other image', image: '/img/MEA Event/Other MEA img/IMG_8097.JPG' },
+
+            // Portuguese President
+            { category: 'portuguese', title: 'Portuguese President - IMG_3142.jpg', description: 'Portuguese President', image: '/img/MEA Event/Portuguese President/IMG_3142.jpg' },
+            { category: 'portuguese', title: 'Portuguese President - IMG_3143.jpg', description: 'Portuguese President', image: '/img/MEA Event/Portuguese President/IMG_3143.jpg' },
+
+            // Srilanka PM
+            { category: 'srilanka', title: 'Srilanka PM - IMG_1075.JPG', description: 'Srilanka PM', image: '/img/MEA Event/Srilanka PM/IMG_1075.JPG' },
+            { category: 'srilanka', title: 'Srilanka PM - IMG_3141.JPG', description: 'Srilanka PM', image: '/img/MEA Event/Srilanka PM/IMG_3141.JPG' },
+
+            // Pramod's Photos
+            { category: 'pramod', title: "Pramod - IMG_4065.HEIC", description: "Pramod's photo", image: '/img/MEA Event/Pramod/IMG_4065.HEIC' },
+            { category: 'pramod', title: "Pramod - IMG_4066.HEIC", description: "Pramod's photo", image: '/img/MEA Event/Pramod/IMG_4066.HEIC' },
+            { category: 'pramod', title: "Pramod - IMG_4176.HEIC", description: "Pramod's photo", image: '/img/MEA Event/Pramod/IMG_4176.HEIC' },
+            { category: 'pramod', title: "Pramod - IMG_4196.HEIC", description: "Pramod's photo", image: '/img/IMG_4196.HEIC' },
+            { category: 'pramod', title: "Pramod - IMG_4330.HEIC", description: "Pramod's photo", image: '/img/IMG_4330.HEIC' },
+            { category: 'pramod', title: "Pramod - IMG_4372.JPG", description: "Pramod's photo", image: '/img/IMG_4372.JPG' },
+            { category: 'pramod', title: "Pramod - IMG_4374.JPG", description: "Pramod's photo", image: '/img/IMG_4374.JPG' },
+
+            // SCO Council
+            { category: 'sco', title: 'SCO - _DSC5823.jpg', description: 'SCO Council', image: '/img/SCO Council/_DSC5823.jpg' },
+            { category: 'sco', title: 'SCO - _DSC5824.jpg', description: 'SCO Council', image: '/img/SCO Council/_DSC5824.jpg' },
+            { category: 'sco', title: 'SCO - IMG_1810.heic', description: 'SCO Council', image: '/img/SCO Council/IMG_1810.heic' },
+
+            // fallback
+            { category: 'other', title: 'Profile (fallback)', description: 'Profile / misc', image: '/img/profile.JPG' }
+        ];
+
+        // categories order (you can change order/labels if needed)
+        const categories = [
+            { key: 'all', label: 'All' },
+            { key: 'g20', label: 'G20 Summit' },
+            { key: 'bihar', label: 'Bihar Assembly' },
+            { key: 'mea', label: 'MEA Event' },
+            { key: 'portuguese', label: 'Portuguese President' },
+            { key: 'srilanka', label: 'Srilanka PM' },
+            { key: 'sco', label: 'SCO Council' },
+            { key: 'pramod', label: "Pramod's Photos" },
+            { key: 'highcourt', label: 'High Court' },
+            { key: 'other', label: 'Other' }
+        ];
+
+        // DOM refs (keep IDs same as in your HTML)
+        const galleryGrid = document.getElementById('galleryGrid');
+        const categoryButtons = document.getElementById('categoryButtons'); // if you have a container for buttons
+        const galleryModal = document.getElementById('galleryModal');      // modal overlay element
+        const modalCaption = document.getElementById('modalCaption');      // caption element in modal
+        const viewerInner = document.getElementById('viewerInner');        // container where <img> or <video> is inserted
+        const modalCloseBtn = document.getElementById('modalClose');       // close button (span) if present
+
+        // Helper to detect video files
+        function isVideoFile(url) {
+            return /\.mp4$|\.mov$/i.test(url);
         }
 
-        function closeModal() {
-            document.getElementById('imageModal').classList.add('hidden');
+        // Simple escaping helpers
+        function escapeHtml(s) { if (!s) return ''; return s.replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
+        function escapeAttr(s) { return escapeHtml(s).replace(/"/g, '&quot;'); }
+
+        // Render category buttons (if you have a container)
+        if (categoryButtons) {
+            categories.forEach(cat => {
+                const btn = document.createElement('button');
+                btn.className = 'cat-btn' + (cat.key === 'all' ? ' active' : '');
+                btn.textContent = cat.label;
+                btn.dataset.key = cat.key;
+                btn.addEventListener('click', () => {
+                    // toggle active class
+                    document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    renderGallery(cat.key);
+                });
+                categoryButtons.appendChild(btn);
+            });
         }
 
-        (function () {
-            // guard: don't initialize twice
-            if (document.getElementById('marathi-typing').dataset.typed === 'true') return;
-            document.getElementById('marathi-typing').dataset.typed = 'true';
+        // Render gallery items into #galleryGrid
+        function renderGallery(category = 'all') {
+            if (!galleryGrid) return;
+            galleryGrid.innerHTML = '';
 
-            const el = document.getElementById('marathi-typing');
-            const caret = document.getElementById('marathi-caret');
+            const filteredData = category === 'all'
+                ? galleryData
+                : galleryData.filter(item => item.category === category);
 
-            // The Marathi sentence you requested (adjust if you want different wording)
-            const phrases = [
-                'नमस्कार मी...'
-            ];
-
-            // Typing settings (ms)
-            const TYPING_SPEED = 90;      // per grapheme
-            const DELETING_SPEED = 45;    // per grapheme when deleting
-            const PAUSE_AFTER = 1400;     // pause after full phrase typed
-            const PAUSE_BEFORE = 300;     // pause before typing after delete
-
-            // grapheme splitter using Intl.Segmenter (if available) for correct Devanagari clusters
-            function splitGraphemes(str) {
-                if (typeof Intl !== 'undefined' && typeof Intl.Segmenter === 'function') {
-                    try {
-                        const seg = new Intl.Segmenter(undefined, { granularity: 'grapheme' });
-                        return Array.from(seg.segment(str), s => s.segment);
-                    } catch (e) {
-                        // fallback below
-                    }
-                }
-                // fallback: use Array.from (works well for most cases)
-                return Array.from(str);
-            }
-
-            // helper: sleep
-            function wait(ms) { return new Promise(res => setTimeout(res, ms)); }
-
-            // reduced-motion: show text statically
-            if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-                el.textContent = phrases.join(' ');
-                caret.style.display = 'none';
+            if (filteredData.length === 0) {
+                const empty = document.createElement('div');
+                empty.textContent = 'No images in this category';
+                empty.style.gridColumn = '1/-1';
+                empty.style.color = '#6b7280';
+                galleryGrid.appendChild(empty);
                 return;
             }
 
-            // main loop
-            (async function loop() {
-                while (true) {
-                    for (const phrase of phrases) {
-                        const chars = splitGraphemes(phrase);
-
-                        // type
-                        for (let i = 0; i < chars.length; i++) {
-                            el.textContent += chars[i];
-                            await wait(TYPING_SPEED);
-                        }
-
-                        await wait(PAUSE_AFTER);
-
-                        // delete
-                        for (let i = chars.length - 1; i >= 0; i--) {
-                            // remove last grapheme (works because we used grapheme-aware typing)
-                            // we reconstruct the string from graphemes for reliability
-                            const current = splitGraphemes(el.textContent);
-                            current.pop();
-                            el.textContent = current.join('');
-                            await wait(DELETING_SPEED);
-                        }
-
-                        await wait(PAUSE_BEFORE);
+            filteredData.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'gallery-card';
+                card.innerHTML = `
+      <div class="gallery-img-container" role="button" aria-label="${escapeAttr(item.title)}">
+        ${isVideoFile(item.image)
+                        ? `<video muted playsinline preload="metadata"><source src="${escapeAttr(item.image)}"></video>`
+                        : `<img src="${escapeAttr(item.image)}" alt="${escapeAttr(item.title)}">`
                     }
-                }
-            })();
-        })();
+      </div>
+      <div class="gallery-caption">
+        <h3>${escapeHtml(item.title)}</h3>
+        <p>${escapeHtml(item.description)}</p>
+      </div>
+    `.trim();
 
-        // Animate skill bars on scroll
+                // click opens viewer (re-usable function)
+                card.addEventListener('click', () => {
+                    openImageViewer(item);
+                });
+
+                galleryGrid.appendChild(card);
+            });
+        }
+
+        // Open viewer (inserts <img> or <video> into viewerInner and shows modal)
+        function openImageViewer(item) {
+            if (!viewerInner || !galleryModal || !modalCaption) return;
+
+            viewerInner.innerHTML = '';
+            modalCaption.textContent = '';
+
+            if (isVideoFile(item.image)) {
+                const video = document.createElement('video');
+                video.className = 'viewer-media';
+                video.controls = true;
+                video.autoplay = true;
+                video.playsInline = true;
+                video.preload = 'metadata';
+                const src = document.createElement('source');
+                src.src = item.image;
+                video.appendChild(src);
+                viewerInner.appendChild(video);
+
+                // force layout then add enter class if you use such CSS for slide animation
+                requestAnimationFrame(() => video.classList.add('enter'));
+            } else {
+                const img = document.createElement('img');
+                img.className = 'viewer-media';
+                img.alt = item.title || 'Image';
+                img.src = item.image;
+                img.addEventListener('load', () => requestAnimationFrame(() => img.classList.add('enter')));
+                viewerInner.appendChild(img);
+            }
+
+            modalCaption.textContent = item.title || '';
+            galleryModal.classList.remove('hidden'); // assumes you use 'hidden' class to hide modal
+            galleryModal.classList.add('open');      // optional class for styling visible modal
+            galleryModal.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // CLOSE viewer function (for span close icon to call)
+        function closeImageViewer() {
+            if (!viewerInner || !galleryModal) return;
+
+            // slide-out: remove 'enter' class so CSS can animate translateX back to right
+            const media = viewerInner.querySelector('.viewer-media');
+            if (media) media.classList.remove('enter');
+
+            // wait for CSS animation to finish, then hide modal and remove media
+            setTimeout(() => {
+                galleryModal.classList.add('hidden');
+                galleryModal.classList.remove('open');
+                galleryModal.setAttribute('aria-hidden', 'true');
+                viewerInner.innerHTML = ''; // removes media (stops video)
+                modalCaption.textContent = '';
+                document.body.style.overflow = '';
+            }, 360); // match this to your CSS transition-duration
+        }
+
+        // Attach close to modal backdrop (if overlay element exists)
+        if (galleryModal) {
+            galleryModal.addEventListener('click', (e) => {
+                if (e.target === galleryModal) closeImageViewer();
+            });
+        }
+
+        // ESC key closes modal
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && galleryModal && !galleryModal.classList.contains('hidden')) {
+                closeImageViewer();
+            }
+        });
+
+        // expose to global so inline span onclick="closeImageViewer()" works
+        window.closeImageViewer = closeImageViewer;
+
+        // initialize default render
+        document.addEventListener('DOMContentLoaded', () => {
+            renderGallery('all');
+
+            // optional: if you don't have categoryButtons element, you can still call renderGallery with a default category
+        });
+
+
+        // Initialize gallery
         document.addEventListener('DOMContentLoaded', function () {
             // Animate skill bars
             const skillBars = document.querySelectorAll('.skill-bar');
@@ -1233,73 +1451,24 @@
                 });
             });
 
-            (function () {
-                const openBtn = document.getElementById('mobile-menu-button');
-                const closeBtn = document.getElementById('mobile-menu-close');
-                const menu = document.getElementById('mobile-menu');
-                const overlay = document.getElementById('mobile-menu-overlay');
-                const focusableSelectors = 'a, button, input, textarea, [tabindex]:not([tabindex="-1"])';
-                let lastFocusedEl = null;
+            // Gallery tab functionality
+            const tabs = document.querySelectorAll('.gallery-tab');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    const category = tab.getAttribute('data-category');
+                    renderGallery(category);
+                });
+            });
 
-                function openMenu() {
-                    lastFocusedEl = document.activeElement;
+            // Close modal functionality
+            document.getElementById('closeModal').addEventListener('click', () => {
+                document.getElementById('galleryModal').classList.add('hidden');
+            });
 
-                    // show panel
-                    menu.classList.remove('translate-x-full');
-                    menu.setAttribute('aria-hidden', 'false');
-
-                    // show overlay (faint blue + blur), enable pointer events
-                    overlay.classList.remove('opacity-0', 'pointer-events-none');
-                    overlay.classList.add('opacity-100', 'pointer-events-auto');
-
-                    openBtn.setAttribute('aria-expanded', 'true');
-                    document.body.classList.add('overflow-hidden');
-
-                    // focus trap start
-                    const first = menu.querySelector(focusableSelectors);
-                    if (first) first.focus();
-                    document.addEventListener('keydown', onKeyDown);
-                }
-
-                function closeMenu() {
-                    // hide panel
-                    menu.classList.add('translate-x-full');
-                    menu.setAttribute('aria-hidden', 'true');
-
-                    // hide overlay and disable pointer events
-                    overlay.classList.remove('opacity-100', 'pointer-events-auto');
-                    overlay.classList.add('opacity-0', 'pointer-events-none');
-
-                    openBtn.setAttribute('aria-expanded', 'false');
-                    document.body.classList.remove('overflow-hidden');
-
-                    if (lastFocusedEl) lastFocusedEl.focus();
-                    document.removeEventListener('keydown', onKeyDown);
-                }
-
-                function onKeyDown(e) {
-                    if (e.key === 'Escape') closeMenu();
-                    if (e.key === 'Tab' && menu.getAttribute('aria-hidden') === 'false') {
-                        const focusables = Array.from(menu.querySelectorAll(focusableSelectors));
-                        if (focusables.length === 0) return;
-                        const first = focusables[0];
-                        const last = focusables[focusables.length - 1];
-                        if (e.shiftKey && document.activeElement === first) {
-                            e.preventDefault();
-                            last.focus();
-                        } else if (!e.shiftKey && document.activeElement === last) {
-                            e.preventDefault();
-                            first.focus();
-                        }
-                    }
-                }
-
-                openBtn.addEventListener('click', openMenu);
-                closeBtn.addEventListener('click', closeMenu);
-                overlay.addEventListener('click', closeMenu);
-
-                menu.querySelectorAll('[data-close]').forEach(el => el.addEventListener('click', closeMenu));
-            })();
+            // Initial gallery render
+            renderGallery();
         });
     </script>
 </body>
