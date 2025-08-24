@@ -954,6 +954,35 @@
             justify-content: center;
         }
 
+        /* Left / right nav overlay buttons */
+        .viewer-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 130;
+            background: rgba(255, 255, 255, 0.85);
+            border: none;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            font-size: 28px;
+            line-height: 1;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+            user-select: none;
+        }
+
+        .viewer-prev {
+            left: 12px;
+        }
+
+        .viewer-next {
+            right: 12px;
+        }
+
         .viewer-image-box {
             width: 100%;
             height: calc(100% - 44px);
@@ -964,6 +993,8 @@
             border-radius: 8px;
             background: #111;
             overflow: hidden;
+            touch-action: pan-y;
+            /* allow horizontal gestures to be handled */
         }
 
         .viewer-image-box img {
@@ -1012,6 +1043,12 @@
 
             .image-item img {
                 height: 90px;
+            }
+
+            .viewer-nav {
+                width: 44px;
+                height: 44px;
+                font-size: 22px;
             }
         }
     </style>
@@ -1559,6 +1596,201 @@
         </div>
     </section>
 
+    <!-- Articles Section (3-image animated fixed-size grid) -->
+    <section id="articlesSection" class="py-12">
+        <div class="container mx-auto px-4">
+            <h3 class="articles-heading"
+                style="font-size:2rem; font-weight:700; margin-bottom:2rem; text-align: center;">Featured Articles</h3>
+
+            <!-- Grid -->
+            <div class="articles-grid" role="list">
+                <figure class="article-card" role="listitem">
+                    <img src="/img/article.JPG" alt="Article 1" loading="lazy" class="article-img" data-article="1">
+                    <figcaption class="sr-only">Article 1</figcaption>
+                </figure>
+
+                <figure class="article-card" role="listitem">
+                    <img src="/img/article 2.JPG" alt="Article 2" loading="lazy" class="article-img" data-article="2">
+                    <figcaption class="sr-only">Article 2</figcaption>
+                </figure>
+
+                <figure class="article-card" role="listitem">
+                    <img src="/img/article 3.PNG" alt="Article 3" loading="lazy" class="article-img" data-article="3">
+                    <figcaption class="sr-only">Article 3</figcaption>
+                </figure>
+            </div>
+        </div>
+    </section>
+
+    <!-- Big Image Viewer (Modal) -->
+    <div id="articleImageViewer" class="article-viewer">
+        <span id="articleCloseBtn" class="article-close">&times;</span>
+        <img id="articleViewerImg" class="article-viewer-img" src="" alt="Expanded view">
+    </div>
+
+    <style>
+        :root {
+            --viewer-width: 1000px;
+            --card-height: 320px;
+        }
+
+        .articles-heading {
+            color: #111;
+        }
+
+        .articles-grid {
+            width: min(var(--viewer-width), 100%);
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 80px;
+            margin: 0 auto;
+        }
+
+        .article-card {
+            width: 100%;
+            height: var(--card-height);
+            border-radius: 10px;
+            overflow: hidden;
+            background: #111;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+            transition: transform 300ms, box-shadow 300ms;
+            cursor: pointer;
+        }
+
+        .article-card:hover {
+            transform: translateY(-6px) scale(1.02);
+            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.25);
+        }
+
+        @keyframes floatTiny {
+            0% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-4px);
+            }
+
+            100% {
+                transform: translateY(0);
+            }
+        }
+
+        .article-card {
+            animation: floatTiny 6s ease-in-out infinite;
+        }
+
+        .article-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+            user-select: none;
+            transition: transform 300ms ease;
+        }
+
+        .article-card:hover img {
+            transform: scale(1.01);
+        }
+
+        .sr-only {
+            position: absolute !important;
+            height: 1px;
+            width: 1px;
+            overflow: hidden;
+            clip: rect(1px, 1px, 1px, 1px);
+            white-space: nowrap;
+        }
+
+        @media (max-width: 900px) {
+            .articles-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            :root {
+                --card-height: 260px;
+            }
+        }
+
+        @media (max-width: 560px) {
+            .articles-grid {
+                grid-template-columns: 1fr;
+            }
+
+            :root {
+                --card-height: 220px;
+            }
+        }
+
+        /* Viewer (big image modal) */
+        .article-viewer {
+            display: none;
+            /* stays hidden until JS opens it */
+            position: fixed;
+            z-index: 9999;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.9);
+            align-items: center;
+            justify-content: center;
+        }
+
+
+        .article-viewer-img {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .article-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #fff;
+            cursor: pointer;
+            user-select: none;
+        }
+    </style>
+
+    <script>
+        const articleImgs = document.querySelectorAll('.article-img');
+        const articleViewer = document.getElementById('articleImageViewer');
+        const articleViewerImg = document.getElementById('articleViewerImg');
+        const articleCloseBtn = document.getElementById('articleCloseBtn');
+
+        articleImgs.forEach(img => {
+            img.addEventListener('click', () => {
+                articleViewer.style.display = 'flex'; // show viewer
+                articleViewerImg.src = img.src;
+            });
+        });
+
+        articleCloseBtn.addEventListener('click', () => {
+            articleViewer.style.display = 'none'; // hide viewer
+            articleViewerImg.src = '';
+        });
+
+        articleViewer.addEventListener('click', (e) => {
+            if (e.target === articleViewer) {
+                articleViewer.style.display = 'none';
+                articleViewerImg.src = '';
+            }
+        });
+
+    </script>
+
+
+
     <!-- Gallery Section -->
     <section id="gallery" class="py-16">
         <div class="container mx-auto px-4">
@@ -1587,14 +1819,18 @@
         </div>
     </div>
 
-    <!-- SINGLE FIXED-SIZE IMAGE VIEWER (no download button) -->
+    <!-- SINGLE FIXED-SIZE IMAGE VIEWER (no download button) with left/right nav & swipe -->
     <div class="image-viewer" id="imageViewer" aria-hidden="true" role="dialog" aria-modal="true"
         aria-label="Image viewer">
         <div class="viewer-backdrop" id="viewerBackdrop" tabindex="-1"></div>
 
         <!-- FIXED size box where every image will be fit inside -->
-        <div class="viewer-content" style="margin-top: 100px;" id="viewerContent">
+        <div class="viewer-content" id="viewerContent">
             <button class="viewer-close" id="viewerClose" aria-label="Close image">&times;</button>
+
+            <!-- Left / Right navigation buttons -->
+            <button class="viewer-nav viewer-prev" id="viewerPrev" aria-label="Previous image">‹</button>
+            <button class="viewer-nav viewer-next" id="viewerNext" aria-label="Next image">›</button>
 
             <div class="viewer-image-box" id="viewerImageBox" role="img" aria-live="polite">
                 <img id="viewerImage" src="" alt="Large view" />
@@ -1797,6 +2033,10 @@
             },
         ];
 
+        // ---------- State for viewer ----------
+        let currentImages = []; // array of {name,path}
+        let currentIndex = 0;
+
         // ---------- Render categories ----------
         function renderGalleryCategories() {
             const galleryContainer = document.querySelector('.category-gallery');
@@ -1824,7 +2064,7 @@
             modalTitle.textContent = category.name;
             imagesGrid.innerHTML = '';
 
-            category.images.forEach(image => {
+            category.images.forEach((image, idx) => {
                 const imageItem = document.createElement('div');
                 imageItem.className = 'image-item';
                 imageItem.innerHTML = `
@@ -1833,11 +2073,11 @@
       `;
                 imagesGrid.appendChild(imageItem);
 
-                // clicking a thumbnail opens the single fixed-size viewer
+                // clicking a thumbnail opens the single fixed-size viewer with navigation
                 const imgEl = imageItem.querySelector('img');
                 imgEl.addEventListener('click', (ev) => {
                     ev.stopPropagation();
-                    openImageViewer(image.path, image.name || category.name);
+                    openImageViewer(category.images, idx);
                 });
             });
 
@@ -1859,56 +2099,142 @@
             document.body.style.overflow = '';
         }
 
-        // ---------- Image viewer logic (single fixed box) ----------
+        // ---------- Image viewer logic (single fixed box with nav & swipe) ----------
         const imageViewer = document.getElementById('imageViewer');
         const viewerImage = document.getElementById('viewerImage');
         const viewerCaption = document.getElementById('viewerCaption');
         const viewerClose = document.getElementById('viewerClose');
         const viewerBackdrop = document.getElementById('viewerBackdrop');
         const viewerContent = document.getElementById('viewerContent');
+        const viewerPrev = document.getElementById('viewerPrev');
+        const viewerNext = document.getElementById('viewerNext');
+        const viewerImageBox = document.getElementById('viewerImageBox');
 
-        function openImageViewer(src, caption) {
-            // set image and caption
-            viewerImage.src = src;
-            viewerImage.alt = caption || '';
-            viewerCaption.textContent = caption || '';
+        function openImageViewer(imagesArray, index) {
+            currentImages = imagesArray || [];
+            currentIndex = (typeof index === 'number') ? index : 0;
+            showImageAt(currentIndex);
 
             // show viewer
             imageViewer.classList.add('active');
             imageViewer.setAttribute('aria-hidden', 'false');
-            // trap scroll
             document.body.style.overflow = 'hidden';
 
-            // focus close for quick keyboard access
-            viewerClose.focus();
-
-            // key handler
+            // listeners
+            viewerPrev.addEventListener('click', onPrev);
+            viewerNext.addEventListener('click', onNext);
+            viewerClose.addEventListener('click', closeImageViewer);
+            viewerBackdrop.addEventListener('click', closeImageViewer);
+            viewerContent.addEventListener('click', (e) => e.stopPropagation()); // avoid backdrop closure when clicking inside
             document.addEventListener('keydown', handleKeydown);
+
+            // Touch / swipe support
+            addSwipeSupport();
         }
 
         function closeImageViewer() {
             imageViewer.classList.remove('active');
             imageViewer.setAttribute('aria-hidden', 'true');
+
             // clear src to stop any loading
             viewerImage.src = '';
             viewerCaption.textContent = '';
-            document.body.style.overflow = '';
+
+            // cleanup listeners to avoid duplicate handlers
+            viewerPrev.removeEventListener('click', onPrev);
+            viewerNext.removeEventListener('click', onNext);
+            viewerClose.removeEventListener('click', closeImageViewer);
+            viewerBackdrop.removeEventListener('click', closeImageViewer);
             document.removeEventListener('keydown', handleKeydown);
+            removeSwipeSupport();
+
+            document.body.style.overflow = '';
         }
 
-        viewerClose.addEventListener('click', closeImageViewer);
-        viewerBackdrop.addEventListener('click', closeImageViewer);
+        function showImageAt(idx) {
+            if (!currentImages || currentImages.length === 0) return;
+            currentIndex = (idx + currentImages.length) % currentImages.length; // wrap
+            const item = currentImages[currentIndex];
+            // set image and caption
+            viewerImage.src = item.path;
+            viewerImage.alt = item.name || '';
+            viewerCaption.textContent = item.name || '';
+            // focus the close button for accessibility
+            viewerClose.focus();
+        }
+
+        function onPrev() { showImageAt(currentIndex - 1); }
+        function onNext() { showImageAt(currentIndex + 1); }
 
         function handleKeydown(e) {
             if (e.key === 'Escape') {
-                // if viewer open, close it; otherwise close modal
-                if (imageViewer.classList.contains('active')) closeImageViewer();
-                else if (document.getElementById('imagesModal').classList.contains('active')) closeModal();
+                closeImageViewer();
+            } else if (e.key === 'ArrowLeft') {
+                onPrev();
+            } else if (e.key === 'ArrowRight') {
+                onNext();
             }
         }
 
-        // prevent clicks inside viewerContent from closing modal/backdrop accidentally
-        viewerContent.addEventListener('click', (e) => e.stopPropagation());
+        // ----- Touch / swipe support -----
+        let touchStartX = 0;
+        let touchCurrentX = 0;
+        let touchActive = false;
+        const SWIPE_THRESHOLD = 50; // px
+
+        function addSwipeSupport() {
+            viewerImageBox.addEventListener('touchstart', onTouchStart, { passive: true });
+            viewerImageBox.addEventListener('touchmove', onTouchMove, { passive: true });
+            viewerImageBox.addEventListener('touchend', onTouchEnd);
+            // pointer events for some devices (optional)
+            viewerImageBox.addEventListener('pointerdown', onPointerDown);
+            viewerImageBox.addEventListener('pointerup', onPointerUp);
+        }
+
+        function removeSwipeSupport() {
+            viewerImageBox.removeEventListener('touchstart', onTouchStart);
+            viewerImageBox.removeEventListener('touchmove', onTouchMove);
+            viewerImageBox.removeEventListener('touchend', onTouchEnd);
+            viewerImageBox.removeEventListener('pointerdown', onPointerDown);
+            viewerImageBox.removeEventListener('pointerup', onPointerUp);
+        }
+
+        function onTouchStart(e) {
+            if (!e.touches || e.touches.length === 0) return;
+            touchActive = true;
+            touchStartX = e.touches[0].clientX;
+            touchCurrentX = touchStartX;
+        }
+
+        function onTouchMove(e) {
+            if (!touchActive || !e.touches || e.touches.length === 0) return;
+            touchCurrentX = e.touches[0].clientX;
+        }
+
+        function onTouchEnd(e) {
+            if (!touchActive) return;
+            const delta = touchCurrentX - touchStartX;
+            if (Math.abs(delta) > SWIPE_THRESHOLD) {
+                if (delta < 0) onNext(); // swipe left => next
+                else onPrev(); // swipe right => prev
+            }
+            touchActive = false;
+            touchStartX = touchCurrentX = 0;
+        }
+
+        // Basic pointer handlers for desktop trackpad swipe via pointer events
+        let pointerStartX = 0;
+        function onPointerDown(e) {
+            pointerStartX = e.clientX;
+        }
+        function onPointerUp(e) {
+            const delta = e.clientX - pointerStartX;
+            if (Math.abs(delta) > SWIPE_THRESHOLD) {
+                if (delta < 0) onNext();
+                else onPrev();
+            }
+            pointerStartX = 0;
+        }
 
         // ---------- Initialize ----------
         document.addEventListener('DOMContentLoaded', () => {
@@ -1928,7 +2254,7 @@
                 skillBars.forEach(bar => observer.observe(bar));
             }
 
-            // global escape handler when neither modal nor viewer focused
+            // fallback Escape handler for any remaining edge cases
             document.addEventListener('keydown', (e) => {
                 if (e.key === 'Escape') {
                     if (imageViewer.classList.contains('active')) closeImageViewer();
