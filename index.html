@@ -777,6 +777,243 @@
             font-size: 0.8rem;
             text-align: center;
         }
+
+        /* ---------- Thumbnails & category styles ---------- */
+        .category-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1.25rem;
+        }
+
+        .category-item {
+            position: relative;
+            cursor: pointer;
+            overflow: hidden;
+            border-radius: 8px;
+            background: #fff;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+        }
+
+        .category-image {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            display: block;
+            transition: transform .25s ease;
+        }
+
+        .category-item:hover .category-image {
+            transform: scale(1.03);
+        }
+
+        .category-label {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            padding: .6rem .8rem;
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.55) 100%);
+            color: #fff;
+            font-weight: 600;
+        }
+
+        /* ---------- Category modal (thumbnails) ---------- */
+        .images-modal {
+            position: fixed;
+            inset: 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 80;
+        }
+
+        .images-modal.active {
+            display: flex;
+            background: rgba(0, 0, 0, 0.45);
+            padding: 2rem;
+        }
+
+        .modal-content {
+            width: min(1100px, 98%);
+            max-height: 90vh;
+            overflow: auto;
+            background: #fff;
+            border-radius: 12px;
+            padding: 1rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-bottom: .75rem;
+        }
+
+        .modal-title {
+            margin: 0;
+            font-size: 1.25rem;
+        }
+
+        .close-modal {
+            background: transparent;
+            border: none;
+            font-size: 1.6rem;
+            cursor: pointer;
+        }
+
+        .images-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: .6rem;
+        }
+
+        .image-item {
+            background: #f7f7f7;
+            border-radius: 8px;
+            padding: .25rem;
+            text-align: center;
+        }
+
+        .image-item img {
+            width: 100%;
+            height: 110px;
+            object-fit: cover;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .image-label {
+            margin-top: .35rem;
+            font-size: .8rem;
+            color: #333;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* ---------- Single fixed-size viewer ---------- */
+        .image-viewer {
+            position: fixed;
+            inset: 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 120;
+        }
+
+        .image-viewer.active {
+            display: flex;
+        }
+
+        .viewer-backdrop {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.75);
+            cursor: zoom-out;
+        }
+
+        /* FIXED viewer box - change width/height here to any preferred fixed size */
+        .viewer-content {
+            position: relative;
+            z-index: 121;
+            width: 1000px;
+            /* FIXED width */
+            height: 700px;
+            /* FIXED height */
+            max-width: calc(100vw - 40px);
+            max-height: calc(100vh - 40px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: .5rem;
+            padding: .75rem;
+            border-radius: 10px;
+            background: transparent;
+            overflow: hidden;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+        }
+
+        .viewer-close {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            z-index: 130;
+            background: rgba(255, 255, 255, 0.95);
+            border: none;
+            border-radius: 50%;
+            width: 38px;
+            height: 38px;
+            font-size: 1.25rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .viewer-image-box {
+            width: 100%;
+            height: calc(100% - 44px);
+            /* leave room for caption row */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            background: #111;
+            overflow: hidden;
+        }
+
+        .viewer-image-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+            user-select: none;
+            -webkit-user-drag: none;
+        }
+
+        .viewer-controls {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: .95rem;
+            gap: .5rem;
+        }
+
+        .viewer-caption {
+            max-width: 95%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        /* Responsive adjustments to shrink the fixed box on small screens */
+        @media (max-width:1024px) {
+            .viewer-content {
+                width: 90vw;
+                height: 60vh;
+            }
+        }
+
+        @media (max-width:640px) {
+            .viewer-content {
+                width: 95vw;
+                height: 55vh;
+            }
+
+            .category-image {
+                height: 120px;
+            }
+
+            .image-item img {
+                height: 90px;
+            }
+        }
     </style>
 </head>
 
@@ -929,7 +1166,7 @@
 
             <div class="md:w-1/2 flex justify-center">
                 <div class="relative floating">
-                    
+
                 </div>
             </div>
         </div>
@@ -1336,15 +1573,35 @@
         </div>
     </section>
 
-    <!-- Images Modal -->
-    <div class="images-modal" id="imagesModal">
-        <div class="modal-content">
+    <!-- Images Modal (shows thumbnails for a category) -->
+    <div class="images-modal" id="imagesModal" aria-hidden="true">
+        <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
             <div class="modal-header">
                 <h2 class="modal-title" id="modalTitle">Category Title</h2>
-                <button class="close-modal" id="closeModal">&times;</button>
+                <button class="close-modal" id="closeModal" aria-label="Close">&times;</button>
             </div>
+
             <div class="images-grid" id="imagesGrid">
-                <!-- Images will be populated by JavaScript -->
+                <!-- thumbnails populated by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- SINGLE FIXED-SIZE IMAGE VIEWER (no download button) -->
+    <div class="image-viewer" id="imageViewer" aria-hidden="true" role="dialog" aria-modal="true"
+        aria-label="Image viewer">
+        <div class="viewer-backdrop" id="viewerBackdrop" tabindex="-1"></div>
+
+        <!-- FIXED size box where every image will be fit inside -->
+        <div class="viewer-content" style="margin-top: 100px;" id="viewerContent">
+            <button class="viewer-close" id="viewerClose" aria-label="Close image">&times;</button>
+
+            <div class="viewer-image-box" id="viewerImageBox" role="img" aria-live="polite">
+                <img id="viewerImage" src="" alt="Large view" />
+            </div>
+
+            <div class="viewer-controls">
+                <div class="viewer-caption" id="viewerCaption"></div>
             </div>
         </div>
     </div>
@@ -1457,7 +1714,7 @@
     </footer>
 
     <script>
-        // Gallery categories with their first image and all images
+        // ---------- Gallery data ----------
         const galleryCategories = [
             {
                 name: "High Court of Uttarakhand",
@@ -1540,7 +1797,7 @@
             },
         ];
 
-        // Render gallery categories
+        // ---------- Render categories ----------
         function renderGalleryCategories() {
             const galleryContainer = document.querySelector('.category-gallery');
             galleryContainer.innerHTML = '';
@@ -1549,19 +1806,16 @@
                 const categoryItem = document.createElement('div');
                 categoryItem.className = 'category-item';
                 categoryItem.innerHTML = `
-                    <img src="${category.firstImage}" alt="${category.name}" class="category-image">
-                    <div class="category-label">${category.name}</div>
-                `;
+        <img src="${category.firstImage}" alt="${category.name}" class="category-image" onerror="this.style.opacity=.4">
+        <div class="category-label">${category.name}</div>
+      `;
 
-                categoryItem.addEventListener('click', () => {
-                    openCategoryModal(category);
-                });
-
+                categoryItem.addEventListener('click', () => openCategoryModal(category));
                 galleryContainer.appendChild(categoryItem);
             });
         }
 
-        // Open category modal with all images
+        // ---------- Open category modal with thumbnails ----------
         function openCategoryModal(category) {
             const modal = document.getElementById('imagesModal');
             const modalTitle = document.getElementById('modalTitle');
@@ -1574,42 +1828,112 @@
                 const imageItem = document.createElement('div');
                 imageItem.className = 'image-item';
                 imageItem.innerHTML = `
-                    <img src="${image.path}" alt="${image.name}">
-                    <div class="image-label">${image.name}</div>
-                `;
+        <img src="${image.path}" alt="${image.name || category.name}" loading="lazy" onerror="this.style.opacity=.5">
+        <div class="image-label">${image.name || ''}</div>
+      `;
                 imagesGrid.appendChild(imageItem);
+
+                // clicking a thumbnail opens the single fixed-size viewer
+                const imgEl = imageItem.querySelector('img');
+                imgEl.addEventListener('click', (ev) => {
+                    ev.stopPropagation();
+                    openImageViewer(image.path, image.name || category.name);
+                });
             });
 
             modal.classList.add('active');
+            modal.setAttribute('aria-hidden', 'false');
+            // prevent page scroll when modal open
+            document.body.style.overflow = 'hidden';
         }
 
-        // Close modal
-        document.getElementById('closeModal').addEventListener('click', () => {
-            document.getElementById('imagesModal').classList.remove('active');
-        });
-
-        // Close modal when clicking outside
+        // ---------- Close category modal ----------
+        document.getElementById('closeModal').addEventListener('click', closeModal);
         document.getElementById('imagesModal').addEventListener('click', (e) => {
-            if (e.target === document.getElementById('imagesModal')) {
-                document.getElementById('imagesModal').classList.remove('active');
-            }
+            if (e.target === document.getElementById('imagesModal')) closeModal();
         });
+        function closeModal() {
+            const modal = document.getElementById('imagesModal');
+            modal.classList.remove('active');
+            modal.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
+        }
 
-        // Initialize gallery
-        document.addEventListener('DOMContentLoaded', function () {
-            // Animate skill bars
+        // ---------- Image viewer logic (single fixed box) ----------
+        const imageViewer = document.getElementById('imageViewer');
+        const viewerImage = document.getElementById('viewerImage');
+        const viewerCaption = document.getElementById('viewerCaption');
+        const viewerClose = document.getElementById('viewerClose');
+        const viewerBackdrop = document.getElementById('viewerBackdrop');
+        const viewerContent = document.getElementById('viewerContent');
+
+        function openImageViewer(src, caption) {
+            // set image and caption
+            viewerImage.src = src;
+            viewerImage.alt = caption || '';
+            viewerCaption.textContent = caption || '';
+
+            // show viewer
+            imageViewer.classList.add('active');
+            imageViewer.setAttribute('aria-hidden', 'false');
+            // trap scroll
+            document.body.style.overflow = 'hidden';
+
+            // focus close for quick keyboard access
+            viewerClose.focus();
+
+            // key handler
+            document.addEventListener('keydown', handleKeydown);
+        }
+
+        function closeImageViewer() {
+            imageViewer.classList.remove('active');
+            imageViewer.setAttribute('aria-hidden', 'true');
+            // clear src to stop any loading
+            viewerImage.src = '';
+            viewerCaption.textContent = '';
+            document.body.style.overflow = '';
+            document.removeEventListener('keydown', handleKeydown);
+        }
+
+        viewerClose.addEventListener('click', closeImageViewer);
+        viewerBackdrop.addEventListener('click', closeImageViewer);
+
+        function handleKeydown(e) {
+            if (e.key === 'Escape') {
+                // if viewer open, close it; otherwise close modal
+                if (imageViewer.classList.contains('active')) closeImageViewer();
+                else if (document.getElementById('imagesModal').classList.contains('active')) closeModal();
+            }
+        }
+
+        // prevent clicks inside viewerContent from closing modal/backdrop accidentally
+        viewerContent.addEventListener('click', (e) => e.stopPropagation());
+
+        // ---------- Initialize ----------
+        document.addEventListener('DOMContentLoaded', () => {
+            renderGalleryCategories();
+
+            // If you still have skill-bars or other existing stuff, keep them working:
             const skillBars = document.querySelectorAll('.skill-bar');
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const width = entry.target.getAttribute('data-width');
-                        entry.target.style.width = width;
-                    }
-                });
-            }, { threshold: 0.5 });
+            if (skillBars && skillBars.length) {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const width = entry.target.getAttribute('data-width');
+                            entry.target.style.width = width;
+                        }
+                    });
+                }, { threshold: 0.5 });
+                skillBars.forEach(bar => observer.observe(bar));
+            }
 
-            skillBars.forEach(bar => {
-                observer.observe(bar);
+            // global escape handler when neither modal nor viewer focused
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    if (imageViewer.classList.contains('active')) closeImageViewer();
+                    else if (document.getElementById('imagesModal').classList.contains('active')) closeModal();
+                }
             });
 
             // Smooth scrolling for anchor links
