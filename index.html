@@ -507,6 +507,118 @@
             box-shadow: 0 6px 18px rgba(2, 6, 23, 0.04);
         }
 
+        /* ---------------------------
+  Responsive fixes for #about
+  - Ensure profile image is visible on mobile
+  - Override inline styles (margin-right/margin-bottom/width/height)
+  - Keep desktop layout unchanged, but on small screens
+    the image becomes absolute at the right and auto-resizes
+--------------------------- */
+
+        /* ensure hero wrapper has a positioning context */
+        .hero-section {
+            position: relative;
+            overflow: visible;
+        }
+
+        /* override any inline sizing/margins you added on the .profile-ring element */
+        .hero-section .profile-ring {
+            margin-right: 0 !important;
+            margin-bottom: 0 !important;
+            width: 200px !important;
+            height: 200px !important;
+            position: relative;
+            z-index: 15;
+            /* above the background */
+            transition: width .28s ease, height .28s ease, transform .28s ease, right .28s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* make sure the img inside the circle always covers and is rounded */
+        .hero-section .profile-ring img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 9999px;
+        }
+
+        /* Desktop: keep original visual (no change needed) */
+        /* Mobile & small tablets: position the profile to the right and auto-resize */
+        @media (max-width: 992px) {
+
+            /* Put the circle absolutely on the right-bottom, so it won't hide text */
+            .hero-section .profile-ring {
+                position: absolute !important;
+                right: 14px !important;
+                bottom: 14px !important;
+                width: 36vw !important;
+                /* responsive size based on viewport width */
+                height: 36vw !important;
+                /* keep square */
+                border-width: 3px;
+                box-shadow: 0 10px 30px rgba(2, 6, 23, 0.14);
+                background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.00));
+            }
+
+            /* Ensure the floating animation is a bit faster on small screens */
+            .hero-section .floating {
+                animation-duration: 5s;
+            }
+
+            /* Give the left (text) column breathing room so text doesn't overlap the image.
+     The immediate children of the container are the two columns, so this rule
+     increases right padding of the first column. */
+            .hero-section .container>.flex>div:first-child {
+                padding-right: 18vw;
+            }
+
+            /* Slightly tighten the content width so long paragraphs wrap earlier */
+            .hero-section .container>.flex>div:first-child p {
+                max-width: 88%;
+                /* keeps line-length comfortable when image sits on the right */
+            }
+
+            /* Reduce event badges wrapping issues */
+            .hero-section .event-badge {
+                font-size: 13px;
+                padding: .35rem .9rem;
+            }
+
+            /* make sure overlay gradient doesn't hide the profile circle too much */
+            .hero-section::after {
+                background: linear-gradient(90deg, rgba(0, 0, 0, 0) 52%, rgba(0, 0, 0, 0.04) 72%, rgba(0, 0, 0, 0.08) 100%);
+            }
+        }
+
+        /* Extra small screens — keep the profile smaller and further from the text */
+        @media (max-width: 480px) {
+            .hero-section .profile-ring {
+                right: 10px !important;
+                bottom: 10px !important;
+                width: 40vw !important;
+                height: 40vw !important;
+            }
+
+            .hero-section .container>.flex>div:first-child {
+                padding-right: 20vw;
+            }
+
+            .hero-section .container>.flex>div:first-child p {
+                max-width: 100%;
+            }
+        }
+
+        /* Accessibility: ensure clickable items remain visible above the image */
+        .hero-section a,
+        .hero-section .event-badge {
+            position: relative;
+            z-index: 20;
+        }
+
+
         .hero-section .profile-ring img {
             display: block;
             width: 100%;
@@ -522,7 +634,7 @@
             gap: 30px;
             margin-top: 40px;
         }
-        
+
         .category-item {
             border-radius: 12px;
             overflow: hidden;
@@ -532,18 +644,18 @@
             cursor: pointer;
             position: relative;
         }
-        
+
         .category-item:hover {
             transform: translateY(-8px);
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
         }
-        
+
         .category-image {
             height: 220px;
             width: 100%;
             object-fit: cover;
         }
-        
+
         .category-label {
             position: absolute;
             bottom: 0;
@@ -557,11 +669,11 @@
             text-align: center;
             transition: all 0.3s ease;
         }
-        
+
         .category-item:hover .category-label {
             background: rgba(30, 58, 138, 0.9);
         }
-        
+
         .images-modal {
             position: fixed;
             top: 0;
@@ -577,12 +689,12 @@
             visibility: hidden;
             transition: all 0.3s ease;
         }
-        
+
         .images-modal.active {
             opacity: 1;
             visibility: visible;
         }
-        
+
         .modal-content {
             background: white;
             border-radius: 12px;
@@ -593,7 +705,7 @@
             padding: 30px;
             position: relative;
         }
-        
+
         .modal-header {
             display: flex;
             justify-content: space-between;
@@ -602,13 +714,13 @@
             padding-bottom: 15px;
             border-bottom: 2px solid #e2e8f0;
         }
-        
+
         .modal-title {
             font-size: 1.8rem;
             color: #1e3a8a;
             font-weight: 700;
         }
-        
+
         .close-modal {
             background: #e53e3e;
             color: white;
@@ -623,18 +735,18 @@
             justify-content: center;
             transition: all 0.3s ease;
         }
-        
+
         .close-modal:hover {
             background: #c53030;
             transform: rotate(90deg);
         }
-        
+
         .images-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
             gap: 20px;
         }
-        
+
         .image-item {
             border-radius: 8px;
             overflow: hidden;
@@ -642,18 +754,18 @@
             transition: all 0.3s ease;
             position: relative;
         }
-        
+
         .image-item:hover {
             transform: scale(1.05);
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
         }
-        
+
         .image-item img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
-        
+
         .image-label {
             position: absolute;
             bottom: 0;
@@ -817,12 +929,7 @@
 
             <div class="md:w-1/2 flex justify-center">
                 <div class="relative floating">
-                    <div style="margin-right: 700px;margin-bottom: 300px; width: 200px; height: 200px;"
-                        class="md:w-80 md:h-80 rounded-full overflow-hidden border-4 border-white shadow-xl profile-ring">
-                        <!-- Profile image -->
-                        <img src="/img/profile.JPG" alt="Pramod Uday Dabhole" loading="lazy"
-                            class="w-full h-full object-cover block" />
-                    </div>
+                    
                 </div>
             </div>
         </div>
@@ -908,21 +1015,24 @@
         <div class="container mx-auto px-4">
             <div class="section-header">
                 <h2 class="text-3xl font-bold text-dark font-heading">Professional Experience</h2>
-                <p class="text-gray-700">With over 5 years of experience in media production and event coverage, I've worked on some of India's most prestigious events</p>
+                <p class="text-gray-700">With over 5 years of experience in media production and event coverage, I've
+                    worked on some of India's most prestigious events</p>
             </div>
-            
+
             <div class="relative timeline">
                 <div class="space-y-12">
                     <div class="timeline-item relative">
                         <div class="timeline-dot"></div>
                         <div class="bg-white p-6 rounded-xl shadow-md transition-all duration-300 hover:shadow-xl">
                             <h3 class="text-xl font-bold text-primary font-heading">Project Manager</h3>
-                            <p class="text-secondary font-medium">Shruti Visual Information Pvt. Ltd. – High Court of Uttarakhand, Nainital</p>
+                            <p class="text-secondary font-medium">Shruti Visual Information Pvt. Ltd. – High Court of
+                                Uttarakhand, Nainital</p>
                             <p class="text-gray-500 mb-4">Mar 2024 – Present</p>
                             <ul class="space-y-2">
                                 <li class="flex items-start">
                                     <i class="fas fa-check-circle text-accent mt-1 mr-2"></i>
-                                    <span>Handle daily live streaming of court proceedings using iCast devices & NDI camera setup</span>
+                                    <span>Handle daily live streaming of court proceedings using iCast devices & NDI
+                                        camera setup</span>
                                 </li>
                                 <li class="flex items-start">
                                     <i class="fas fa-check-circle text-accent mt-1 mr-2"></i>
@@ -935,7 +1045,7 @@
                             </ul>
                         </div>
                     </div>
-                    
+
                     <div class="timeline-item relative">
                         <div class="timeline-dot"></div>
                         <div class="bg-white p-6 rounded-xl shadow-md transition-all duration-300 hover:shadow-xl">
@@ -945,7 +1055,8 @@
                             <ul class="space-y-2">
                                 <li class="flex items-start">
                                     <i class="fas fa-check-circle text-accent mt-1 mr-2"></i>
-                                    <span>Managed high-profile event coverage and live streaming for MEA and G20 India</span>
+                                    <span>Managed high-profile event coverage and live streaming for MEA and G20
+                                        India</span>
                                 </li>
                                 <li class="flex items-start">
                                     <i class="fas fa-check-circle text-accent mt-1 mr-2"></i>
@@ -953,12 +1064,13 @@
                                 </li>
                                 <li class="flex items-start">
                                     <i class="fas fa-check-circle text-accent mt-1 mr-2"></i>
-                                    <span>Provided post-production editing and content delivery on official channels</span>
+                                    <span>Provided post-production editing and content delivery on official
+                                        channels</span>
                                 </li>
                             </ul>
                         </div>
                     </div>
-                    
+
                     <div class="timeline-item relative">
                         <div class="timeline-dot"></div>
                         <div class="bg-white p-6 rounded-xl shadow-md transition-all duration-300 hover:shadow-xl">
@@ -968,7 +1080,8 @@
                             <ul class="space-y-2">
                                 <li class="flex items-start">
                                     <i class="fas fa-check-circle text-accent mt-1 mr-2"></i>
-                                    <span>Handled multi-camera live setups and visual editing for legislative sessions</span>
+                                    <span>Handled multi-camera live setups and visual editing for legislative
+                                        sessions</span>
                                 </li>
                             </ul>
                         </div>
@@ -1347,10 +1460,14 @@
         // Gallery categories with their first image and all images
         const galleryCategories = [
             {
-                name: "Bihar Assembly",
-                firstImage: "/img/Bihar Assembly/IMG_3144.JPG",
+                name: "High Court of Uttarakhand",
+                firstImage: "/img/High Court of Uttarakhand/IMG_0231.jpg",
                 images: [
-                    { name: "IMG_3144.JPG", path: "/img/Bihar Assembly/IMG_3144.JPG" }
+                    { name: "IMG_0231.heic", path: "/img/High Court of Uttarakhand/IMG_0231.jpg" },
+                    { name: "IMG_0231.heic", path: "/img/High Court of Uttarakhand/WhatsApp Image 2025-08-24 at 14.58.32_81cb6dd0.jpg" },
+                    { name: "IMG_0231.heic", path: "/img/High Court of Uttarakhand/WhatsApp Image 2025-08-24 at 14.58.34_57346307.jpg" },
+                    { name: "IMG_0231.heic", path: "/img/High Court of Uttarakhand/WhatsApp Image 2025-08-24 at 14.58.36_05d03d5f.jpg" },
+                    { name: "IMG_0231.heic", path: "/img/High Court of Uttarakhand/WhatsApp Image 2025-08-24 at 14.59.42_8d06ca4c.jpg" },
                 ]
             },
             {
@@ -1366,25 +1483,18 @@
                     { name: "IMG_4365.heic", path: "/img/G20 Summit/G20 Summit/IMG_4365.jpg" },
                     { name: "IMG_4371.jpg", path: "/img/G20 Summit/G20 Summit/IMG_4371.jpg" },
                     { name: "IMG_4372.jpg", path: "/img/G20 Summit/G20 Summit/IMG_4372.jpg" },
-                    { name: "IMG_4374.JPG", path: "/img/G20 Summit/G20 Summit/IMG_4374.JPG" }
+                    { name: "", path: "/img/Pramod/IMG_4066.jpg" },
+                    { name: "", path: "/img/Pramod/IMG_4176.jpg" },
+                    { name: "", path: "/img/Pramod/IMG_4196.jpg" }
                 ]
             },
             {
-                name: "Other Images",
-                firstImage: "/img/G20 Summit/Other img/IMG_0407.JPG",
+                name: "SCO Council",
+                firstImage: "/img/SCO Council/_DSC5823.jpg",
                 images: [
-                    { name: "", path: "/img/G20 Summit/Other img/IMG_0407.JPG" },
-                    { name: "", path: "/img/G20 Summit/Other img/IMG_0513.jpg" },
-                    { name: "", path: "/img/G20 Summit/Other img/IMG_0534.jpg" },
-                    { name: "", path: "/img/G20 Summit/Other img/IMG_2426.JPG" },
-                    { name: "", path: "/img/G20 Summit/Other img/IMG_2427.jpg" },
-                ]
-            },
-            {
-                name: "High Court of Uttarakhand",
-                firstImage: "/img/High Court of Uttarakhand/IMG_0231.jpg",
-                images: [
-                    { name: "IMG_0231.heic", path: "/img/High Court of Uttarakhand/IMG_0231.jpg" }
+                    { name: "DSC5823.jpg", path: "/img/SCO Council/_DSC5823.jpg" },
+                    { name: "DSC5824.jpg", path: "/img/SCO Council/_DSC5824.jpg" },
+                    { name: "IMG_1810.heic", path: "/img/SCO Council/IMG_1810.jpg" }
                 ]
             },
             {
@@ -1407,31 +1517,34 @@
                     { name: "", path: "/img/MEA Event/Portuguse President/IMG_3142.jpg" },
                     { name: "", path: "/img/MEA Event/Portuguse President/IMG_3143.jpg" },
                     { name: "", path: "/img/MEA Event/Srilanka PM/IMG_1075.JPG" },
-                    { name: "", path: "/img/MEA Event/Srilanka PM/IMG_3141.JPG" },
-                    { name: "", path: "/img/Pramod/IMG_4066.jpg" },
-                    { name: "", path: "/img/Pramod/IMG_4176.jpg" },
-                    { name: "", path: "/img/Pramod/IMG_4196.jpg" },
-                    { name: "", path: "/img/Pramod/IMG_4330.jpg" },
-                    { name: "", path: "/img/Pramod/IMG_4372.JPG" },
-                    { name: "", path: "/img/Pramod/IMG_4374.JPG" }
+                    { name: "", path: "/img/MEA Event/Srilanka PM/IMG_3141.JPG" }
                 ]
             },
             {
-                name: "SCO Council",
-                firstImage: "/img/SCO Council/_DSC5823.jpg",
+                name: "Bihar Assembly",
+                firstImage: "/img/Bihar Assembly/IMG_3144.JPG",
                 images: [
-                    { name: "DSC5823.jpg", path: "/img/SCO Council/_DSC5823.jpg" },
-                    { name: "DSC5824.jpg", path: "/img/SCO Council/_DSC5824.jpg" },
-                    { name: "IMG_1810.heic", path: "/img/SCO Council/IMG_1810.jpg" }
+                    { name: "IMG_3144.JPG", path: "/img/Bihar Assembly/IMG_3144.JPG" }
                 ]
-            }
+            },
+            {
+                name: "Other Images",
+                firstImage: "/img/G20 Summit/Other img/IMG_0407.JPG",
+                images: [
+                    { name: "", path: "/img/G20 Summit/Other img/IMG_0407.JPG" },
+                    { name: "", path: "/img/G20 Summit/Other img/IMG_0513.jpg" },
+                    { name: "", path: "/img/G20 Summit/Other img/IMG_0534.jpg" },
+                    { name: "", path: "/img/G20 Summit/Other img/IMG_2426.JPG" },
+                    { name: "", path: "/img/G20 Summit/Other img/IMG_2427.jpg" },
+                ]
+            },
         ];
 
         // Render gallery categories
         function renderGalleryCategories() {
             const galleryContainer = document.querySelector('.category-gallery');
             galleryContainer.innerHTML = '';
-            
+
             galleryCategories.forEach(category => {
                 const categoryItem = document.createElement('div');
                 categoryItem.className = 'category-item';
@@ -1439,24 +1552,24 @@
                     <img src="${category.firstImage}" alt="${category.name}" class="category-image">
                     <div class="category-label">${category.name}</div>
                 `;
-                
+
                 categoryItem.addEventListener('click', () => {
                     openCategoryModal(category);
                 });
-                
+
                 galleryContainer.appendChild(categoryItem);
             });
         }
-        
+
         // Open category modal with all images
         function openCategoryModal(category) {
             const modal = document.getElementById('imagesModal');
             const modalTitle = document.getElementById('modalTitle');
             const imagesGrid = document.getElementById('imagesGrid');
-            
+
             modalTitle.textContent = category.name;
             imagesGrid.innerHTML = '';
-            
+
             category.images.forEach(image => {
                 const imageItem = document.createElement('div');
                 imageItem.className = 'image-item';
@@ -1466,15 +1579,15 @@
                 `;
                 imagesGrid.appendChild(imageItem);
             });
-            
+
             modal.classList.add('active');
         }
-        
+
         // Close modal
         document.getElementById('closeModal').addEventListener('click', () => {
             document.getElementById('imagesModal').classList.remove('active');
         });
-        
+
         // Close modal when clicking outside
         document.getElementById('imagesModal').addEventListener('click', (e) => {
             if (e.target === document.getElementById('imagesModal')) {
@@ -1661,10 +1774,10 @@
                         }
 
                         await wait(PAUSE_BEFORE);
-                        }
                     }
-                })();
+                }
             })();
+        })();
     </script>
 </body>
 
