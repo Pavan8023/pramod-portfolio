@@ -474,34 +474,6 @@
             justify-content: center;
         }
 
-        /* make sure text remains readable on small screens:
-       on very small devices, show the background image higher and make gradient stronger */
-        @media (max-width: 768px) {
-            .hero-section {
-                background-position: center top;
-                background-image:
-                    linear-gradient(180deg,
-                        rgba(255, 255, 255, 1) 0%,
-                        rgba(255, 255, 255, 0.96) 30%,
-                        rgba(255, 255, 255, 0.85) 50%,
-                        rgba(255, 255, 255, 0.60) 70%,
-                        rgba(255, 255, 255, 0.15) 85%),
-                    url('/img/SCO Council/_DSC5824.jpg');
-            }
-
-            /* scale down profile on small screens */
-            .profile-ring {
-                width: 56vw;
-                height: 56vw;
-                border-width: 3px;
-                border-radius: 9999px;
-            }
-
-            .floating {
-                animation-duration: 5s;
-            }
-        }
-
         /* small visual polish */
         .hero-section .event-badge {
             box-shadow: 0 6px 18px rgba(2, 6, 23, 0.04);
@@ -1050,6 +1022,158 @@
                 height: 44px;
                 font-size: 22px;
             }
+        }
+
+        :root {
+            --viewer-width: 1000px;
+            --card-height: 320px;
+        }
+
+        .articles-heading {
+            color: #111;
+        }
+
+        .articles-grid {
+            width: min(var(--viewer-width), 100%);
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 80px;
+            margin: 0 auto;
+        }
+
+        .article-card {
+            width: 100%;
+            height: var(--card-height);
+            border-radius: 10px;
+            overflow: hidden;
+            background: #111;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+            transition: transform 300ms, box-shadow 300ms;
+            cursor: pointer;
+        }
+
+        .article-card:hover {
+            transform: translateY(-6px) scale(1.02);
+            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.25);
+        }
+
+        @keyframes floatTiny {
+            0% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-4px);
+            }
+
+            100% {
+                transform: translateY(0);
+            }
+        }
+
+        .article-card {
+            animation: floatTiny 6s ease-in-out infinite;
+        }
+
+        .article-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+            user-select: none;
+            transition: transform 300ms ease;
+        }
+
+        .article-card:hover img {
+            transform: scale(1.01);
+        }
+
+        .sr-only {
+            position: absolute !important;
+            height: 1px;
+            width: 1px;
+            overflow: hidden;
+            clip: rect(1px, 1px, 1px, 1px);
+            white-space: nowrap;
+        }
+
+        @media (max-width: 900px) {
+            .articles-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            :root {
+                --card-height: 260px;
+            }
+        }
+
+        @media (max-width: 560px) {
+            .articles-grid {
+                grid-template-columns: 1fr;
+            }
+
+            :root {
+                --card-height: 220px;
+            }
+        }
+
+        /* Viewer (big image modal) */
+        .article-viewer {
+            display: none;
+            /* stays hidden until JS opens it */
+            position: fixed;
+            z-index: 9999;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.9);
+            align-items: center;
+            justify-content: center;
+        }
+
+
+        .article-viewer-img {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .article-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #fff;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        @keyframes smoothZoom {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.5);
+                /* adjust zoom level */
+            }
+        }
+
+        .animate-zoom {
+            display: inline-block;
+            /* needed for transform */
+            animation: smoothZoom 3s ease-in-out infinite;
+            /* duration & infinite loop */
         }
     </style>
 </head>
@@ -1628,169 +1752,6 @@
         <img id="articleViewerImg" class="article-viewer-img" src="" alt="Expanded view">
     </div>
 
-    <style>
-        :root {
-            --viewer-width: 1000px;
-            --card-height: 320px;
-        }
-
-        .articles-heading {
-            color: #111;
-        }
-
-        .articles-grid {
-            width: min(var(--viewer-width), 100%);
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 80px;
-            margin: 0 auto;
-        }
-
-        .article-card {
-            width: 100%;
-            height: var(--card-height);
-            border-radius: 10px;
-            overflow: hidden;
-            background: #111;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-            transition: transform 300ms, box-shadow 300ms;
-            cursor: pointer;
-        }
-
-        .article-card:hover {
-            transform: translateY(-6px) scale(1.02);
-            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.25);
-        }
-
-        @keyframes floatTiny {
-            0% {
-                transform: translateY(0);
-            }
-
-            50% {
-                transform: translateY(-4px);
-            }
-
-            100% {
-                transform: translateY(0);
-            }
-        }
-
-        .article-card {
-            animation: floatTiny 6s ease-in-out infinite;
-        }
-
-        .article-card img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            display: block;
-            user-select: none;
-            transition: transform 300ms ease;
-        }
-
-        .article-card:hover img {
-            transform: scale(1.01);
-        }
-
-        .sr-only {
-            position: absolute !important;
-            height: 1px;
-            width: 1px;
-            overflow: hidden;
-            clip: rect(1px, 1px, 1px, 1px);
-            white-space: nowrap;
-        }
-
-        @media (max-width: 900px) {
-            .articles-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            :root {
-                --card-height: 260px;
-            }
-        }
-
-        @media (max-width: 560px) {
-            .articles-grid {
-                grid-template-columns: 1fr;
-            }
-
-            :root {
-                --card-height: 220px;
-            }
-        }
-
-        /* Viewer (big image modal) */
-        .article-viewer {
-            display: none;
-            /* stays hidden until JS opens it */
-            position: fixed;
-            z-index: 9999;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.9);
-            align-items: center;
-            justify-content: center;
-        }
-
-
-        .article-viewer-img {
-            max-width: 90%;
-            max-height: 90%;
-            object-fit: contain;
-            border-radius: 10px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-        }
-
-        .article-close {
-            position: absolute;
-            top: 20px;
-            right: 30px;
-            font-size: 2.5rem;
-            font-weight: bold;
-            color: #fff;
-            cursor: pointer;
-            user-select: none;
-        }
-    </style>
-
-    <script>
-        const articleImgs = document.querySelectorAll('.article-img');
-        const articleViewer = document.getElementById('articleImageViewer');
-        const articleViewerImg = document.getElementById('articleViewerImg');
-        const articleCloseBtn = document.getElementById('articleCloseBtn');
-
-        articleImgs.forEach(img => {
-            img.addEventListener('click', () => {
-                articleViewer.style.display = 'flex'; // show viewer
-                articleViewerImg.src = img.src;
-            });
-        });
-
-        articleCloseBtn.addEventListener('click', () => {
-            articleViewer.style.display = 'none'; // hide viewer
-            articleViewerImg.src = '';
-        });
-
-        articleViewer.addEventListener('click', (e) => {
-            if (e.target === articleViewer) {
-                articleViewer.style.display = 'none';
-                articleViewerImg.src = '';
-            }
-        });
-
-    </script>
-
-
-
     <!-- Gallery Section -->
     <section id="gallery" class="py-16">
         <div class="container mx-auto px-4">
@@ -1810,7 +1771,8 @@
         <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
             <div class="modal-header">
                 <h2 class="modal-title" id="modalTitle">Category Title</h2>
-                <button style="background-color: blue;" class="close-modal" id="closeModal" aria-label="Close">&times;</button>
+                <button style="background-color: blue;" class="close-modal" id="closeModal"
+                    aria-label="Close">&times;</button>
             </div>
 
             <div class="images-grid" id="imagesGrid">
@@ -1847,7 +1809,7 @@
     <section id="contact" class="py-16 bg-gradient-to-br from-primary to-secondary text-white">
         <div class="container mx-auto px-4">
             <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold mb-4 font-heading">Get In Touch</h2>
+                <h2 class="text-3xl font-bold mb-4 font-heading animate-zoom">Get In Touch</h2>
                 <div class="section-divider bg-white mx-auto"></div>
                 <p class="max-w-2xl mx-auto opacity-90">Available for freelance projects and full-time positions
                     worldwide</p>
@@ -2421,6 +2383,30 @@
                 }
             })();
         })();
+
+        const articleImgs = document.querySelectorAll('.article-img');
+        const articleViewer = document.getElementById('articleImageViewer');
+        const articleViewerImg = document.getElementById('articleViewerImg');
+        const articleCloseBtn = document.getElementById('articleCloseBtn');
+
+        articleImgs.forEach(img => {
+            img.addEventListener('click', () => {
+                articleViewer.style.display = 'flex'; // show viewer
+                articleViewerImg.src = img.src;
+            });
+        });
+
+        articleCloseBtn.addEventListener('click', () => {
+            articleViewer.style.display = 'none'; // hide viewer
+            articleViewerImg.src = '';
+        });
+
+        articleViewer.addEventListener('click', (e) => {
+            if (e.target === articleViewer) {
+                articleViewer.style.display = 'none';
+                articleViewerImg.src = '';
+            }
+        });
     </script>
 </body>
 
