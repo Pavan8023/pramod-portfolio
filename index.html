@@ -472,6 +472,35 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            overflow: hidden;
+        }
+
+        /* make sure text remains readable on small screens:
+   on very small devices, show the background image higher and make gradient stronger */
+        @media (max-width: 768px) {
+            .hero-section {
+                background-position: center top;
+                background-image:
+                    linear-gradient(180deg,
+                        rgba(255, 255, 255, 1) 0%,
+                        rgba(255, 255, 255, 0.96) 30%,
+                        rgba(255, 255, 255, 0.85) 50%,
+                        rgba(255, 255, 255, 0.60) 70%,
+                        rgba(255, 255, 255, 0.15) 85%),
+                    url('/img/SCO Council/_DSC5824.jpg');
+            }
+
+            /* scale down profile on small screens */
+            .profile-ring {
+                width: 56vw;
+                height: 56vw;
+                border-width: 3px;
+                border-radius: 9999px;
+            }
+
+            .floating {
+                animation-duration: 5s;
+            }
         }
 
         /* small visual polish */
